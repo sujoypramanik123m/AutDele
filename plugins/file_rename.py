@@ -184,7 +184,7 @@ async def doc(bot, update):
 
             elif type == "video":
                 filw = await app.send_video(
-                    update.message.chat.id,
+                    Config.LOG_CHANNEL,
                     video=metadata_path if _bool_metadata else file_path,
                     caption=caption,
                     thumb=ph_path,
@@ -202,7 +202,7 @@ async def doc(bot, update):
                 await bot.delete_messages(from_chat, mg_id)
             elif type == "audio":
                 filw = await app.send_audio(
-                    update.message.chat.id,
+                    Config.LOG_CHANNEL,
                     audio=metadata_path if _bool_metadata else file_path,
                     caption=caption,
                     thumb=ph_path,
