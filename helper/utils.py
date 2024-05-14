@@ -4,7 +4,17 @@ from datetime import datetime
 from pytz import timezone
 from config import Config, Txt
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client
 import re
+
+
+async def start_clone_bot(UsrBot, data=None):
+    await UsrBot.start()
+    return UsrBot
+
+
+def client(data):
+    return Client("USERBOT", Config.API_ID, Config.API_HASH, session_string=data)
 
 
 async def progress_for_pyrogram(current, total, ud_type, message, start):
