@@ -11,12 +11,9 @@ from PIL import Image
 import asyncio
 import os
 import time
-from helper.utils import add_prefix_suffix
+from helper.utils import add_prefix_suffix, client, start_clone_bot
 from config import Config
 
-
-app = Client("test", api_id=Config.STRING_API_ID,
-             api_hash=Config.STRING_API_HASH, session_string=Config.STRING_SESSION)
 
 # Define a function to handle the 'rename' callback
 
@@ -118,6 +115,11 @@ async def doc(bot, update):
 
             try:
                 if er:
+                    try:
+                        os.remove(path)
+                        os.remove(metadata_path)
+                    except:
+                        pass
                     return await ms.edit(str(er) + "\n\n**Error**")
             except BaseException:
                 pass
@@ -162,9 +164,12 @@ async def doc(bot, update):
                 print(e)
 
     type = update.data.split("_")[1]
+    user_bot = await db.get_user_bot(Config.ADMIN[0])
 
     if media.file_size > 2000 * 1024 * 1024:
         try:
+            app = await start_clone_bot(client(user_bot['session']))
+
             if type == "document":
 
                 filw = await app.send_document(
