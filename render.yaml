@@ -27,9 +27,3 @@ services:
         sync: false
       - key: ADMIN
         sync: false
-      - key: STRING_API_ID
-        sync: false
-      - key: STRING_API_HASH
-        sync: false
-      - key: STRING_SESSION
-        sync: false
