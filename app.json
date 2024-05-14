@@ -35,6 +35,7 @@
       "value": "",
       "required": true
     },
+    
     "FORCE_SUB": {
       "description": "Your force sub channel user name without [@] ",
       "value": "",
