@@ -12,7 +12,7 @@ class Config(object):
     BOT_TOKEN = os.environ.get("BOT_TOKEN", "")  # ⚠️ Required
 
     # database config
-    DB_NAME = os.environ.get("DB_NAME", "Cluster0")
+    DB_NAME = os.environ.get("DB_NAME", "Sigma_Rename")
     DB_URL = os.environ.get("DB_URL", "")  # ⚠️ Required
 
     # other configs
