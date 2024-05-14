@@ -10,6 +10,7 @@ class Database:
         self._client = motor.motor_asyncio.AsyncIOMotorClient(uri)
         self.db = self._client[database_name]
         self.col = self.db.user
+        self.bot = self.db.bots
 
     def new_user(self, id):
         return dict(
@@ -28,6 +29,21 @@ class Database:
             user = self.new_user(u.id)
             await self.col.insert_one(user)
             await send_log(b, u)
+
+    async def add_user_bot(self, bot_datas):
+        if not await self.is_user_bot_exist(bot_datas['user_id']):
+            await self.bot.insert_one(bot_datas)
+
+    async def get_user_bot(self, user_id: int):
+        user = await self.bot.find_one({'user_id': user_id, 'is_bot': False})
+        return user if user else None
+
+    async def is_user_bot_exist(self, user_id):
+        user = await self.bot.find_one({'user_id': user_id, 'is_bot': False})
+        return bool(user)
+
+    async def remove_user_bot(self, user_id):
+        await self.bot.delete_many({'user_id': int(user_id), 'is_bot': False})
 
     async def is_user_exist(self, id):
         user = await self.col.find_one({'_id': int(id)})
