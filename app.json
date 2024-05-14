@@ -35,25 +35,6 @@
       "value": "",
       "required": true
     },
-
-    "STRING_API_ID": {
-      "description": "Your Premium Account API ID",
-      "value": "",
-      "required": false
-    },
-
-    "STRING_API_HASH": {
-      "description": "Your Premium Account API HASH",
-      "value": "",
-      "required": false
-    },
-
-    "STRING_SESSION": {
-      "description": "Your Premium Account SESSION STRING Generate through this bot @SnowStringGenBot",
-      "value": "",
-      "required": false
-    },
-
     "FORCE_SUB": {
       "description": "Your force sub channel user name without [@] ",
       "value": "",
