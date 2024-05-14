@@ -42,12 +42,6 @@
 
 - `START_PIC` - Start Message Photo. You Don't Need This! Just Skip
 
-- `STRING_API_ID` - Your Premium Account API ID
-
-- `STRING_API_HASH` - Your Premium Account API HASH
-
-- `STRING_SESSION` - Your Premium Account SESSION STRING Generate by [SnowStringGenBot](https://t.me/SnowStringGenBot) ⚠️ OPTIONAL VARIABLE
-
 ## Botfather Commands
 
 ```
@@ -58,6 +52,7 @@ set_caption - Set A Custom Caption
 see_caption - See Your Custom Caption
 del_caption - Delete Custom Caption
 metadata - To Set & Change your metadata code
+set_metadata - To Set Custom Metadat
 set_prefix - To Set Your Prefix
 set_suffix - To Set Your Suffix
 see_prefix - To See Your Prefix
@@ -67,6 +62,7 @@ del_suffix - Delete Your Suffix
 restart - To Rrstart The Bot (Admin Only)
 status - Check Bot Status (Admin Only)
 broadcast - Send Message To All Users (Admin Only)
+add_userbot - To add premium account (able to rename 4gb file)
 ```
 
 ## Created By ❄️
