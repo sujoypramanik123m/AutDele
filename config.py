@@ -11,11 +11,6 @@ class Config(object):
     API_HASH = os.environ.get("API_HASH", "")  # ⚠️ Required
     BOT_TOKEN = os.environ.get("BOT_TOKEN", "")  # ⚠️ Required
 
-    # premium 4g renaming client
-    STRING_API_ID = os.environ.get("STRING_API_ID", "")
-    STRING_API_HASH = os.environ.get("STRING_API_HASH", "")
-    STRING_SESSION = os.environ.get("STRING_SESSION", "")
-
     # database config
     DB_NAME = os.environ.get("DB_NAME", "Cluster0")
     DB_URL = os.environ.get("DB_URL", "")  # ⚠️ Required
