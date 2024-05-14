@@ -1,58 +1,36 @@
 from pyrogram import Client, filters
-from pyrogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
 from helper.database import db
-from pyromod.exceptions import ListenerTimeout
-from config import Txt
 
 
-ON = [[InlineKeyboardButton('Metadata On ✅', callback_data='metadata_1')], [
-    InlineKeyboardButton('Set Custom Metadata', callback_data='cutom_metadata')]]
-OFF = [[InlineKeyboardButton('Metadata Off ❌', callback_data='metadata_0')], [
-    InlineKeyboardButton('Set Custom Metadata', callback_data='cutom_metadata')]]
+async def features_button(user_id):
+    metadata = await db.get_metadata(user_id)
+
+    button = [[
+        InlineKeyboardButton(
+            'ᴍᴇᴛᴀᴅᴀᴛᴀ', callback_data='filters_metadata'),
+        InlineKeyboardButton('✅' if metadata else '❌',
+                             callback_data='filters_metadata')
+    ]
+    ]
+
+    return InlineKeyboardMarkup(button)
 
 
-@Client.on_message(filters.private & filters.command('metadata'))
-async def handle_metadata(bot: Client, message: Message):
+@Client.on_callback_query(filters.regex('^filters'))
+async def handle_filters(bot: Client, query: CallbackQuery):
+    user_id = query.from_user.id
+    type = query.data.split('_')[1]
+    user_metadata = await db.get_metadata_code(user_id)
+    if type == 'metadata':
+        text = f'**ʜᴇʀᴇ ᴛʜᴇ ᴀᴠᴀɪʟᴀʙʟᴇ ғᴇᴀᴛᴜʀᴇ** 🍀**\n\nYour Current Metadata:-\n\n➜ `{user_metadata}` '
+        get_meta = await db.get_metadata(user_id)
 
-    ms = await message.reply_text("**Please Wait...**", reply_to_message_id=message.id)
-    bool_metadata = await db.get_metadata(message.from_user.id)
-    user_metadata = await db.get_metadata_code(message.from_user.id)
-    await ms.delete()
-    if bool_metadata:
-
-        return await message.reply_text(f"Your Current Metadata:-\n\n➜ `{user_metadata}` ", reply_markup=InlineKeyboardMarkup(ON))
-
-    return await message.reply_text(f"Your Current Metadata:-\n\n➜ `{user_metadata}` ", reply_markup=InlineKeyboardMarkup(OFF))
-
-
-@Client.on_callback_query(filters.regex('.*?(custom_metadata|metadata).*?'))
-async def query_metadata(bot: Client, query: CallbackQuery):
-
-    data = query.data
-
-    if data.startswith('metadata_'):
-        _bool = data.split('_')[1]
-        user_metadata = await db.get_metadata_code(query.from_user.id)
-
-        if bool(eval(_bool)):
-            await db.set_metadata(query.from_user.id, bool_meta=False)
-            await query.message.edit(f"Your Current Metadata:-\n\n➜ `{user_metadata}` ", reply_markup=InlineKeyboardMarkup(OFF))
-
+        if get_meta:
+            await db.set_metadata(user_id, False)
+            markup = await features_button(user_id)
+            await query.message.edit(text, reply_markup=markup)
         else:
-            await db.set_metadata(query.from_user.id, bool_meta=True)
-            await query.message.edit(f"Your Current Metadata:-\n\n➜ `{user_metadata}` ", reply_markup=InlineKeyboardMarkup(ON))
-
-    elif data == 'cutom_metadata':
-        await query.message.delete()
-        try:
-            try:
-                metadata = await bot.ask(text=Txt.SEND_METADATA, chat_id=query.from_user.id, filters=filters.text, timeout=30, disable_web_page_preview=True)
-            except ListenerTimeout:
-                await query.message.reply_text("⚠️ Error!!\n\n**Request timed out.**\nRestart by using /metadata", reply_to_message_id=query.message.id)
-                return
-            print(metadata.text)
-            ms = await query.message.reply_text("**Please Wait...**", reply_to_message_id=metadata.id)
-            await db.set_metadata_code(query.from_user.id, metadata_code=metadata.text)
-            await ms.edit("**Your Metadta Code Set Successfully ✅**")
-        except Exception as e:
-            print(e)
+            await db.set_metadata(user_id, True)
+            markup = await features_button(user_id)
+            await query.message.edit(text, reply_markup=markup)
