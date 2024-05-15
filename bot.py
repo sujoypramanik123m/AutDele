@@ -16,6 +16,7 @@ import pyromod
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
+logging.getLogger("pymongo").setLevel(logging.ERROR)
 
 
 class Bot(Client):
