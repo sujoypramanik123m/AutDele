@@ -10,5 +10,5 @@ def is_enabled(value, default):
     else: return default
 
 
-DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
+DATABASE_NAME = environ.get('DATABASE_NAME', "Mrsyd")
 DATABASE_URL = environ.get('DATABASE_URL', "")
