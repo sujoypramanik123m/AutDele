@@ -21,7 +21,7 @@ from config import Config
 @Client.on_callback_query(filters.regex('rename'))
 async def rename(bot, update):
     await update.message.delete()
-    await update.message.reply_text("__𝙿𝚕𝚎𝚊𝚜𝚎 𝙴𝚗𝚝𝚎𝚛 𝙽𝚎𝚠 𝙵𝚒𝚕𝚎𝙽𝚊𝚖𝚎...__",
+    await update.message.reply_text("__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__💦",
                                     reply_to_message_id=update.message.reply_to_message.id,
                                     reply_markup=ForceReply(True))
 
@@ -85,12 +85,12 @@ async def doc(bot, update):
         new_filename = add_prefix_suffix(new_filename_, prefix, suffix)
 
     except Exception as e:
-        return await update.message.edit(f"⚠️ Something went wrong can't able to set Prefix or Suffix ☹️ \n\n❄️ Contact My Creator -> @Snowball_Official\nError: {e}")
+        return await update.message.edit(f"⚠️ Sᴏᴍᴇᴛʜɪɴ Wᴇɴᴛ Wʀᴏɴɢ CᴀN'ᴛ ʙʟᴇ Tᴏ Sᴇᴛ <b>Pʀᴇꜰɪx</b> oʀ <b>Sᴜꜰꜰɪx</b> ☹️ \n\n🎋Nᴇᴇᴅ Sᴜᴩᴩᴏʀᴛ, Fᴏʀᴡᴀʀᴅ Tʜɪꜱ Mᴇꜱꜱᴀɢᴇ Tᴏ Mʏ Cʀᴇᴀᴛᴏʀ <a href=https://t.me/Syd_Xyz>ᴍʀ ѕчδ 🌍</a>\nεɾɾσɾ: {e}")
 
     file_path = f"downloads/{new_filename}"
     file = update.message.reply_to_message
 
-    ms = await update.message.edit("⚠️ __**Please wait...**__\n\n**Tʀyɪɴɢ Tᴏ Dᴏᴡɴʟᴏᴀᴅɪɴɢ....**")
+    ms = await update.message.edit(" __**Pʟᴇᴀꜱᴇ ᴡᴀɪᴛ...**🥺__\n\n**Dᴏᴡɴʟᴏᴀᴅɪɴɢ....⏳**")
     try:
         path = await bot.download_media(message=file, file_name=file_path, progress=progress_for_pyrogram, progress_args=("\n⚠️ __**Please wait...**__\n\n❄️ **Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ....**", ms, time.time()))
     except Exception as e:
@@ -125,7 +125,7 @@ async def doc(bot, update):
                 pass
         await ms.edit("**Metadata added to the file successfully ✅**\n\n⚠️ __**Please wait...**__\n\n**Tʀyɪɴɢ Tᴏ Uᴩʟᴏᴀᴅɪɴɢ....**")
     else:
-        await ms.edit("⚠️  __**Please wait...**__\n\n**Tʀyɪɴɢ Tᴏ Uᴩʟᴏᴀᴅɪɴɢ....**")
+        await ms.edit("__**Pʟᴇᴀꜱᴇ ᴡᴀɪᴛ...**😇__\n\n**Uᴩʟᴏᴀᴅɪɴɢ....🗯️**")
 
     duration = 0
     try:
