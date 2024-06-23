@@ -24,7 +24,7 @@ from config import Config
 
 @Client.on_message(filters.group & (filters.document | filters.audio | filters.video))
 async def doc(bot, update):
-
+    file = getattr(message, message.media.value)
     # Creating Directory for Metadata
     if not os.path.isdir("Metadata"):
         os.mkdir("Metadata")
