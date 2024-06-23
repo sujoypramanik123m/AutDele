@@ -22,7 +22,7 @@ from config import Config
 # Define the main message handler for private messages with replies
 
 
-@Client.on_message(filters.group & filters.private &(filters.document | filters.audio | filters.video))
+@Client.on_message(filters.group & filters.private & (filters.document | filters.audio | filters.video))
 async def syd(client, message):
     file = getattr(message, message.media.value)
     # Creating Directory for Metadata
