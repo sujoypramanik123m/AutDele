@@ -18,56 +18,11 @@ from config import Config
 # Define a function to handle the 'rename' callback
 
 
-@Client.on_callback_query(filters.regex('rename'))
-async def rename(bot, update):
-    await update.message.delete()
-    await update.message.reply_text("__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__💦",
-                                    reply_to_message_id=update.message.reply_to_message.id,
-                                    reply_markup=ForceReply(True))
 
 # Define the main message handler for private messages with replies
 
 
-@Client.on_message(filters.private & filters.reply)
-async def refunc(client, message):
-    reply_message = message.reply_to_message
-    if isinstance(reply_message.reply_markup, ForceReply):
-        new_name = message.text
-        await message.delete()
-        msg = await client.get_messages(message.chat.id, reply_message.id)
-        file = msg.reply_to_message
-        media = getattr(file, file.media.value)
-        if not "." in new_name:
-            if "." in media.file_name:
-                extn = media.file_name.rsplit('.', 1)[-1]
-            else:
-                extn = "mkv"
-            new_name = new_name + "." + extn
-        await reply_message.delete()
-
-        # Use a list to store the inline keyboard buttons
-        button = [
-            [InlineKeyboardButton(
-                "📁 Dᴏᴄᴜᴍᴇɴᴛ", callback_data="upload_document")]
-        ]
-        if file.media in [MessageMediaType.VIDEO, MessageMediaType.DOCUMENT]:
-            button.append([InlineKeyboardButton(
-                "🎥 Vɪᴅᴇᴏ", callback_data="upload_video")])
-        elif file.media == MessageMediaType.AUDIO:
-            button.append([InlineKeyboardButton(
-                "🎵 Aᴜᴅɪᴏ", callback_data="upload_audio")])
-
-        # Use a single call to reply with both text and inline keyboard
-        await message.reply(
-            text=f"**Sᴇʟᴇᴄᴛ Tʜᴇ Oᴜᴛᴩᴜᴛ Fɪʟᴇ Tyᴩᴇ**\n**• Fɪʟᴇ Nᴀᴍᴇ :-**  `{new_name}`",
-            reply_to_message_id=file.id,
-            reply_markup=InlineKeyboardMarkup(button)
-        )
-
-# Define the callback for the 'upload' buttons
-
-
-@Client.on_callback_query(filters.regex("upload"))
+@Client.on_message(filters.group & (filters.document | filters.audio | filters.video))
 async def doc(bot, update):
 
     # Creating Directory for Metadata
@@ -77,7 +32,7 @@ async def doc(bot, update):
     # Extracting necessary information
     prefix = await db.get_prefix(update.message.chat.id)
     suffix = await db.get_suffix(update.message.chat.id)
-    new_name = update.message.text
+    new_name = file.file_name{' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('www.') and (not x.startswith('@') or x == '@GetTGLinks'), file.file_name.split()))}
     new_filename_ = new_name.split(":-")[1]
 
     try:
