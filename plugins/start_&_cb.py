@@ -24,6 +24,7 @@ async def start(client, message):
             ' Sᴜᴘᴘᴏʀᴛ 🌨️', url='https://t.me/+O1mwQijo79s2MjJl')
     ], [
         InlineKeyboardButton('❄️ Δʙᴏᴜᴛ', callback_data='about'),
+        InlineKeyboardButton('βᴏᴛꜱ ⚧️', url='https://t.me/Bot_Cracker/17'),
         InlineKeyboardButton(' Hᴇʟᴩ ❗', callback_data='help')
     ], [InlineKeyboardButton('⚙️ sᴛΔᴛs ⚙️', callback_data='stats')]])
     if Config.PICS:
@@ -40,18 +41,18 @@ async def rename_start(client, message):
     
     if file.file_size > 2000 * 1024 * 1024:
         if not await db.is_user_bot_exist(Config.ADMIN[0]):
-            return await message.reply_text("**⚠️ Sᴏʀʀy Bʀᴏ Tʜɪꜱ Bᴏᴛ Iꜱ Dᴏᴇꜱɴ'ᴛ Sᴜᴩᴩᴏʀᴛ Uᴩʟᴏᴀᴅɪɴɢ Fɪʟᴇꜱ Bɪɢɢᴇʀ Tʜᴀɴ 2Gʙ**")
+            return await message.reply_text("**⚠️ Sᴏʀʀy Bʀᴏ, Yᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀ ᴩʀᴇᴍɪᴜᴍ ᴜꜱᴇʀ 🥺..... ᴩʟᴇᴀꜱᴇ ʙᴇᴄᴀᴍᴇ..... ⚡**")
 
     try:
         text = f"""**__What do you want me to do with this file.?__**\n\n**File Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
-        buttons = [[InlineKeyboardButton("📝 sᴛᴀʀᴛ ᴛᴏ ʀᴇɴᴀᴍᴇ 📝", callback_data="rename")],
-                   [InlineKeyboardButton("✖️ ᴄᴀɴᴄᴇʟ ✖️", callback_data="close")]]
+        buttons = [[InlineKeyboardButton("📝 Rᴇɴᴀᴍᴇ 📝", callback_data="rename")],
+                   [InlineKeyboardButton("✖️ CᴀɴᴄᴇL ✖️", callback_data="close")]]
         await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
     except FloodWait as e:
         await sleep(e.value)
         text = f"""**__What do you want me to do with this file.?__**\n\n**File Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
-        buttons = [[InlineKeyboardButton("📝 sᴛᴀʀᴛ ᴛᴏ ʀᴇɴᴀᴍᴇ 📝", callback_data="rename")],
-                   [InlineKeyboardButton("✖️ ᴄᴀɴᴄᴇʟ ✖️", callback_data="close")]]
+        buttons = [[InlineKeyboardButton("📝 Rᴇɴᴀᴍᴇ 📝", callback_data="rename")],
+                   [InlineKeyboardButton("✖️ CᴀɴᴄᴇL ✖️", callback_data="close")]]
         await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
     except:
         pass
