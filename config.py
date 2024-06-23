@@ -17,7 +17,7 @@ class Config(object):
 
     # other configs
     BOT_UPTIME = time.time()
-    PICS = os.environ.get("PICS", 'https://telegra.ph/file/8977b1767518b6bf31312.jpg https://telegra.ph/file/13c2745dcd19887d76812.jpg https://telegra.ph/file/e170c2bc5c1429e65f1ca.jpg https://telegra.ph/file/c65f5b8efd59c929b1e8b.jpg https://telegra.ph/file/8fcb3154d71285cd7af20.jpg https://telegra.ph/file/099ad55fdc723a058e12f.jpg').split()
+    PICS = os.environ.get("PICS", 'https://graph.org/file/8c8372dfa0e0ddf8da91d.jpg https://graph.org/file/3b2b8110f6f57f7fc5c74.jpg  https://graph.org/file/1bd6fa19297caf4189c61.jpg  ').split()
     ADMIN = [int(admin) if id_pattern.search(
         admin) else admin for admin in os.environ.get('ADMIN', '').split()]  # ⚠️ Required
     
