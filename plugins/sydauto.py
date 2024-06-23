@@ -22,16 +22,16 @@ from config import Config
 # Define the main message handler for private messages with replies
 
 
-@Client.on_message(filters.group & (filters.document | filters.audio | filters.video))
-async def syd(bot, update):
+@Client.on_message(filters.group & filters.private &(filters.document | filters.audio | filters.video))
+async def syd(client, message):
     file = getattr(message, message.media.value)
     # Creating Directory for Metadata
     if not os.path.isdir("Metadata"):
         os.mkdir("Metadata")
 
     # Extracting necessary information
-    prefix = await db.get_prefix(update.message.chat.id)
-    suffix = await db.get_suffix(update.message.chat.id)
+    prefix = await db.get_prefix(message.message.chat.id)
+    suffix = await db.get_suffix(message.message.chat.id)
     new_name = ' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('www.') and (not x.startswith('@') or x == '@GetTGLinks'), file.file_name.split()))
     new_filename_ = new_name.split(":-")[1]
     try:
@@ -39,22 +39,22 @@ async def syd(bot, update):
         new_filename = add_prefix_suffix(new_filename_, prefix, suffix)
 
     except Exception as e:
-        return await update.message.edit(f"⚠️ Sᴏᴍᴇᴛʜɪɴ Wᴇɴᴛ Wʀᴏɴɢ CᴀN'ᴛ ʙʟᴇ Tᴏ Sᴇᴛ <b>Pʀᴇꜰɪx</b> oʀ <b>Sᴜꜰꜰɪx</b> ☹️ \n\n🎋Nᴇᴇᴅ Sᴜᴩᴩᴏʀᴛ, Fᴏʀᴡᴀʀᴅ Tʜɪꜱ Mᴇꜱꜱᴀɢᴇ Tᴏ Mʏ Cʀᴇᴀᴛᴏʀ <a href=https://t.me/Syd_Xyz>ᴍʀ ѕчδ 🌍</a>\nεɾɾσɾ: {e}")
+        return await message.message.edit(f"⚠️ Sᴏᴍᴇᴛʜɪɴ Wᴇɴᴛ Wʀᴏɴɢ CᴀN'ᴛ ʙʟᴇ Tᴏ Sᴇᴛ <b>Pʀᴇꜰɪx</b> oʀ <b>Sᴜꜰꜰɪx</b> ☹️ \n\n🎋Nᴇᴇᴅ Sᴜᴩᴩᴏʀᴛ, Fᴏʀᴡᴀʀᴅ Tʜɪꜱ Mᴇꜱꜱᴀɢᴇ Tᴏ Mʏ Cʀᴇᴀᴛᴏʀ <a href=https://t.me/Syd_Xyz>ᴍʀ ѕчδ 🌍</a>\nεɾɾσɾ: {e}")
 
     file_path = f"downloads/{new_filename}"
-    file = update.message.reply_to_message
+    file = message.message.reply_to_message
 
-    ms = await update.message.edit(" __**Pʟᴇᴀꜱᴇ ᴡᴀɪᴛ...**🥺__\n\n**Dᴏᴡɴʟᴏᴀᴅɪɴɢ....⏳**")
+    ms = await message.message.edit(" __**Pʟᴇᴀꜱᴇ ᴡᴀɪᴛ...**🥺__\n\n**Dᴏᴡɴʟᴏᴀᴅɪɴɢ....⏳**")
     try:
-        path = await bot.download_media(message=file, file_name=file_path, progress=progress_for_pyrogram, progress_args=("\n⚠️ __**Please wait...**__\n\n❄️ **Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ....**", ms, time.time()))
+        path = await client.download_media(message=file, file_name=file_path, progress=progress_for_pyrogram, progress_args=("\n⚠️ __**Please wait...**__\n\n❄️ **Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ....**", ms, time.time()))
     except Exception as e:
         return await ms.edit(e)
 
-    _bool_metadata = await db.get_metadata(update.message.chat.id)
+    _bool_metadata = await db.get_metadata(message.message.chat.id)
 
     if (_bool_metadata):
         metadata_path = f"Metadata/{new_filename}"
-        metadata = await db.get_metadata_code(update.message.chat.id)
+        metadata = await db.get_metadata_code(message.message.chat.id)
         if metadata:
 
             await ms.edit("I Fᴏᴜɴᴅ Yᴏᴜʀ Mᴇᴛᴀᴅᴀᴛᴀ\n\n__**Pʟᴇᴀsᴇ Wᴀɪᴛ...**__\n**Aᴅᴅɪɴɢ Mᴇᴛᴀᴅᴀᴛᴀ Tᴏ Fɪʟᴇ....**")
