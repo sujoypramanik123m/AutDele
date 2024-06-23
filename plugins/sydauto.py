@@ -23,7 +23,7 @@ from config import Config
 
 
 @Client.on_message(filters.group & (filters.document | filters.audio | filters.video))
-async def doc(bot, update):
+async def syd(bot, update):
     file = getattr(message, message.media.value)
     # Creating Directory for Metadata
     if not os.path.isdir("Metadata"):
@@ -32,9 +32,8 @@ async def doc(bot, update):
     # Extracting necessary information
     prefix = await db.get_prefix(update.message.chat.id)
     suffix = await db.get_suffix(update.message.chat.id)
-    new_name = file.file_name{' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('www.') and (not x.startswith('@') or x == '@GetTGLinks'), file.file_name.split()))}
+    new_name = ' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('www.') and (not x.startswith('@') or x == '@GetTGLinks'), file.file_name.split()))
     new_filename_ = new_name.split(":-")[1]
-
     try:
         # adding prefix and suffix
         new_filename = add_prefix_suffix(new_filename_, prefix, suffix)
