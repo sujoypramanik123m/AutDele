@@ -4,6 +4,7 @@ from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, CallbackQuery
 from helper.database import db
 from config import Config, Txt
+from syd import is_req_subscribed
 import humanize
 from time import sleep
 
