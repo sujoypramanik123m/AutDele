@@ -20,7 +20,8 @@ class Config(object):
     PICS = os.environ.get("PICS", 'https://graph.org/file/8c8372dfa0e0ddf8da91d.jpg https://graph.org/file/3b2b8110f6f57f7fc5c74.jpg  https://graph.org/file/1bd6fa19297caf4189c61.jpg  ').split()
     ADMIN = [int(admin) if id_pattern.search(
         admin) else admin for admin in os.environ.get('ADMIN', '').split()]  # ⚠️ Required
-    
+
+    AUTH_CHANNEL = os.environ.get("AUTH_CHANNEL", "")  #REQUEST FSUB
     FORCE_SUB = os.environ.get("FORCE_SUB", "") # ⚠️ Required Username without @
     LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", ""))  # ⚠️ Required
     FLOOD = int(os.environ.get("FLOOD", '10'))
