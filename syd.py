@@ -4,7 +4,7 @@ import pytz
 import random 
 import re
 import os
-from .database import db
+from helper.database import db
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
 
 AUTH_CHANNEL = Config.AUTH_CHANNEL
