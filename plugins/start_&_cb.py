@@ -8,7 +8,7 @@ from syd import is_req_subscribed
 import humanize
 from time import sleep
 
-AUTH_CHANNEL =Config.AUTH_CHANNEL
+AUTH_CHANNEL = Config.AUTH_CHANNEL
 
 @Client.on_message(filters.private & filters.command("start"))
 async def start(client, message):
@@ -50,13 +50,7 @@ async def rename_start(client, message):
                 )
             ]
         ]
-
-        if message.command[1] != "subscribe":
-            try:
-                kk, file_id = message.command[1].split("_", 1)
-                btn.append([InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", callback_data=f"checksub#{kk}#{file_id}")])
-            except (IndexError, ValueError):
-                btn.append([InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
+                btn.append([InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", callback_data="checksub")])
         await client.send_message(
             chat_id=message.from_user.id,
             text="Jᴏɪɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ ᴀɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ ᴛʀʏ ᴀɢᴀɪɴ ᴛᴏ <i>Cᴏɴᴛɪɴᴜᴇ..</i>.",
