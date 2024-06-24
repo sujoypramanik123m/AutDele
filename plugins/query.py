@@ -24,9 +24,9 @@ async def cb_handler(client, query: CallbackQuery):
                 InlineKeyboardButton(
                     '⛅ Uᴩᴅᴀᴛᴇꜱ', url='https://t.me/Bot_Cracker'),
                 InlineKeyboardButton(
-                    '🌨️ Sᴜᴩᴩᴏʀᴛ', url='https://t.me/+O1mwQijo79s2MjJl')
+                    'Sᴜᴩᴩᴏʀᴛ ⛈️', url='https://t.me/+O1mwQijo79s2MjJl')
             ], [
-                InlineKeyboardButton('❄️ Aʙᴏᴜᴛ', callback_data='about'),
+                InlineKeyboardButton('❄️ Δʙᴏᴜᴛ', callback_data='about'),
                 InlineKeyboardButton('ʙΔᴄᴋ-ᴜᴩ 🗯️', url='https://t.me/+1C8Usv5MSzA3MGM1'),
                 InlineKeyboardButton('Hᴇʟᴩ ❗', callback_data='help')
             ], [InlineKeyboardButton('⊛ Jᴏɪɴ ᴍᴏᴠɪєꜱ CʜᴀɴɴᴇL ⊛', url='https://t.me/Mod_Moviez_X')
