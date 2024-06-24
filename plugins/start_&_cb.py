@@ -51,6 +51,7 @@ async def rename_start(client, message):
             ], [
                 InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", callback_data="sydcheck")
             ]
+        ]
         await client.send_message(
             chat_id=message.from_user.id,
             text="Jᴏɪɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ ᴀɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ ᴛʀʏ ᴀɢᴀɪɴ ᴛᴏ <i>Cᴏɴᴛɪɴᴜᴇ..</i>.",
