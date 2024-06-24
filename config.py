@@ -48,7 +48,7 @@ Bᴏᴛ Δʟꜱᴏ Sᴜᴩᴩᴏʀᴛ 2ɢʙ+ ꜰɪʟᴇꜱ Δ Wɪᴛʜ ΔҒҒᴏ
 ➥ Lɪʙʀᴀʀy : <a href=https://github.com/pyrogram>Pyʀᴏɢʀᴀᴍ</a>
 ➥ Lᴀɴɢᴜᴀɢᴇ: <a href=https://www.python.org>Pyᴛʜᴏɴ 3</a>
 ➥ Dᴀᴛᴀ Bᴀꜱᴇ: <a href=https://cloud.mongodb.com>Mᴏɴɢᴏ DB</a>
-➥ ᴍʏ ꜱᴇʀᴠᴇʀ : <a href=https://dashboard.heroku.com>Heroku</a>
+➥ ᴍʏ ꜱᴇʀᴠᴇʀ : <a hSnhttps://t.me/Mod_Moviez_X>Tɢ 🗯️</a>
 ➥ ᴠᴇʀsɪᴏɴ : v2.2.0
 ╰───────────────⍟ """
 
@@ -73,7 +73,7 @@ Exᴀᴍᴩʟᴇ:- <code> /set_caption 📕 Fɪʟᴇ Nᴀᴍᴇ: {filename}
 <b>•></b> Sᴇɴᴅ Aɴy Fɪʟᴇ Aɴᴅ Tyᴩᴇ Nᴇᴡ Fɪʟᴇ Nɴᴀᴍᴇ \nAɴᴅ Aᴇʟᴇᴄᴛ Tʜᴇ Fᴏʀᴍᴀᴛ [ document, video, audio ].           
 
 
-<b>⦿ Developer:</b> <a href=https://t.me/Snowball_Official>ѕησωвαℓℓ ❄️</a>
+<b>⦿ Developer:</b> <a href=https://t.me/SyD_Xyz>🔅 ᴍ.ʀ Sʏᦔ 🔅</a>
 """
 
     SEND_METADATA = """
@@ -81,13 +81,13 @@ Exᴀᴍᴩʟᴇ:- <code> /set_caption 📕 Fɪʟᴇ Nᴀᴍᴇ: {filename}
 
 ☞ Fᴏʀ Exᴀᴍᴘʟᴇ:-
 
-◦ <code> -map 0 -c:s copy -c:a copy -c:v copy -metadata title="Powered By:- @Kdramaland" -metadata author="@Snowball_Official" -metadata:s:s title="Subtitled By :- @Kdramaland" -metadata:s:a title="By :- @Kdramaland" -metadata:s:v title="By:- @Snowball_Official" </code>
+◦ <code> -map 0 -c:s copy -c:a copy -c:v copy -metadata title="Powered By:- @Bot_Cracker" -metadata author="@Syd_Xyz" -metadata:s:s title="Subtitled By :- @Mod_Moviez_X" -metadata:s:a title="By :- @GetTGLinks" -metadata:s:v title="By:- @Bot_Cracker" </code>
 
-📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛ. @Snal
+📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛᴀᴄᴛ..: @SyD_XyZ
 """
 
     STATS_TXT = """
-╔════❰ sᴇʀᴠᴇʀ sᴛᴀᴛs  ❱═❍⊱❁۪۪
+╔════❰ Sᴇʀᴠᴇʀ sᴛᴀᴛS  ❱═❍⊱❁۪۪
 ║╭━━━━━━━━━━━━━━━➣
 ║┣⪼ ᴜᴩᴛɪᴍᴇ: `{0}`
 ║┣⪼ ᴛᴏᴛᴀʟ sᴘᴀᴄᴇ: `{1}`
