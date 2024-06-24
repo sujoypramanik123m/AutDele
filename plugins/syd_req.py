@@ -4,6 +4,7 @@ from helper.database import db
 from config import Config
 
 AUTH_CHANNEL = Config.AUTH_CHANNEL
+ADMINS = Config.ADMIN
 
 @Client.on_chat_join_request(filters.chat(AUTH_CHANNEL))
 async def join_reqs(client, message: ChatJoinRequest):
