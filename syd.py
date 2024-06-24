@@ -8,7 +8,9 @@ from helper.database import db
 from config import Config
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
 
+logger = logging.getLogger(__name__)
 AUTH_CHANNEL = Config.AUTH_CHANNEL
+logger.setLevel(logging.INFO)
 
 async def is_req_subscribed(bot, query):
     if await db.find_join_req(query.from_user.id):
