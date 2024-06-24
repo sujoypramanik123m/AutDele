@@ -1,6 +1,6 @@
 import random
 from pyrogram import Client, filters
-from pyrogram.errors import FloodWait
+from pyrogram.errors import FloodWait, ChatAdminRequired
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, CallbackQuery
 from helper.database import db
 from config import Config, Txt
@@ -48,9 +48,9 @@ async def rename_start(client, message):
                 InlineKeyboardButton(
                     "⊛ Jᴏɪɴ Uᴘᴅᴀᴛᴇꜱ CʜᴀɴɴᴇL ⊛", url=invite_link.invite_link
                 )
-            ], [
+            ],[
                 InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", callback_data="sydcheck")
-            ]
+              ]
         ]
         await client.send_message(
             chat_id=message.from_user.id,
