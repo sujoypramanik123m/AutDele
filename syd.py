@@ -6,11 +6,11 @@ import re
 import os
 from helper.database import db
 from config import Config
+from info import AUTH_CHANNEL
 from pyrogram.types import Message
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
 
 logger = logging.getLogger(__name__)
-AUTH_CHANNEL = Config.AUTH_CHANNEL
 logger.setLevel(logging.INFO)
 
 async def is_req_subscribed(bot, query):
