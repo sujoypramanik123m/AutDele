@@ -2,8 +2,8 @@ from pyrogram import Client, filters, enums
 from pyrogram.types import ChatJoinRequest
 from helper.database import db
 from config import Config
+from info import AUTH_CHANNEL
 
-AUTH_CHANNEL = Config.AUTH_CHANNEL
 ADMINS = Config.ADMIN
 
 @Client.on_chat_join_request(filters.chat(AUTH_CHANNEL))
