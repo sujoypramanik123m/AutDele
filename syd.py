@@ -6,6 +6,7 @@ import re
 import os
 from helper.database import db
 from config import Config
+from pyrogram.types import Message
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
 
 logger = logging.getLogger(__name__)
