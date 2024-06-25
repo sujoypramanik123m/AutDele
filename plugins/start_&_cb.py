@@ -1,5 +1,5 @@
 import random
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, ChatAdminRequired
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, CallbackQuery
 from helper.database import db
@@ -8,6 +8,7 @@ from syd import is_req_subscribed
 import humanize
 from time import sleep
 
+logger = logging.getLogger(__name__)
 AUTH_CHANNEL = Config.AUTH_CHANNEL
 
 @Client.on_message(filters.private & filters.command("start"))
