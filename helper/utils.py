@@ -5,6 +5,7 @@ from pytz import timezone
 from config import Config, Txt
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram import Client
+from info import AUTH_CHANNEL
 import re
 
 logger = logging.getLogger(__name__)
