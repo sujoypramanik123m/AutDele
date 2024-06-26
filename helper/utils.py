@@ -7,7 +7,24 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram import Client
 import re
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
+async def is_req_subscribed(bot, query):
+    if await db.find_join_req(query.from_user.id):
+        return True
+    try:
+        user = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
+    except UserNotParticipant:
+        pass
+    except Exception as e:
+        logger.exception(e)
+    else:
+        if user.status != enums.ChatMemberStatus.BANNED:
+            return True
+
+    return False
+    
 async def start_clone_bot(UsrBot, data=None):
     await UsrBot.start()
     return UsrBot
