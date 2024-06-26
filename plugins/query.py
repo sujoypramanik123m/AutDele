@@ -51,7 +51,7 @@ async def cb_handler(client, query: CallbackQuery):
         )
 
     elif data == "sydcheck":
-        if AUTH_CHANNEL and not await is_req_subscribed(bot, query):
+        if AUTH_CHANNEL and not await is_req_subscribed:
           await query.answer("ʀᴇQᴇᴜꜱᴛ ᴛᴏ Jᴏɪɴ ᴏᴜʀ ᴄʜᴀɴɴᴇʟ ᴍᴀʜɴ! 😒 Dᴏɴᴛ ᴛʀʏ ᴛᴏ ꜱʜᴏᴡ ʏᴏᴜʀ ᴏᴠᴇʀꜱᴍᴀʀᴛɴᴇꜱꜱ ᴩʟᴢ🥲🥲", show_alert=True)
           return
         await query.message.edit_text("<b>Oᴋ✅, ʏᴏᴜ ᴄΔɴ ᴄᴏɴᴛɪɴᴜᴇ ʏᴏᴜʀ ᴩʀᴏᴄᴇꜱꜱ.... Δɴᴅ Tʜᴀɴᴋꜱ ꜰᴏʀ ᴜꜱɪɴɢ ᴏᴜʀ ʙᴏᴛ... 🧭\nPʟᴇᴀꜱᴇ Rᴇ-Fᴏʀᴡᴀʀᴅ ʏᴏᴜʀ Ғɪʟᴇ Tᴏ ᴄᴏɴᴛɪɴᴜᴇ... 🪭</b>")
