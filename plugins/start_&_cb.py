@@ -47,11 +47,9 @@ async def rename_start(client, message):
             return
         btn = [
             [
-                InlineKeyboardButton(
-                    "⊛ Jᴏɪɴ Uᴘᴅᴀᴛᴇꜱ CʜᴀɴɴᴇL ⊛", url=invite_link.invite_link
-                )
+                InlineKeyboardButton("⊛ Jᴏɪɴ Uᴘᴅᴀᴛᴇꜱ CʜᴀɴɴᴇL ⊛", url=invite_link.invite_link)
             ],[
-                InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", callback_data="sydcheck")
+                InlineKeyboardButton('↻ Tʀʏ Aɢᴀɪɴ ↻', callback_data='sydcheck')
               ]
         ]
         await client.send_message(
