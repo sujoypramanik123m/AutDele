@@ -6,6 +6,8 @@ from config import Config, Txt
 from helper.database import db
 import random
 import psutil
+from info import AUTH_CHANNEL
+from syd import is_req_subscribed
 from helper.utils import humanbytes
 
 
