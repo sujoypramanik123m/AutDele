@@ -7,7 +7,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMedi
 from helper.database import db
 from config import Config, Txt
 from info import AUTH_CHANNEL
-from helper.utlis import is_req_subscribed
+from helper.utils import is_req_subscribed
 import humanize
 from time import sleep
 
