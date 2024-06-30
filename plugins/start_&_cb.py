@@ -40,26 +40,6 @@ async def start(client, message):
 
 @Client.on_message(filters.private & (filters.document | filters.audio | filters.video))
 async def rename_start(client, message):
-    if AUTH_CHANNEL and not await is_req_subscribed(client, message):
-        try:
-            invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL), creates_join_request=True)
-        except ChatAdminRequired:
-            logger.error("Make sure Bot is admin in Forcesub channel")
-            return
-        btn = [
-            [
-                InlineKeyboardButton("⊛ Jᴏɪɴ Uᴘᴅᴀᴛᴇꜱ CʜᴀɴɴᴇL ⊛", url=invite_link.invite_link)
-            ],[
-                InlineKeyboardButton('↻ Tʀʏ Aɢᴀɪɴ ↻', callback_data='sydcheck')
-              ]
-        ]
-        await client.send_message(
-            chat_id=message.from_user.id,
-            text="Jᴏɪɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ ᴀɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ ᴛʀʏ ᴀɢᴀɪɴ ᴛᴏ <i>Cᴏɴᴛɪɴᴜᴇ..</i>.",
-            reply_markup=InlineKeyboardMarkup(btn),
-            parse_mode=ParseMode.MARKDOWN
-            )
-        return
     file = getattr(message, message.media.value)
     filename = file.file_name
     filesize = humanize.naturalsize(file.file_size)
