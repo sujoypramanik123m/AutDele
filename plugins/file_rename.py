@@ -9,6 +9,7 @@ from helper.utils import progress_for_pyrogram, convert, humanbytes
 from helper.database import db
 from PIL import Image
 import asyncio
+import logging
 import os
 import time
 from helper.utils import add_prefix_suffix, client, start_clone_bot, is_req_subscribed
@@ -16,7 +17,7 @@ from config import Config
 from info import AUTH_CHANNEL
 
 # Define a function to handle the 'rename' callback
-
+logger = logging.getLogger(__name__)
 
 @Client.on_callback_query(filters.regex('rename'))
 async def rename(bot, update):
