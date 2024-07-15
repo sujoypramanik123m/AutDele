@@ -20,7 +20,7 @@ from info import AUTH_CHANNEL
 
 @Client.on_callback_query(filters.regex('rename'))
 async def rename(bot, update):
-    if AUTH_CHANNEL and not await is_req_subscribed(bot, message):
+    if AUTH_CHANNEL and not await is_req_subscribed(bot, update.message):
         try:
             invite_link = await bot.create_chat_invite_link(int(AUTH_CHANNEL), creates_join_request=True)
         except ChatAdminRequired:
