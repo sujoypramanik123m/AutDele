@@ -22,26 +22,6 @@ logger = logging.getLogger(__name__)
 
 @Client.on_callback_query(filters.regex('rename'))
 async def rename(bot, update):
-    if AUTH_CHANNEL and not await is_req_subscribed(bot, update.message):
-        try:
-            invite_link = await bot.create_chat_invite_link(int(AUTH_CHANNEL), creates_join_request=True)
-        except ChatAdminRequired:
-            logger.error("Make sure Bot is admin in Forcesub channel")
-            return
-        btn = [
-            [
-                InlineKeyboardButton("⊛ Jᴏɪɴ Uᴘᴅᴀᴛᴇꜱ CʜᴀɴɴᴇL ⊛", url=invite_link.invite_link)
-            ],[
-                InlineKeyboardButton('↻ Tʀʏ Aɢᴀɪɴ ↻', callback_data='sydcheck')
-              ]
-        ]
-        await bot.send_message(
-            chat_id=update.from_user.id,
-            text="Jᴏɪɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ ᴀɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ ᴛʀʏ ᴀɢᴀɪɴ ᴛᴏ <i>Cᴏɴᴛɪɴᴜᴇ..</i>.",
-            reply_markup=InlineKeyboardMarkup(btn),
-            parse_mode=ParseMode.MARKDOWN
-            )
-        return
     await update.message.delete()
     await update.message.reply_text("__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__💦",
                                     reply_to_message_id=update.message.reply_to_message.id,
