@@ -34,7 +34,7 @@ async def rename(bot, update):
               ]
         ]
         await bot.send_message(
-            chat_id=message.from_user.id,
+            chat_id=update.from_user.id,
             text="Jᴏɪɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ ᴀɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ ᴛʀʏ ᴀɢᴀɪɴ ᴛᴏ <i>Cᴏɴᴛɪɴᴜᴇ..</i>.",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=ParseMode.MARKDOWN
