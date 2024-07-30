@@ -44,12 +44,12 @@ Yᴏᴜ Cᴀɴ Rᴇɴᴀᴍᴇ & Cʜᴀɴɢᴇ Tʜᴜᴍʙɴᴀɪʟ Oꜰ Δɴʏ 
     ABOUT_TXT = """<b>╭───────────⍟
 ➥ ᴍy ɴᴀᴍᴇ : {}
 ➥ Pʀᴏɢʀᴀᴍᴇʀ : <a href=https://t.me/SyD_Xyz>ꪑ𝘳 𝘴ꪗᦔ 🌐</a> 
-➥ ꜰᴏᴜɴᴅᴇʀ ᴏꜰ : <a href=https://t.me/BOT_cracker>B𝚘ᴛ ᑕяΔ¢к℮ґ 🎋</a>
-➥ Lɪʙʀᴀʀy : <a href=https://github.com/pyrogram>Pyʀᴏɢʀᴀᴍ</a>
-➥ Lᴀɴɢᴜᴀɢᴇ: <a href=https://www.python.org>Pyᴛʜᴏɴ 3</a>
-➥ Dᴀᴛᴀ Bᴀꜱᴇ: <a href=https://cloud.mongodb.com>Mᴏɴɢᴏ DB</a>
+➥ Fᴏᴜɴᴅᴇʀ ᴏꜰ : <a href=https://t.me/BOT_cracker>B𝚘ᴛ ᑕяΔ¢к℮ґ 🎋</a>
+➥ Lɪʙʀᴀʀy : <a href=https://t.me/+oej8cujHMFJhNmI9>Cᴏʟʟᴇᴄᴛɪᴏɴ...</a>
+➥ Lᴀɴɢᴜᴀɢᴇ: <a href=https://t.me/+0Zi1FC4ulo8zYzVl>ʙΔᴄᴋ-Uᴩ 💦</a>
+➥ Dᴀᴛᴀ Bᴀꜱᴇ: <a href=https://t.me/+3-nuV_9INIg0MDY1>Dʙ ⚡</a>
 ➥ ᴍʏ ꜱᴇʀᴠᴇʀ : <a hSnhttps://t.me/Mod_Moviez_X>Tɢ 🗯️</a>
-➥ ᴠᴇʀsɪᴏɴ : v2.2.0
+➥ ᴠᴇʀsɪᴏɴ : v1.0
 ╰───────────────⍟ """
 
     HELP_TXT = """
