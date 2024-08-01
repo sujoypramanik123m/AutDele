@@ -44,7 +44,7 @@ async def cb_handler(client, query: CallbackQuery):
             ),
 
             reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("⟪ ʙᴀᴄᴋ", callback_data="start"),
+                InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="start"),
                 InlineKeyboardButton("✘ ᴄʟᴏsᴇ", callback_data="close")
                 
             ]])
@@ -66,7 +66,7 @@ async def cb_handler(client, query: CallbackQuery):
             ),
 
             reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("⟪ ʙᴀᴄᴋ", callback_data="start"),
+                InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="start"),
                 InlineKeyboardButton("✘ ᴄʟᴏsᴇ", callback_data="close")
                 
             ]])
