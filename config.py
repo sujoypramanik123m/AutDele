@@ -114,5 +114,5 @@ Exᴀᴍᴩʟᴇ:- <code> /set_caption 📕 Fɪʟᴇ Nᴀᴍᴇ: {filename}
 ┣⪼ ⏳️ Dᴏɴᴇ : {0}%
 ┣⪼ 🚀 Sᴩᴇᴇᴅ: {3}/s
 ┣⪼ ⏰️ Eᴛᴀ: {4}
-┣⪼ 🩷 Bꪗ: <a href=https://t.me/+0Zi1FC4ulo8zYzVl>B𝚘ᴛ ᑕяΔ¢к℮ґ 🎋</a>
+┣⪼ 🩷 Bꪗ: @Bot_Cracker 🎋
 ╰━━━━━━━━━━━━━━━➣ </b>"""
