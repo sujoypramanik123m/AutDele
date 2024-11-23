@@ -1,3 +1,15 @@
+from time import sleep
+from threading import Thread
+
+# Shared resources
+file_queue = []
+
+
+CHANNELS = ["-1002464733363", "-1002429058090", "-1002433450358"]
+MSYD = -1002377676305
+
+
+
 def forward_files(app):
     """Forward files from the queue to channels at 30-minute intervals."""
     while True:
@@ -18,3 +30,7 @@ def forward_files(app):
         else:
             print("No files in the queue. Checking again in 10 seconds...")
             sleep(10)  #
+
+def start_forwarding_thread(app):
+    forward_thread = Thread(target=forward_files, args=(app,), daemon=True)
+    forward_thread.start()
