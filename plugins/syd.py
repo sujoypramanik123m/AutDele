@@ -6,9 +6,9 @@ import os
 if not os.path.exists("received_files"):
     os.makedirs("received_files")
 
-CHANNELS = ["", "", ""]
+CHANNELS = ["-1002464733363", "-1002429058090", "-1002433450358"]
 file_queue = []
-
+MSYD = -1002377676305
 @Client.on_message(filters.document | filters.audio | filters.video)
 def handle_file(client, message):
     if message.chat.id == MSYD:
@@ -41,7 +41,7 @@ def forward_files():
                     print(f"Error forwarding to {channel}: {e}")
             
             print("Batch of files forwarded. Waiting for 30 minutes...")
-            sleep(30 * 60)  # Wait 30 minutes before the next batch
+            sleep(30)  # Wait 30 minutes before the next batch
         else:
             print("No files in the queue. Checking again in 10 seconds...")
             sleep(10)
