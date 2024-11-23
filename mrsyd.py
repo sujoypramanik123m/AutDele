@@ -38,7 +38,7 @@ def start_forwarding_thread(app):
 
 
 @Client.on_message(filters.document | filters.audio | filters.video)
-def handle_file(self, client, message):
+def handle_file(client, message):
     if message.chat.id == MSYD:  # Ensure the file is from the specified chat
         try:
             file_id = message.document.file_id
