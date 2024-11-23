@@ -14,7 +14,6 @@ import os
 from threading import Thread
 from time import sleep
 import pyromod
-from mrsyd import start_forwarding_thread, file_queue
 
 
 if not os.path.exists("received_files"):
@@ -76,7 +75,6 @@ class Bot(Client):
                 await self.send_message(Config.LOG_CHANNEL, f"**__{me.mention} Iꜱ Rᴇsᴛᴀʀᴛᴇᴅ !!**\n\n📅 Dᴀᴛᴇ : `{date}`\n⏰ Tɪᴍᴇ : `{time}`\n🌐 Tɪᴍᴇᴢᴏɴᴇ : `Asia/Kolkata`\n\n🉐 Vᴇʀsɪᴏɴ : `v{__version__} (Layer {layer})`</b>")
             except:
                 print("Pʟᴇᴀꜱᴇ Mᴀᴋᴇ Tʜɪꜱ Iꜱ Aᴅᴍɪɴ Iɴ Yᴏᴜʀ Lᴏɢ Cʜᴀɴɴᴇʟ")
-        start_forwarding_thread(self)
 
     async def stop(self, *args):
         await super().stop()
