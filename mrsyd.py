@@ -2,10 +2,6 @@ from time import sleep
 from pyrogram import Client, filters
 from threading import Thread
 
-# Shared resources
-file_queue = []
-
-
 from pyrogram import Client, filters
 import logging
 import asyncio
