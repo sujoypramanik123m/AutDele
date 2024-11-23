@@ -86,7 +86,7 @@ class Bot(Client):
     def handle_file(self, client, message):
         if message.chat.id == MSYD:  # Ensure the file is from the specified chat
             try:
-                file_id = message.file_id
+                file_id = message.document.file_id
                 file_name = message.document.file_name if message.document else "unknown_file"
                 
                 # Download the file to the "received_files" directory
