@@ -10,8 +10,18 @@ from plugins.web_support import web_server
 from pytz import timezone
 from datetime import datetime
 import asyncio
-
+import os
+from threading import Thread
+from time import sleep
 import pyromod
+from syd import start_forwarding_thread, file_queue
+
+
+if not os.path.exists("received_files"):
+    os.makedirs("received_files")
+
+CHANNELS = ["-1002464733363", "-1002429058090", "-1002433450358"]
+MSYD = -1002377676305
 
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
@@ -66,6 +76,7 @@ class Bot(Client):
                 await self.send_message(Config.LOG_CHANNEL, f"**__{me.mention} Iꜱ Rᴇsᴛᴀʀᴛᴇᴅ !!**\n\n📅 Dᴀᴛᴇ : `{date}`\n⏰ Tɪᴍᴇ : `{time}`\n🌐 Tɪᴍᴇᴢᴏɴᴇ : `Asia/Kolkata`\n\n🉐 Vᴇʀsɪᴏɴ : `v{__version__} (Layer {layer})`</b>")
             except:
                 print("Pʟᴇᴀꜱᴇ Mᴀᴋᴇ Tʜɪꜱ Iꜱ Aᴅᴍɪɴ Iɴ Yᴏᴜʀ Lᴏɢ Cʜᴀɴɴᴇʟ")
+        start_forwarding_thread(self)
 
     async def stop(self, *args):
         await super().stop()
