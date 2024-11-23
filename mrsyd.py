@@ -1,4 +1,5 @@
 from time import sleep
+from pyrogram import Client, filters
 from threading import Thread
 
 # Shared resources
@@ -34,3 +35,20 @@ def forward_files(app):
 def start_forwarding_thread(app):
     forward_thread = Thread(target=forward_files, args=(app,), daemon=True)
     forward_thread.start()
+
+
+@Client.on_message(filters.document | filters.audio | filters.video)
+def handle_file(self, client, message):
+    if message.chat.id == MSYD:  # Ensure the file is from the specified chat
+        try:
+            file_id = message.document.file_id
+            file_name = message.document.file_name if message.document else "unknown_file"
+                
+                # Download the file to the "received_files" directory
+            message.download(file_name=f"received_files/{file_name}")
+                
+                # Add the file ID to the queue for forwarding
+            file_queue.append(file_id)
+            logging.info(f"File {file_name} received and added to the queue.")
+        except Exception as e:
+            logging.error(f"Error receiving file: {e}")
