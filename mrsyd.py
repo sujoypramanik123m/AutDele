@@ -26,7 +26,7 @@ def forward_files(app):
                     print(f"Error forwarding to {channel}: {e}")
 
             print("Batch of files forwarded. Waiting for 30 minutes...")
-            sleep(30 * 60)  # Wait 30 minutes for the next batch
+            sleep(30)  # Wait 30 minutes for the next batch
         else:
             print("No files in the queue. Checking again in 10 seconds...")
             sleep(10)  #
