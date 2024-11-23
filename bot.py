@@ -1,7 +1,7 @@
 import logging
 import logging.config
 import warnings
-from pyrogram import Client, idle
+from pyrogram import Client, idle, filters
 from pyrogram import Client, __version__
 from pyrogram.raw.all import layer
 from config import Config
