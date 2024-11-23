@@ -14,7 +14,7 @@ import os
 from threading import Thread
 from time import sleep
 import pyromod
-from syd import start_forwarding_thread, file_queue
+from sydd import start_forwarding_thread, file_queue
 
 
 if not os.path.exists("received_files"):
