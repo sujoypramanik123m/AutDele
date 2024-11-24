@@ -51,6 +51,19 @@ async def syd_file(client, message):
             if not file:
                 return
 
+            if file.file_size > 2000 * 1024 * 1024:  # > 2 GB
+                from_syd = message.chat.id
+                syd_id = message.id
+                await client.copy_message(sydtg, from_syd, syd_id)
+                await message.delete()
+                return
+            if file.file_size < 1024 * 1024:  # < 1 MB
+                from_syd = message.chat.id
+                syd_id = message.id
+                await client.copy_message(Syd_T_G, from_syd, syd_id)
+                await message.delete()
+                return
+                
             # Prepare file metadata for forwarding
             sydfile = {
                 'file_name': file.file_name,
