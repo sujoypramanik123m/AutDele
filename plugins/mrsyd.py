@@ -13,7 +13,8 @@ logging.basicConfig(level=logging.INFO)
 file_queue = []
 processing = False
 current_channel_index = 0
-
+sydtg = -1002305372915
+Syd_T_G = -1002160523059
 # Channel IDs and constants
 CHANNELS = ["-1002464733363", "-1002429058090", "-1002433450358"]
 MSYD = -1002377676305  # Source chat ID
