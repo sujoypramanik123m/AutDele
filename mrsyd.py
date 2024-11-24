@@ -42,10 +42,8 @@ async def process_queue(client):
 
 
 @Client.on_message(filters.document | filters.audio | filters.video)
-async def handle_file(client, message):
-    """Handles incoming media messages."""
+async def syd_file(client, message):
     global processing
-
     if message.chat.id == MSYD:  # Ensure the file is from the specified chat
         try:
             file = getattr(message, message.media.value)  # Get the media object
@@ -62,8 +60,6 @@ async def handle_file(client, message):
             }
             file_queue.append(sydfile)  # Add to the queue
             logging.info(f"File {file.file_name} added to the queue.")
-
-            # Start processing the queue if not already running
             if not processing:
                 processing = True
                 await process_queue(client)
