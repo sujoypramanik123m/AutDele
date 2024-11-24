@@ -21,7 +21,7 @@ MSYD = -1002377676305  # Source chat ID
 
 async def process_queue(client):
     """Processes files in the queue and forwards them to specified channels."""
-    global processing
+    global processing, current_channel_index
 
     while file_queue:
         sydfile = file_queue.pop(0)  # Get the first file in the queue
