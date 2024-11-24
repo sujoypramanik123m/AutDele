@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO)
 # Shared queue and processing flag
 file_queue = []
 processing = False
+current_channel_index = 0
 
 # Channel IDs and constants
 CHANNELS = ["-1002464733363", "-1002429058090", "-1002433450358"]
@@ -28,18 +29,18 @@ async def process_queue(client):
         media = sydfile['media']
         message = sydfile['message']
 
-        # Round-robin
-        for channel in CHANNELS:
-            try:
-                await client.send_document(channel, media.file_id, caption=f"Forwarded: {file_name}")
-                logging.info(f"File {file_name} forwarded to {channel}.")
-            except Exception as e:
-                logging.error(f"Error forwarding {file_name} to {channel}: {e}")
+        channel = CHANNELS[current_channel_index]
+        current_channel_index = (current_channel_index + 1) % len(CHANNELS)
 
-        await asyncio.sleep(2 * 60)  # Short delay between files
+        try:
+            await client.send_document(channel, media.file_id, caption=f"Forwarded: {file_name}")
+            logging.info(f"File {file_name} forwarded to {channel}.")
+        except Exception as e:
+            logging.error(f"Error forwarding {file_name} to {channel}: {e}")
 
-    processing = False  # Reset the processing flag
+        await asyncio.sleep(2 * 60)
 
+    processing = False
 
 @Client.on_message(filters.document | filters.audio | filters.video)
 async def syd_file(client, message):
