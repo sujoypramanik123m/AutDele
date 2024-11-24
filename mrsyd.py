@@ -36,7 +36,7 @@ async def process_queue(client):
             except Exception as e:
                 logging.error(f"Error forwarding {file_name} to {channel}: {e}")
 
-        sleep(2 * 60)  # Short delay between files
+        await asyncio.sleep(2 * 60)  # Short delay between files
 
     processing = False  # Reset the processing flag
 
