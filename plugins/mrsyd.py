@@ -36,6 +36,7 @@ async def process_queue(client):
         try:
             await client.send_document(channel, media.file_id, caption=f"Forwarded: {file_name}")
             logging.info(f"File {file_name} forwarded to {channel}.")
+            await message.delete()
         except Exception as e:
             logging.error(f"Error forwarding {file_name} to {channel}: {e}")
 
