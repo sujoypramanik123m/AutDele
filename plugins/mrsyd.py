@@ -46,8 +46,6 @@ async def process_queue(client):
             await client.send_document(channel, media.file_id, caption=f"Forwarded: {file_name}")
             logging.info(f"File {file_name} forwarded to {channel}.")
             await message.delete()
-            processed_files.remove(media.file_id)  # Remove from memory (optional)
-            save_processed_files()  # Persist updates
         except Exception as e:
             logging.error(f"Error forwarding {file_name} to {channel}: {e}")
 
