@@ -1,7 +1,7 @@
 from time import sleep
 from pyrogram import Client, filters
 from threading import Thread
-
+import json
 from pyrogram import Client, filters
 import logging
 import asyncio
@@ -19,9 +19,18 @@ Syd_T_G = -1002160523059
 CHANNELS = ["-1002464733363", "-1002429058090", "-1002433450358", "-1002280144341"]
 MSYD = -1002377676305  # Source chat ID
 
+try:
+    with open("processed_files.json", "r") as f:
+        processed_files = set(json.load(f))
+except FileNotFoundError:
+    processed_files = set()
+
+def save_processed_files():
+    """Saves the processed file IDs to a JSON file."""
+    with open("processed_files.json", "w") as f:
+        json.dump(list(processed_files), f)
 
 async def process_queue(client):
-    """Processes files in the queue and forwards them to specified channels."""
     global processing, current_channel_index
 
     while file_queue:
@@ -37,6 +46,8 @@ async def process_queue(client):
             await client.send_document(channel, media.file_id, caption=f"Forwarded: {file_name}")
             logging.info(f"File {file_name} forwarded to {channel}.")
             await message.delete()
+            processed_files.remove(media.file_id)  # Remove from memory (optional)
+            save_processed_files()  # Persist updates
         except Exception as e:
             logging.error(f"Error forwarding {file_name} to {channel}: {e}")
 
@@ -53,6 +64,10 @@ async def syd_file(client, message):
             if not file:
                 return
 
+            if file.file_id in processed_files:  # Check for duplicates
+                logging.info(f"Duplicate file {file.file_name} ignored.")
+                return
+
             if file.file_size > 2000 * 1024 * 1024:  # > 2 GB
                 from_syd = message.chat.id
                 syd_id = message.id
@@ -65,7 +80,7 @@ async def syd_file(client, message):
                 await client.copy_message(Syd_T_G, from_syd, syd_id)
                 await message.delete()
                 return
-                
+
             # Prepare file metadata for forwarding
             sydfile = {
                 'file_name': file.file_name,
@@ -74,8 +89,12 @@ async def syd_file(client, message):
                 'media': file,
                 'message': message
             }
+
             file_queue.append(sydfile)  # Add to the queue
+            processed_files.add(file.file_id)  # Mark file as processed
+            save_processed_files()  # Persist updates
             logging.info(f"File {file.file_name} added to the queue.")
+            
             if not processing:
                 processing = True
                 await process_queue(client)
