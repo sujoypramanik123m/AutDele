@@ -62,8 +62,9 @@ async def syd_file(client, message):
             if not file:
                 return
 
-            if file.file_id in processed_files:  # Check for duplicates
-                logging.info(f"Duplicate file {file.file_name} ignored.")
+            file_metadata = (file.file_name, file.file_size)
+            if file_metadata in processed_files:
+                logging.info(f"Duplicate file {file.file_name} (Size: {file.file_size}) ignored.")
                 return
 
             if file.file_size > 2000 * 1024 * 1024:  # > 2 GB
@@ -89,7 +90,7 @@ async def syd_file(client, message):
             }
 
             file_queue.append(sydfile)  # Add to the queue
-            processed_files.add(file.file_id)  # Mark file as processed
+            processed_files.add(file_metadata)  # Mark file as processed
             save_processed_files()  # Persist updates
             logging.info(f"File {file.file_name} added to the queue.")
             
