@@ -43,14 +43,24 @@ async def process_queue(client):
         current_channel_index = (current_channel_index + 1) % len(CHANNELS)
 
         try:
-            await client.send_document(channel, media.file_id, caption=f"Forwarded: {file_name}")
-            logging.info(f"File {file_name} forwarded to {channel}.")
+            if message.video:  
+                await client.send_video(
+                    channel, 
+                    media.file_id, 
+                    caption=f"ᴍʀ ꜱʏᴅ: {file_name}"
+                )
+                logging.info(f"Video {file_name} forwarded to {channel}.")
+            else:
+                await client.send_document(
+                    channel, 
+                    media.file_id, 
+                    caption=f"ᴍʀ ꜱʏᴅ: {file_name}"
+                )
+                #logging.info(f"File {file_name} forwarded to {channel}.")
             await message.delete()
         except Exception as e:
             logging.error(f"Error forwarding {file_name} to {channel}: {e}")
-
         await asyncio.sleep(80)
-
     processing = False
 
 @Client.on_message(filters.document | filters.audio | filters.video)
