@@ -60,6 +60,7 @@ async def process_queue(client):
             await message.delete()
         except Exception as e:
             logging.error(f"Error forwarding {file_name} to {channel}: {e}")
+            await message.react("👀")
         await asyncio.sleep(100)
     processing = False
 
@@ -75,6 +76,7 @@ async def syd_file(client, message):
             file_metadata = (file.file_name, file.file_size)
             if file_metadata in processed_files:
                 logging.info(f"Duplicate file {file.file_name} (Size: {file.file_size}) ignored.")
+                await message.react("⚡")
                 return
 
             if file.file_size > 2000 * 1024 * 1024:  # > 2 GB
