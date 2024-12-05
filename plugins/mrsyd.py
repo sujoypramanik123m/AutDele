@@ -60,7 +60,7 @@ async def process_queue(client):
             await message.delete()
         except Exception as e:
             logging.error(f"Error forwarding {file_name} to {channel}: {e}")
-        await asyncio.sleep(80)
+        await asyncio.sleep(100)
     processing = False
 
 @Client.on_message(filters.document | filters.audio | filters.video)
