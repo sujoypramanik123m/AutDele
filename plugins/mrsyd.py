@@ -18,6 +18,7 @@ Syd_T_G = -1002160523059
 # Channel IDs and constants
 CHANNELS = ["-1002464733363", "-1002429058090", "-1002433450358", "-1002280144341"]
 MSYD = -1002377676305  # Source chat ID
+SYD = [2, 5, 8, 1, 10]
 
 try:
     with open("processed_files.json", "r") as f:
@@ -82,12 +83,14 @@ async def syd_file(client, message):
             if file.file_size > 2000 * 1024 * 1024:  # > 2 GB
                 from_syd = message.chat.id
                 syd_id = message.id
+                await asyncio.sleep(random.choice(SYD))
                 await client.copy_message(sydtg, from_syd, syd_id)
                 await message.delete()
                 return
             if file.file_size < 1024 * 1024:  # < 1 MB
                 from_syd = message.chat.id
                 syd_id = message.id
+                await asyncio.sleep(random.choice(SYD))
                 await client.copy_message(Syd_T_G, from_syd, syd_id)
                 await message.delete()
                 return
