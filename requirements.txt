@@ -1,7 +1,6 @@
 pyrogram==2.0.80
 TgCrypto
 motor
-pyrofork
 dnspython
 hachoir
 Pillow
