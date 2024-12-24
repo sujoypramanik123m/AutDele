@@ -6,7 +6,7 @@ from datetime import datetime
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from helper.utils import progress_for_pyrogram, humanbytes, convert, download_image
-from helper.database import madflixbotz
+from helper.database import db
 from config import Config
 import os
 import time, asyncio
@@ -15,10 +15,9 @@ import re
 #import shutil
 
 fulsyd = "fair"
-db = madflixbotz
 mrsydt_g = []
 processing = False
-MRSYD = -1002289521919
+MRSYD = -1002200259696
 sydtg = -1002305372915
 Syd_T_G = -1002160523059
 renaming_operations = {}
@@ -588,7 +587,7 @@ async def autosyd(client, file_details):
             img.resize((320, 320))
             img.save(ph_path, "JPEG")
         try:
-            mrsyd = await db.get_dump(1733124290)
+            mrsyd = 
             type = media_type  # Use 'media_type' variable instead
             if type == "document":
                 sydfil = await client.send_document(
