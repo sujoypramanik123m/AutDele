@@ -373,7 +373,7 @@ async def autosyd(client, file_details):
                 print(f"Failed to send sticker to topic: {e}")
         last_season_number = syd_xyz
         try:
-            mrsyd = await db.get_dump(1733124290)
+            mrsyd = -1002200259696
             type = media_type  # Use 'media_type' variable instead
             if type == "document":
                 sydfil = await client.send_document(
@@ -587,7 +587,7 @@ async def autosyd(client, file_details):
             img.resize((320, 320))
             img.save(ph_path, "JPEG")
         try:
-            mrsyd = 
+            mrsyd = -1002200259696
             type = media_type  # Use 'media_type' variable instead
             if type == "document":
                 sydfil = await client.send_document(
