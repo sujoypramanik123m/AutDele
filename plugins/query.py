@@ -94,6 +94,28 @@ async def cb_handler(client, query: CallbackQuery):
             reply_markup=reply_markup
         )
 
+    elif data == "season_false":
+        await db.set_sydson(user_id, "False")
+        await query.message.edit_text(
+            text="Sᴇᴛ ᴛʀᴜᴇ ᴏʀ ꜰᴀʟꜱᴇ, ɪꜰ ꜱᴇᴀꜱᴏɴ ɴᴜᴍʙᴇʀ ɪꜱ ᴛᴏ ʙᴇ ɪɴ ꜰɪʟᴇ ᴇᴠᴇʀʏᴛɪᴍᴇ (ɪꜰ ꜰɪʟᴇ ᴅᴏɴᴛ ʜᴀᴠᴇ ꜱᴇᴀꜱᴏɴ ɴᴏ. ɪᴛ ᴡɪʟʟ ʙᴇ ᴅᴇꜰᴜᴀʟᴛ ᴛᴏ 1) ᴏʀ ꜰᴀʟꜱᴇ ᴛᴏ ᴀᴠᴏɪᴅ ꜱᴇᴀꜱᴏɴ ᴛᴀɢ",
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("Tʀᴜᴇ ✅", callback_data="season_true")
+            ],[
+                InlineKeyboardButton("✖️ Close", callback_data="close")
+            ]])          
+        )
+            
+    elif data == "season_true":
+        await db.set_sydson(user_id, "True")
+        await query.message.edit_text(
+            text="Sᴇᴛ ᴛʀᴜᴇ ᴏʀ ꜰᴀʟꜱᴇ, ɪꜰ ꜱᴇᴀꜱᴏɴ ɴᴜᴍʙᴇʀ ɪꜱ ᴛᴏ ʙᴇ ɪɴ ꜰɪʟᴇ ᴇᴠᴇʀʏᴛɪᴍᴇ (ɪꜰ ꜰɪʟᴇ ᴅᴏɴᴛ ʜᴀᴠᴇ ꜱᴇᴀꜱᴏɴ ɴᴏ. ɪᴛ ᴡɪʟʟ ʙᴇ ᴅᴇꜰᴜᴀʟᴛ ᴛᴏ 1) ᴏʀ ꜰᴀʟꜱᴇ ᴛᴏ ᴀᴠᴏɪᴅ ꜱᴇᴀꜱᴏɴ ᴛᴀɢ",
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("Fᴀʟꜱᴇ ✖️", callback_data="season_false")
+            ],[
+                InlineKeyboardButton("✖️ Close", callback_data="close")
+            ]])          
+        )
+
     elif data == 'userbot':
         userBot = await db.get_user_bot(query.from_user.id)
 
