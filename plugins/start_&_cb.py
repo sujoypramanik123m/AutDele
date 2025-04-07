@@ -78,3 +78,6 @@ async def rename_start(client, message):
         await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
     except:
         pass
+@Client.on_message(filters.command("start") & filters.chat(-1002687879857))
+async def sydstart(client, message):
+    await message.reply_text(".")
