@@ -26,6 +26,14 @@ async def delilter(client, message: Message):
     text = message.text.lower()
     words = text.split()
 
+    try:
+        member = await client.get_chat_member(message.chat.id, message.from_user.id)
+        if member.status in ("administrator", "creator"):
+            return
+    except Exception as e:
+        # If we can't get member info (e.g. user left), skip to be safe
+        return
+        
     # Check for disallowed links or mentions
     for word in words:
         if word.startswith("http") or (word.startswith("@") and word != "@admin"):
