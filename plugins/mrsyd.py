@@ -1,17 +1,8 @@
 from pyrogram import Client, filters
 import asyncio
-
-
-
-@Client.on_message(filters.group & filters.text & filters.incoming)
-async def give_filter(client, message):
-    if message.chat.id != -1001605140211:
-        return
-    await asyncio.sleep(40)
-    await message.delete()
-
 from pyrogram.types import Message
-import asyncio
+
+
 
 FORWARD_TO = 1733124290  # replace with your user ID
 
@@ -20,9 +11,11 @@ ALLOWED_CHAT_IDS = [-1001605140211, -1002287422608, -1002601575630, -10018231255
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def delilter(client, message: Message):
+    await client.send_message(FORWARD_TO, "555")
     if message.chat.id not in ALLOWED_CHAT_IDS:
         return
 
+    await client.send_message(FORWARD_TO, "555")
     text = message.text.lower()
     words = text.split()
 
@@ -32,7 +25,7 @@ async def delilter(client, message: Message):
             return
     except Exception as e:
         # If we can't get member info (e.g. user left), skip to be safe
-        return
+        pass
         
     # Check for disallowed links or mentions
     for word in words:
@@ -44,3 +37,9 @@ async def delilter(client, message: Message):
     if "@admin" in text:
         await client.forward_messages(chat_id=FORWARD_TO, from_chat_id=message.chat.id, message_ids=message.id)
         await client.send_message(FORWARD_TO, f"#AdminTagged from {message.from_user.mention if message.from_user else 'unknown'}")
+   
+    
+    if message.chat.id != -1001605140211:
+        return
+    await asyncio.sleep(40)
+    await message.delete()
