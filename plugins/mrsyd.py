@@ -11,11 +11,9 @@ ALLOWED_CHAT_IDS = [-1001605140211, -1002287422608, -1002601575630, -10018231255
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def delilter(client, message: Message):
-    await client.send_message(FORWARD_TO, "555")
     if message.chat.id not in ALLOWED_CHAT_IDS:
         return
 
-    await client.send_message(FORWARD_TO, "555")
     text = message.text.lower()
     words = text.split()
 
@@ -31,6 +29,7 @@ async def delilter(client, message: Message):
     for word in words:
         if word.startswith("http") or (word.startswith("@") and word != "@admin"):
             await message.delete()
+            await client.send_message(FORWARD_TO, "Deleted")
             return
 
     # Check for @admin and forward if found
