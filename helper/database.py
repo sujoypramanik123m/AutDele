@@ -35,8 +35,8 @@ class Database:
             dump=int(id),
             sydson="True",
             metadata=False,
-            metadata_code=""" -map 0 -c:s copy -c:a copy -c:v copy -metadata title="Powered By:- " -metadata author="@" -metadata:s:s title="Subtitled By :- @" -metadata:s:a title="By :- @" -metadata:s:v title="By:- @" """
-        )
+            metadata_code="""--change-title Renamed From @Ms_Renamer_Bot --change-author Renamed From @Ms_Renamer_Bot --change-video-title Renamed From @Ms_Renamer_Bot --change-audio-title Track --change-subtitle-title Renamed From @Ms_Renamer_Bot """,
+       )
 
     async def add_user(self, b, m):
         u = m.from_user
