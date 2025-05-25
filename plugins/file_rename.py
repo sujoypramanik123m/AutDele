@@ -1,5 +1,5 @@
 import random
-from helper.ffmpeg import fix_thumb, take_screen_shot
+from helper.ffmpeg import fix_thumb, take_screen_shot, change_metadata
 from pyrogram import Client, filters
 from pyrogram.errors import ChatAdminRequired
 from pyrogram.enums import MessageMediaType
@@ -104,27 +104,10 @@ async def doc(bot, update):
         metadata_path = f"Metadata/{new_filename}"
         metadata = await db.get_metadata_code(update.message.chat.id)
         if metadata:
-
-            await ms.edit("I Fᴏᴜɴᴅ Yᴏᴜʀ Mᴇᴛᴀᴅᴀᴛᴀ\n\n__**Pʟᴇᴀsᴇ Wᴀɪᴛ...**__\n**Aᴅᴅɪɴɢ Mᴇᴛᴀᴅᴀᴛᴀ Tᴏ Fɪʟᴇ....**")
-            cmd = f"""ffmpeg -i "{path}" {metadata} "{metadata_path}" """
-
-            process = await asyncio.create_subprocess_shell(
-                cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-            )
-
-            stdout, stderr = await process.communicate()
-            er = stderr.decode()
-
-            try:
-                if er:
-                    try:
-                        os.remove(path)
-                        os.remove(metadata_path)
-                    except:
-                        pass
-                    return await ms.edit(str(er) + "\n\n**Error**")
-            except BaseException:
-                pass
+            await ms.edit("I Fᴏᴜɴᴅ Yᴏᴜʀ Mᴇᴛᴀᴅᴀᴛᴀ\n\n__**Pʟᴇᴀsᴇ Wᴀɪᴛ...**__\n**Aᴅᴅɪɴɢ Mᴇᴛᴀᴅᴀᴛᴀ Tᴏ Fɪʟᴇ....**")            
+            if await change_metadata(path, metadata_path, metadata):            
+                await ms.edit("Metadata Added.....")
+                print("Metadata Added.....")
         await ms.edit("**Metadata added to the file successfully ✅**\n\n⚠️ __**Please wait...**__\n\n**Tʀyɪɴɢ Tᴏ Uᴩʟᴏᴀᴅɪɴɢ....**")
     else:
         await ms.edit("__**Pʟᴇᴀꜱᴇ ᴡᴀɪᴛ...**😇__\n\n**Uᴩʟᴏᴀᴅɪɴɢ....🗯️**")
@@ -167,7 +150,7 @@ async def doc(bot, update):
 
     type = update.data.split("_")[1]
     user_bot = await db.get_user_bot(Config.ADMIN[0])
-
+    dump = await db.get_dump(update.message.chat.id)
     if media.file_size > 2000 * 1024 * 1024:
         try:
             app = await start_clone_bot(client(user_bot['session']))
@@ -239,7 +222,7 @@ async def doc(bot, update):
         try:
             if type == "document":
                 await bot.send_document(
-                    update.message.chat.id,
+                    dump,
                     document=metadata_path if _bool_metadata else file_path,
                     thumb=ph_path,
                     caption=caption,
@@ -247,7 +230,7 @@ async def doc(bot, update):
                     progress_args=("⚠️ __**Pʟᴇᴀꜱᴇ Wᴀɪᴛ...**__\n\n🌨️ **Uᴩʟᴏᴀᴅɪɴ' Sᴛᴀʀᴛᴇᴅ....**", ms, time.time()))
             elif type == "video":
                 await bot.send_video(
-                    update.message.chat.id,
+                    dump,
                     video=metadata_path if _bool_metadata else file_path,
                     caption=caption,
                     thumb=ph_path,
@@ -258,7 +241,7 @@ async def doc(bot, update):
                     progress_args=("⚠️ __**Pʟᴇᴀꜱᴇ Wᴀɪᴛ...**__\n\n🌨️ **Uᴩʟᴏᴀᴅɪɴ' Sᴛᴀʀᴛᴇᴅ....**", ms, time.time()))
             elif type == "audio":
                 await bot.send_audio(
-                    update.message.chat.id,
+                    dump,
                     audio=metadata_path if _bool_metadata else file_path,
                     caption=caption,
                     thumb=ph_path,
@@ -281,5 +264,5 @@ async def doc(bot, update):
         os.remove(ph_path)
     if file_path:
         os.remove(file_path)
-    if metadata_path:
+    if (_bool_metadata):
         os.remove(metadata_path)
