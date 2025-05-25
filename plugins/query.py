@@ -34,6 +34,7 @@ async def cb_handler(client, query: CallbackQuery):
             ], [InlineKeyboardButton('⊛ Jᴏɪɴ ᴍᴏᴠɪєꜱ CʜᴀɴɴᴇL ⊛', url='https://t.me/Mod_Moviez_X')
             ]])
         )
+        
     elif data == "help":
         await query.message.edit_media(
             InputMediaPhoto(
@@ -43,12 +44,19 @@ async def cb_handler(client, query: CallbackQuery):
             ),
 
             reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("ʜᴏᴡ ᴛᴏ ʀᴇɴᴀᴍᴇ ꜰɪʟᴇꜱ", callback_data="how")
+            ], [
+                InlineKeyboardButton("ᴛʜᴜᴍʙɴᴀɪʟ", callback_data="pic"),
+                InlineKeyboardButton("ᴄᴀᴩᴛɪᴏɴ", callback_data="cap")
+            ], [
+                InlineKeyboardButton("ꜱᴜꜰꜰɪx ᴀɴᴅ ᴩʀᴇꜰɪx", callback_data="sufpre")
+            ], [
                 InlineKeyboardButton("ᴅᴜᴍᴩ ᴄʜᴀɴɴᴇʟ", callback_data="dump")
             ], [
                 InlineKeyboardButton("ᴍᴇᴛᴀᴅᴀᴛᴀ", callback_data="meta")
             ], [
                 InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="start"),
-                InlineKeyboardButton("✘ ᴄʟᴏsᴇ", callback_data="close")
+                InlineKeyboardButton("ᴄʟᴏsᴇ ✘", callback_data="close")
                 
             ]])
         )
@@ -69,7 +77,7 @@ async def cb_handler(client, query: CallbackQuery):
 
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="help"),
-                InlineKeyboardButton("✘ ᴄʟᴏsᴇ", callback_data="close")
+                InlineKeyboardButton("ᴄʟᴏsᴇ ✘", callback_data="close")
                 
             ]])
         )
@@ -82,7 +90,60 @@ async def cb_handler(client, query: CallbackQuery):
 
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="help"),
-                InlineKeyboardButton("✘ ᴄʟᴏsᴇ", callback_data="close")
+                InlineKeyboardButton("ᴄʟᴏsᴇ ✘", callback_data="close")
+                
+            ]])
+        )
+    
+    elif data == "cap":
+        await query.message.edit_media(
+            InputMediaPhoto(
+                random.choice(Config.PICS),
+                Txt.CAP_TXT,
+            ),
+
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="help"),
+                InlineKeyboardButton("ᴄʟᴏsᴇ ✘", callback_data="close")
+                
+            ]])
+        )
+    elif data == "how":
+        await query.message.edit_media(
+            InputMediaPhoto(
+                random.choice(Config.PICS),
+                Txt.HOW_TXT,
+            ),
+
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="help"),
+                InlineKeyboardButton("ᴄʟᴏsᴇ ✘", callback_data="close")
+                
+            ]])
+        )
+    elif data == "sufpre":
+        await query.message.edit_media(
+            InputMediaPhoto(
+                random.choice(Config.PICS),
+                Txt.SUFPRE_TXT,
+            ),
+
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="help"),
+                InlineKeyboardButton("ᴄʟᴏsᴇ ✘", callback_data="close")
+                
+            ]])
+        )
+    elif data == "pic":
+        await query.message.edit_media(
+            InputMediaPhoto(
+                random.choice(Config.PICS),
+                Txt.PIC_TXT,
+            ),
+
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="help"),
+                InlineKeyboardButton("ᴄʟᴏsᴇ ✘", callback_data="close")
                 
             ]])
         )
@@ -96,7 +157,7 @@ async def cb_handler(client, query: CallbackQuery):
 
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="start"),
-                InlineKeyboardButton("✘ ᴄʟᴏsᴇ", callback_data="close")
+                InlineKeyboardButton("ᴄʟᴏsᴇ ✘", callback_data="close")
                 
             ]])
         )
