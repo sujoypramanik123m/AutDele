@@ -211,6 +211,28 @@ async def refuntion(client, message):
         except Exception as e:
             logger.error(f"An error occurred: {e}")
             await message.reply_text("An error occurred while processing your request.")
+    else:
+        file = getattr(message, message.media.value)
+        filename = file.file_name
+        filesize = humanize.naturalsize(file.file_size)
+    
+        if file.file_size > 2000 * 1024 * 1024:
+            if not await db.is_user_bot_exist(Config.ADMIN[0]):
+                return await message.reply_text("**⚠️ Sᴏʀʀy Bʀᴏ, Yᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀ ᴩʀᴇᴍɪᴜᴍ ᴜꜱᴇʀ 🥺..... ᴩʟᴇᴀꜱᴇ ʙᴇᴄᴀᴍᴇ..... ⚡**")
+
+        try:
+            text = f"""**__What do you want me to do with this file.?__**\n\n**File Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
+            buttons = [[InlineKeyboardButton("📝 Rᴇɴᴀᴍᴇ 📝", callback_data="rename")],
+                       [InlineKeyboardButton("✖️ CᴀɴᴄᴇL ✖️", callback_data="close")]]
+            await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
+        except FloodWait as e:
+            await sleep(e.value)
+            text = f"""**__What do you want me to do with this file.?__**\n\n**File Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
+            buttons = [[InlineKeyboardButton("📝 Rᴇɴᴀᴍᴇ 📝", callback_data="rename")],
+                       [InlineKeyboardButton("✖️ CᴀɴᴄᴇL ✖️", callback_data="close")]]
+            await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
+        except:
+            pass
          
 async def process_queue(client):
     global processing
