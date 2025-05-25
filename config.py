@@ -85,7 +85,16 @@ Exᴀᴍᴩʟᴇ:- <code> /set_caption 📕 Fɪʟᴇ Nᴀᴍᴇ: {filename}
 <b>⦿ Developer:</b> <a href=https://t.me/SyD_Xyz>🔅 ᴍ.ʀ Sʏᦔ 🔅</a>
 """
 
-    META_TXT = """ """
+    META_TXT = """
+❪ SET CUSTOM METADATA ❫
+◽ <b><u>Tᴏ Cʜᴀɴɢᴇ Fɪʟᴇ Iɴꜰᴏʀᴍᴀᴛɪᴏɴꜱ </b></u>
+
+☞ Fᴏʀ Exᴀᴍᴘʟᴇ:-
+
+◦ <code> --change-title Powered By:- @ --change-author @ --change-video-title By:- @ --change-audio-title By :- @ --change-subtitle-title Subtitled By :- @ </code>
+
+📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛᴀᴄᴛ..: @SyD_XyZ
+""" """
     DUMP_TXT = """<b><u>Dᴜᴍᴩ Cʜᴀɴɴᴇʟ:</u></b>
 A Cʜᴀɴɴᴇʟ Tᴏ Wʜɪᴄʜ Aʟʟ Rᴇɴᴀᴍᴇᴅ Fɪʟᴇꜱ Mᴜꜱᴛ Bᴇ Sᴇɴᴛ Aᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟ
 ◽ <b><u>Sᴇᴛ ᴅᴜᴍᴩ ᴄʜᴀɴɴᴇʟ.</b></u>
@@ -98,7 +107,7 @@ A Cʜᴀɴɴᴇʟ Tᴏ Wʜɪᴄʜ Aʟʟ Rᴇɴᴀᴍᴇᴅ Fɪʟᴇꜱ Mᴜꜱ�
 
 ☞ Fᴏʀ Exᴀᴍᴘʟᴇ:-
 
-◦ <code> -map 0 -c:s copy -c:a copy -c:v copy -metadata title="Powered By:- @Bot_Cracker" -metadata author="@Syd_Xyz" -metadata:s:s title="Subtitled By :- @Mod_Moviez_X" -metadata:s:a title="By :- @GetTGLinks" -metadata:s:v title="By:- @Bot_Cracker" </code>
+◦ <code> --change-title Powered By:- @ --change-author @ --change-video-title By:- @ --change-audio-title By :- @ --change-subtitle-title Subtitled By :- @ </code>
 
 📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛᴀᴄᴛ..: @SyD_XyZ
 """
