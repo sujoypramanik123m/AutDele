@@ -94,7 +94,7 @@ Exᴀᴍᴩʟᴇ:- <code> /set_caption 📕 Fɪʟᴇ Nᴀᴍᴇ: {filename}
 ◦ <code> --change-title Powered By:- @ --change-author @ --change-video-title By:- @ --change-audio-title By :- @ --change-subtitle-title Subtitled By :- @ </code>
 
 📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛᴀᴄᴛ..: @SyD_XyZ
-""" """
+"""
     DUMP_TXT = """<b><u>Dᴜᴍᴩ Cʜᴀɴɴᴇʟ:</u></b>
 A Cʜᴀɴɴᴇʟ Tᴏ Wʜɪᴄʜ Aʟʟ Rᴇɴᴀᴍᴇᴅ Fɪʟᴇꜱ Mᴜꜱᴛ Bᴇ Sᴇɴᴛ Aᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟ
 ◽ <b><u>Sᴇᴛ ᴅᴜᴍᴩ ᴄʜᴀɴɴᴇʟ.</b></u>
