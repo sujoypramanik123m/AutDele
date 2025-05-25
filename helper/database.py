@@ -32,6 +32,7 @@ class Database:
             sydd=None,
             syddd=None,
             topic=None,
+            dump=int(id),
             sydson="True",
             metadata=False,
             metadata_code=""" -map 0 -c:s copy -c:a copy -c:v copy -metadata title="Powered By:- " -metadata author="@" -metadata:s:s title="Subtitled By :- @" -metadata:s:a title="By :- @" -metadata:s:v title="By:- @" """
@@ -56,6 +57,13 @@ class Database:
         user = await self.bot.find_one({'user_id': user_id, 'is_bot': False})
         return bool(user)
 
+    async def set_dump(self, id, dump: int):
+        await self.col.update_one({'_id': int(id)}, {'$set': {'dump': int(dump)}})
+
+    async def get_dump(self, id):
+        user = await self.col.find_one({'_id': int(id)})
+        return user.get('dump', int(id))   
+   
     async def remove_user_bot(self, user_id):
         await self.bot.delete_many({'user_id': int(user_id), 'is_bot': False})
 
