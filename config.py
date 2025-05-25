@@ -85,6 +85,14 @@ Exᴀᴍᴩʟᴇ:- <code> /set_caption 📕 Fɪʟᴇ Nᴀᴍᴇ: {filename}
 <b>⦿ Developer:</b> <a href=https://t.me/SyD_Xyz>🔅 ᴍ.ʀ Sʏᦔ 🔅</a>
 """
 
+    META_TXT = """ """
+    DUMP_TXT = """<b><u>Dᴜᴍᴩ Cʜᴀɴɴᴇʟ:</u></b>
+A Cʜᴀɴɴᴇʟ Tᴏ Wʜɪᴄʜ Aʟʟ Rᴇɴᴀᴍᴇᴅ Fɪʟᴇꜱ Mᴜꜱᴛ Bᴇ Sᴇɴᴛ Aᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟ
+◽ <b><u>Sᴇᴛ ᴅᴜᴍᴩ ᴄʜᴀɴɴᴇʟ.</b></u>
+<b>•></b> /set_dump - Sᴇᴛ ᴅᴜᴍᴩ ᴄʜᴀɴɴᴇʟ
+<b>•></b> /del_dump - Dᴇʟᴇᴛᴇ ᴅᴜᴍᴩ(ᴅᴇꜰᴜᴀʟᴛ ᴛᴏ ᴛʜᴇ ꜱᴇɴᴅᴇʀ ɪᴅ)
+<b>•></b> /see_dump - Sᴇᴇ ᴄᴜʀʀᴇɴᴛ ᴅᴜᴍᴩ ɪᴅ"""
+    
     SEND_METADATA = """
 ❪ SET CUSTOM METADATA ❫
 
