@@ -35,19 +35,18 @@ class Config(object):
 class Txt(object):
     # part of text configuration
     START_TXT = """<b>Hᴀɪ {} 👋,
-I Δᴍ Aɴ Aᴅᴠᴀɴᴄᴇᴅ Aɴᴅ Yᴇᴛ Pᴏᴡᴇʀꜰᴜʟ Rᴇɴᴀᴍᴇ Bᴏᴛ Yᴏᴜ Hᴀᴅ єᴠєʀ Sᴇᴇɴ ᴩʀᴏʙᴀʙʟʏ.... 🪄
-Yᴏᴜ Cᴀɴ Rᴇɴᴀᴍᴇ & Cʜᴀɴɢᴇ Tʜᴜᴍʙɴᴀɪʟ Oꜰ Δɴʏ Fɪʟᴇ Fᴏʀ <u>FR̊ΞΞ</u>🩵
+I Aᴍ Aɴ Aᴅᴠᴀɴᴄᴇᴅ Aɴᴅ Yᴇᴛ Pᴏᴡᴇʀꜰᴜʟ Rᴇɴᴀᴍᴇ Bᴏᴛ Yᴏᴜ Hᴀᴅ Eᴠᴇʀ Sᴇᴇɴ Pʀᴏʙᴀʙʟʏ.... 🪄
+Yᴏᴜ Cᴀɴ Rᴇɴᴀᴍᴇ & Cʜᴀɴɢᴇ Tʜᴜᴍʙɴᴀɪʟ Oꜰ Aɴʏ Fɪʟᴇ Fᴏʀ <u>Fʀᴇᴇ</u> ✨
 
-<blockquote>Bᴏᴛ Δʟꜱᴏ Sᴜᴩᴩᴏʀᴛ 2ɢʙ+ ꜰɪʟᴇꜱ Δ Wɪᴛʜ ΔҒҒᴏʀᴅᴀʙʟᴇ Pʀɪᴄᴇ 🚨
-</b></blockquote>"""
+<blockquote>Bᴏᴛ Aʟꜱᴏ Sᴜᴩᴩᴏʀᴛ 2ɢʙ+ Fɪʟᴇꜱ A Wɪᴛʜ Aꜰꜰᴏʀᴅᴀʙʟᴇ Pʀɪᴄᴇ Mᴇꜱꜱᴀɢᴇ Oᴡɴᴇʀ Fᴏʀ Iᴛ. 🕯️</b></blockquote>
+Cʟɪᴄᴋ Oɴ Hᴇʟᴩ Tᴏ Kɴᴏᴡ Mᴏʀᴇ... 🎐"""
 
     ABOUT_TXT = """<b>╭───────────⍟
-➥ ᴍy ɴᴀᴍᴇ : {}
+➥ Mʏ ɴᴀᴍᴇ : {}
 ➥ Pʀᴏɢʀᴀᴍᴇʀ : <a href=https://t.me/SyD_Xyz>ꪑ𝘳 𝘴ꪗᦔ 🌐</a> 
 ➥ Fᴏᴜɴᴅᴇʀ ᴏꜰ : <a href=https://t.me/BOT_cracker>B𝚘ᴛ ᑕяΔ¢к℮ґ 🎋</a>
 ➥ Lɪʙʀᴀʀy : <a href=https://t.me/+oej8cujHMFJhNmI9>Cᴏʟʟᴇᴄᴛɪᴏɴ...</a>
-➥ Lᴀɴɢᴜᴀɢᴇ: <a href=https://t.me/+0Zi1FC4ulo8zYzVl>ʙΔᴄᴋ-Uᴩ 💦</a>
-➥ Dᴀᴛᴀ Bᴀꜱᴇ: <a href=https://t.me/+3-nuV_9INIg0MDY1>Dʙ ⚡</a>
+➥ Lᴀɴɢᴜᴀɢᴇ: <a href=https://t.me/+0Zi1FC4ulo8zYzVl>Bᴀᴄᴋ-Uᴩ 💦</a>
 ➥ ᴍʏ ꜱᴇʀᴠᴇʀ : <a href=https://t.me/Mod_Moviez_X>Tɢ 🗯️</a>
 ➥ ᴠᴇʀsɪᴏɴ : v1.0
 ╰───────────────⍟ """
