@@ -95,7 +95,8 @@ Exᴀᴍᴩʟᴇ:- <code> /set_caption 📕 Fɪʟᴇ Nᴀᴍᴇ: {filename}
     META_TXT = """
 ❪ SET CUSTOM METADATA ❫
 ◽ <b><u>Tᴏ Cʜᴀɴɢᴇ Fɪʟᴇ Iɴꜰᴏʀᴍᴀᴛɪᴏɴꜱ </b></u>
-
+<b>•></b> /metadata - Tᴏ ᴛᴜʀɴ ᴏꜰꜰ/ᴏɴ ᴀɴᴅ ꜱᴇᴇ ᴍᴇᴛᴀᴅᴀᴛᴀ
+<b>•></b> /set_metadata - Tᴏ ᴄʜᴀɴɢᴇ ᴍᴇᴛᴅᴀᴛᴀ
 ☞ Fᴏʀ Exᴀᴍᴘʟᴇ:-
 
 ◦ <code> --change-title Powered By:- @ --change-author @ --change-video-title By:- @ --change-audio-title By :- @ --change-subtitle-title Subtitled By :- @ </code>
