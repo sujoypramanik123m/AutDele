@@ -35,7 +35,6 @@ async def cb_handler(client, query: CallbackQuery):
             ]])
         )
     elif data == "help":
-
         await query.message.edit_media(
             InputMediaPhoto(
                 random.choice(Config.PICS),
@@ -44,6 +43,10 @@ async def cb_handler(client, query: CallbackQuery):
             ),
 
             reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("ᴅᴜᴍᴩ ᴄʜᴀɴɴᴇʟ", callback_data="dump")
+            ], [
+                InlineKeyboardButton("ᴍᴇᴛᴀᴅᴀᴛᴀ", callback_data="meta")
+            ], [
                 InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="start"),
                 InlineKeyboardButton("✘ ᴄʟᴏsᴇ", callback_data="close")
                 
@@ -57,6 +60,32 @@ async def cb_handler(client, query: CallbackQuery):
         await query.message.edit_text("<b>Oᴋ✅, ʏᴏᴜ ᴄΔɴ ᴄᴏɴᴛɪɴᴜᴇ ʏᴏᴜʀ ᴩʀᴏᴄᴇꜱꜱ.... Δɴᴅ Tʜᴀɴᴋꜱ ꜰᴏʀ ᴜꜱɪɴɢ ᴏᴜʀ ʙᴏᴛ... 🧭\nPʟᴇᴀꜱᴇ Rᴇ-Fᴏʀᴡᴀʀᴅ ʏᴏᴜʀ Ғɪʟᴇ Tᴏ ᴄᴏɴᴛɪɴᴜᴇ... 🪭</b>")
 
 
+    elif data == "meta":
+        await query.message.edit_media(
+            InputMediaPhoto(
+                random.choice(Config.PICS),
+                Txt.META_TXT,
+            ),
+
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="help"),
+                InlineKeyboardButton("✘ ᴄʟᴏsᴇ", callback_data="close")
+                
+            ]])
+        )
+    elif data == "dump":
+        await query.message.edit_media(
+            InputMediaPhoto(
+                random.choice(Config.PICS),
+                Txt.DUMP_TXT,
+            ),
+
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("ᐊ ʙᴀᴄᴋ", callback_data="help"),
+                InlineKeyboardButton("✘ ᴄʟᴏsᴇ", callback_data="close")
+                
+            ]])
+        )
     elif data == "about":
         await query.message.edit_media(
             InputMediaPhoto(
