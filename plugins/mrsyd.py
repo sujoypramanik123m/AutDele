@@ -299,7 +299,7 @@ async def callback_handler(client: Client, query):
     elif query.data == "screenshot":
         await query.answer()
         await orig.reply(
-            "Choose number of screenshots to generate:",
+            "Cʜᴏᴏꜱᴇ ɴᴜᴍʙᴇʀ ᴏꜰ ꜱᴄʀᴇᴇɴꜱʜᴏᴛꜱ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ:",
             reply_markup=build_even_keyboard(),
             quote=True
         )
