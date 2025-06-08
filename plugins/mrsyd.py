@@ -263,11 +263,15 @@ async def callback_handler(client: Client, query):
                 if os.path.exists(f):
                     os.remove(f)
 
-        twoprocess = await db.get_user_value(user_id, "twoprocess") or False
+        syd = await query.message.reply("Yᴏᴜ ʜᴀᴠᴇ ᴛᴏ ᴡᴀɪᴛ 5 ᴍɪɴᴜᴛᴇꜱ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ ᴏʀ ɢᴏ ᴩᴀʀᴀʟʟᴇʟ..!")
+        await syd.delete()
+        await asyncio.sleep(2)
+        await query.message.reply("Sᴇɴᴅ ꜰɪʟᴇ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ...! 🧊")
+        twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
         if twoprocess:
-            await db.set_user_value(user_id, "twoprocess", False)
+            await db.set_user_value(query.from_user.id, "twoprocess", False)
         else:
-            await db.set_user_value(user_id, "oneprocess", False)
+            await db.set_user_value(query.from_user.id, "oneprocess", False)
 
 
     # ─ 2. Ask for screenshot count
