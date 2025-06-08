@@ -24,36 +24,18 @@ async def start(client, message):
     await db.add_user(client, message)
     button = InlineKeyboardMarkup([[
         InlineKeyboardButton(
-            '⛅ Uᴘᴅᴀᴛᴇꜱ', url='https://t.me/Bot_Cracker'),
+            'ᴜᴘᴅᴀᴛᴇꜱ', url='https://t.me/Bot_Cracker'),
         InlineKeyboardButton(
-            ' Sᴜᴘᴘᴏʀᴛ 🌨️', url='https://t.me/+O1mwQijo79s2MjJl')
+            'ꜱᴜᴘᴘᴏʀᴛ', url='https://t.me/+O1mwQijo79s2MjJl')
     ], [
-        InlineKeyboardButton('❄️ Δʙᴏᴜᴛ', callback_data='about'),
-        InlineKeyboardButton('βᴏᴛꜱ ⚧️', url='https://t.me/Bot_Cracker/17'),
-        InlineKeyboardButton(' Hᴇʟᴩ ❗', callback_data='help')
-    ], [InlineKeyboardButton('⚙️ sᴛΔᴛs ⚙️', callback_data='stats')]])
+        
+        InlineKeyboardButton('ʙᴏᴛꜱ', url='https://t.me/Bot_Cracker/17')
+    ], [InlineKeyboardButton('ᴏᴡɴᴇʀ', user_id=1733124290)]])
     if Config.PICS:
         await message.reply_photo(random.choice(Config.PICS), caption=Txt.START_TXT.format(user.mention), reply_markup=button)
     else:
         await message.reply_text(text=Txt.START_TXT.format(user.mention), reply_markup=button, disable_web_page_preview=True)
         
-@Client.on_message(filters.private & filters.command("season"))
-async def sydson(client, message):
-    mrsyd = await db.get_sydson(message.from_user.id)
-    if mrsyd == "True":
-        button = InlineKeyboardMarkup([[
-          InlineKeyboardButton('Fᴀʟꜱᴇ ✖️', callback_data='season_false')
-          ],[
-          InlineKeyboardButton("✖️ Close", callback_data="close")
-        ]])
-    else:
-        button = InlineKeyboardMarkup([[
-          InlineKeyboardButton('Tʀᴜᴇ ✅', callback_data='season_true')
-          ],[
-          InlineKeyboardButton("✖️ Close", callback_data="close")
-        ]])
-    await message.reply_text(text="Sᴇᴛ ᴛʀᴜᴇ ᴏʀ ꜰᴀʟꜱᴇ, ɪꜰ ꜱᴇᴀꜱᴏɴ ɴᴜᴍʙᴇʀ ɪꜱ ᴛᴏ ʙᴇ ɪɴ ꜰɪʟᴇ ᴇᴠᴇʀʏᴛɪᴍᴇ (ɪꜰ ꜰɪʟᴇ ᴅᴏɴᴛ ʜᴀᴠᴇ ꜱᴇᴀꜱᴏɴ ɴᴏ. ɪᴛ ᴡɪʟʟ ʙᴇ ᴅᴇꜰᴜᴀʟᴛ ᴛᴏ 1) ᴏʀ ꜰᴀʟꜱᴇ ᴛᴏ ᴀᴠᴏɪᴅ ꜱᴇᴀꜱᴏɴ ᴛᴀɢ", reply_markup=button)   
-
 
 @Client.on_message(filters.private & (filters.document | filters.video))
 async def handle_ile(client, message):
