@@ -264,8 +264,8 @@ async def callback_handler(client: Client, query):
                     os.remove(f)
 
         syd = await query.message.reply("Yᴏᴜ ʜᴀᴠᴇ ᴛᴏ ᴡᴀɪᴛ 5 ᴍɪɴᴜᴛᴇꜱ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ ᴏʀ ɢᴏ ᴩᴀʀᴀʟʟᴇʟ..!")
-        await syd.delete()
         await asyncio.sleep(2)
+        await syd.delete()
         await query.message.reply("Sᴇɴᴅ ꜰɪʟᴇ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ...! 🧊")
         twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
         if twoprocess:
