@@ -183,6 +183,21 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             print("Progress update failed:", e)
 
 # ── FFmpeg helpers ─────────────────────────────────────────────────────────────
+
+
+async def ffmpeg_sample_async(src: str, start: int, length: int, dst: str):
+    cmd = [
+        "ffmpeg", "-ss", str(start), "-i", src, "-t", str(length),
+        "-metadata", "title=⭐ New Title ⭐",
+        "-c:v", "libx264", "-c:a", "aac",
+        "-preset", "ultrafast", "-y", dst
+    ]
+    process = await asyncio.create_subprocess_exec(
+        *cmd,
+        stdout=asyncio.subprocess.DEVNULL,
+        stderr=asyncio.subprocess.DEVNULL
+    )
+    await process.communicate()
 def ffmpeg_sample(src: str, start: int, length: int, dst: str):
     cmd = [
         "ffmpeg", "-ss", str(start), "-i", src, "-t", str(length),
@@ -238,7 +253,7 @@ async def callback_handler(client: Client, query):
             )
             await progress_msg.edit("Gᴇɴᴇʀᴀᴛɪɴɢ...")
             start = random.randint(0, max(0, duration - 30))
-            ffmpeg_sample(full_path, start, 30, sample_path)
+            await ffmpeg_sample_async(full_path, start, 30, sample_path)
             await orig.reply_video(
                 video=sample_path,
                 caption=f"Sᴀᴍᴩʟᴇ 30ꜱ (Fʀᴏᴍ {start}s)",
