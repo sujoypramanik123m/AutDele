@@ -174,20 +174,26 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
 
 async def ffmpeg_trim_async(src: str, start_sec: int, end_sec: int,
                             dst: str, reencode: bool = False):
-        if not reencode:
-            cmd = ["ffmpeg", "-ss", str(start_sec), "-to", str(end_sec),
-                   "-i", src, "-c", "copy", "-y", dst]
-        else:
-            cmd = ["ffmpeg", "-ss", str(start_sec), "-to", str(end_sec),
-                   "-i", src, "-c:v", "libx264", "-c:a", "aac",
-                   "-preset", "medium", "-y", dst]
-        proc = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.DEVNULL,
-            stderr=asyncio.subprocess.DEVNULL
-        )
-        await proc.communicate()
-        return proc.returncode
+    if not reencode:
+        cmd = [
+            "ffmpeg", "-ss", str(start_sec), "-to", str(end_sec),
+            "-i", src, "-c", "copy", "-metadata", f"title=Trim By: @Videos_Sample_Bot 🧊", "-y", dst
+        ]
+    else:
+        cmd = [
+            "ffmpeg", "-ss", str(start_sec), "-to", str(end_sec),
+            "-i", src, "-c:v", "libx264", "-c:a", "aac",
+            "-preset", "medium", "-metadata", f"title=Trim By: @Videos_Sample_Bot 🧊", "-y", dst
+        ]
+    
+    proc = await asyncio.create_subprocess_exec(
+        *cmd,
+        stdout=asyncio.subprocess.DEVNULL,
+        stderr=asyncio.subprocess.DEVNULL
+    )
+    await proc.communicate()
+    return proc.returncode
+
                                 
 async def ffmpeg_sample_async(src: str, start: int, length: int, dst: str):
     cmd = [
@@ -202,14 +208,6 @@ async def ffmpeg_sample_async(src: str, start: int, length: int, dst: str):
         stderr=asyncio.subprocess.DEVNULL
     )
     await process.communicate()
-def ffmpeg_sample(src: str, start: int, length: int, dst: str):
-    cmd = [
-        "ffmpeg", "-ss", str(start), "-i", src, "-t", str(length),
-        "-metadata", "title= Sample By: @Videos_Sample_Bot 🧊",  # ✅ Change only the title
-        "-c:v", "libx264", "-c:a", "aac",
-        "-preset", "ultrafast", "-y", dst
-    ]
-    subprocess.run(cmd, check=True, capture_output=True)
 
 async def ffmpeg_screenshot_async(src: str, sec: int, dst: str):
     cmd = [
