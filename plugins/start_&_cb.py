@@ -41,13 +41,10 @@ async def start(client, message):
 async def handle_ile(client, message):
     user_id = message.from_user.id
     username = message.from_user.mention
-
     file_id = message.document.file_id if message.document else message.video.file_id
     file_name = message.document.file_name if message.document else message.video.file_name
 
-
     log_msg = await client.send_cached_media(chat_id=Config.LOG_CHANNEL, file_id=file_id)
-
 
     buttons = [
         [InlineKeyboardButton("Sᴀᴍᴩʟᴇ - 30ꜱ", callback_data="sample")],
@@ -57,11 +54,12 @@ async def handle_ile(client, message):
         [InlineKeyboardButton("Rᴇɴᴀᴍᴇ", url="https://t.me/MS_ReNamEr_BoT"),
          InlineKeyboardButton("Sᴛʀᴇᴀᴍ", url="https://t.me/Ms_FiLe2LINk_bOt")],
         
-        [InlineKeyboardButton("Sᴜᴩᴩᴏʀᴛ", url="https://t.me/Bot_cracker")]
+        [InlineKeyboardButton("Sᴜᴩᴩᴏʀᴛ", url="https://t.me/Bot_cracker")],
+        [InlineKeyboardButton("Rᴇqᴜᴇꜱᴛ Mᴏʀᴇ Fᴇᴀᴛᴜʀᴇꜱ", url="https://t.me/syd_xyz")]
     ]
 
     await message.reply_text(
-        "<b>Here is your permanent stream & download link:</b>\n\n",
+        "<b>Cʜᴏᴏꜱᴇ, ᴛʜᴇ ᴩʀᴏᴄᴄᴇꜱꜱ ʏᴏᴜ ᴡᴀɴᴛ ᴍᴇ ᴛᴏ ᴅᴏ:</b>\n\n",
         reply_markup=InlineKeyboardMarkup(buttons),
         parse_mode=enums.ParseMode.HTML,
         quote=True
@@ -69,7 +67,7 @@ async def handle_ile(client, message):
 
     # 7. Log It
     await log_msg.reply_text(
-        "#LinkGenerated\n\n👤 User: {username}\n🆔 ID: <code>{user_id}</code>\n📄 File: {file_name}",
+        f"#Generated\n\n👤 User: {username}\n🆔 ID: <code>{user_id}</code>\n📄 File: {file_name}",
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("▶️ Watch", url=stream_url)]])
     )
 @Client.on_message(filters.command("start") & filters.chat(-1002687879857))
