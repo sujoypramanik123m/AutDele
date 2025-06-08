@@ -80,29 +80,32 @@ async def ensure_member(client, msg):
 
 async def handle_process_flags(client, query):
     user_id = query.from_user.id
-    settings = await db.get_setings(user_id)
-    oneprocess = settings.get('oneprocess', False)
-    twoprocess = settings.get('twoprocess', False)
 
-    # If both flags are True, user is in two sessions already
+    # ── read current flags (None → False) ────────────────────────────────────
+    oneprocess = await db.get_user_value(user_id, "oneprocess") or False
+    twoprocess = await db.get_user_value(user_id, "twoprocess") or False
+
+    # already running two jobs
     if oneprocess and twoprocess:
         await query.message.reply_text(
-            "⚠️ You're already in **two active sessions**. Please wait for them to finish before starting a new one.",
+            "⚠️ You're already in **two active sessions**.\n"
+            "Please wait until they finish.",
             quote=True
         )
         return False
 
-    # First process is already running
+    # first job is active → allow second only if member
     if oneprocess:
         if await ensure_member(client, query):
             if not twoprocess:
-                await db.set_user_settings(user_id, {'twoprocess': True})
+                await db.set_user_value(user_id, "twoprocess", True)
             return True
-        return False  # ensure_member already sends a message
+        return False  # ensure_member already sent join prompt
 
-    # Start first session
-    await db.set_user_settings(user_id, {'oneprocess': True})
+    # no job yet → start first one
+    await db.set_user_value(user_id, "oneprocess", True)
     return True
+
 
 
 def build_even_keyboard() -> InlineKeyboardMarkup:
