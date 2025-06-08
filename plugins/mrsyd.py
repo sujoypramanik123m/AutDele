@@ -28,25 +28,20 @@ async def ensure_member(client, msg):
     Otherwise sends a join-prompt and returns False.
     Works with both Message and CallbackQuery objects.
     """
-    await client.send_message(msg.from_user.id, "callllllllllllll3")
-                                  # CallbackQuery
+    
     user_id   = msg.from_user.id
     chat_id   = msg.message.chat.id
     replyable = msg.message          # reply to the msg that contains buttons
 
     not_joined = []
-
-    await client.send_message(user_id, "hhhhh3")
     for ch in SYD_CHANNELS:
         try:
             member = await client.get_chat_member(ch, user_id)
             if member.status in {"kicked", "left"}:
                 not_joined.append(ch)
         except UserNotParticipant:
-            await client.send_message(user_id, "hhhhh3")
             not_joined.append(ch)
         except Exception as e:
-            await client.send_message(user_id, f"hhhhh3 {e}")
             # channel is private / bot not admin etc. treat as not joined
             not_joined.append(ch)
 
@@ -85,8 +80,6 @@ async def handle_process_flags(client, query):
     oneprocess = await db.get_user_value(user_id, "oneprocess") or False
     twoprocess = await db.get_user_value(user_id, "twoprocess") or False
 
-    # already running two jobs
-    await client.send_message(user_id, "33")
     if oneprocess and twoprocess:
         await query.message.reply_text(
             "⚠️ You're already in **two active sessions**.\n"
@@ -99,7 +92,6 @@ async def handle_process_flags(client, query):
     if oneprocess:
         await client.send_message(user_id, "ttt33")
         if await ensure_member(client, query):
-            await client.send_message(user_id, "3deuj3")
             if not twoprocess:
                 await client.send_message(user_id, "jbh33")
                 await db.set_user_value(user_id, "twoprocess", True)
