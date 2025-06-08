@@ -60,8 +60,8 @@ async def ensure_member(client, msg):
     join_rows.append([InlineKeyboardButton("☑ ᴊᴏɪɴᴇᴅ ☑", callback_data="check_subscription")])
 
     text = (
-        "**Sᴏʀʀʏ, ʏᴏᴜ ᴍᴜꜱᴛ ᴊᴏɪɴ ᴏᴜʀ ᴄʜᴀɴɴᴇʟꜱ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ꜰᴇᴀᴛᴜʀᴇ.**\n"
-        "Pʟᴇᴀꜱᴇ ᴊᴏɪɴ ᴀɴᴅ ᴘʀᴇꜱꜱ **“ᴊᴏɪɴᴇᴅ”** ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ ⚡"
+        "**ꜱᴏʀʀʏ, ᴅᴜᴇ ᴛᴏ ᴏᴠᴇʀʟᴏᴀᴅ ᴜꜱᴇʀꜱ ᴊᴏɪɴᴇᴅ ɪɴ ᴏᴜʀ ᴄʜᴀɴɴᴇʟꜱ ᴄᴀɴ ᴜꜱᴇ ᴛʜɪꜱ ꜰᴇᴀᴛᴜʀᴇ.**\n"
+        "ᴩʟᴇᴀꜱᴇ ᴊᴏɪɴ ᴀɴᴅ ᴘʀᴇꜱꜱ **ᴊᴏɪɴᴇᴅ** ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.."
     )
 
     await reply_to_msg.reply_text(
@@ -82,8 +82,8 @@ async def handle_process_flags(client, query):
 
     if oneprocess and twoprocess:
         await query.message.reply_text(
-            "⚠️ You're already in **two active sessions**.\n"
-            "Please wait until they finish.",
+            "⚠️ Yᴏᴜ'ʀᴇ ᴀʟʀᴇᴀᴅʏ ɪɴ **ᴛᴡᴏ ᴀᴄᴛɪᴠᴇ ꜱᴇꜱꜱɪᴏɴꜱ**.\n"
+            "Pʟᴇᴀꜱᴇ ᴡᴀɪᴛ ᴜɴᴛɪʟʟ ᴛʜᴇʏ ꜰɪɴɪꜱʜ ᴏʀ ɢᴇᴛ ᴩʀᴇᴍɪᴜᴍ.",
             quote=True
         )
         return False
@@ -192,7 +192,7 @@ async def ffmpeg_trim_async(src: str, start_sec: int, end_sec: int,
 async def ffmpeg_sample_async(src: str, start: int, length: int, dst: str):
     cmd = [
         "ffmpeg", "-ss", str(start), "-i", src, "-t", str(length),
-        "-metadata", "title=⭐ New Title ⭐",
+        "-metadata", "title= Sample By: @Videos_Sample_Bot 🧊",
         "-c:v", "libx264", "-c:a", "aac",
         "-preset", "ultrafast", "-y", dst
     ]
