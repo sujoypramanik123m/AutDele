@@ -26,11 +26,11 @@ async def start(client, message):
         InlineKeyboardButton(
             'ᴜᴘᴅᴀᴛᴇꜱ', url='https://t.me/Bot_Cracker'),
         InlineKeyboardButton(
-            'ꜱᴜᴘᴘᴏʀᴛ', url='https://t.me/+O1mwQijo79s2MjJl')
+            'ꜱᴜᴘᴘᴏʀᴛ', url='https://t.me/+O1mwQijo79s2MjJl')],
+        [InlineKeyboardButton('ᴏᴡɴᴇʀ', user_id=1733124290)
     ], [
-        
-        InlineKeyboardButton('ʙᴏᴛꜱ', url='https://t.me/Bot_Cracker/17')
-    ], [InlineKeyboardButton('ᴏᴡɴᴇʀ', user_id=1733124290)]])
+        InlineKeyboardButton('ʙᴏᴛꜱ', url='https://t.me/Bot_Cracker/17'),
+        InlineKeyboardButton('ᴜᴩᴅᴀᴛᴇꜱ', url='https://t.me/Mod_Moviez_X')])
     if Config.PICS:
         await message.reply_photo(random.choice(Config.PICS), caption=Txt.START_TXT.format(user.mention), reply_markup=button)
     else:
