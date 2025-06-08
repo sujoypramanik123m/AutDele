@@ -86,6 +86,7 @@ async def handle_process_flags(client, query):
     twoprocess = await db.get_user_value(user_id, "twoprocess") or False
 
     # already running two jobs
+    await client.send_message(user_id, "33")
     if oneprocess and twoprocess:
         await query.message.reply_text(
             "⚠️ You're already in **two active sessions**.\n"
@@ -96,10 +97,14 @@ async def handle_process_flags(client, query):
 
     # first job is active → allow second only if member
     if oneprocess:
+        await client.send_message(user_id, "ttt33")
         if await ensure_member(client, query):
+            await client.send_message(user_id, "3deuj3")
             if not twoprocess:
+                await client.send_message(user_id, "jbh33")
                 await db.set_user_value(user_id, "twoprocess", True)
             return True
+            await client.send_message(user_id, "33kkk")
         return False  # ensure_member already sent join prompt
 
     # no job yet → start first one
