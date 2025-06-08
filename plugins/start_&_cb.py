@@ -48,17 +48,15 @@ async def handle_ile(client, message):
 
     log_msg = await client.send_cached_media(chat_id=Config.LOG_CHANNEL, file_id=file_id)
 
-    # 4. Generate stream/download URLs
-    
- 
 
-
-    # 6. Send Link Buttons
     buttons = [
         [InlineKeyboardButton("Sᴀᴍᴩʟᴇ - 30ꜱ", callback_data="sample")],
         [InlineKeyboardButton("Gᴇɴᴇʀᴀᴛᴇ Sᴄʀᴇᴇɴꜱʜᴏᴛ", callback_data="screenshot")],
         [InlineKeyboardButton("Tʀɪᴍ", callback_data="trim")],
         [InlineKeyboardButton("Exᴛʀᴀᴄᴛ Aᴜᴅɪᴏ", callback_data="extract_audio")],
+        [InlineKeyboardButton("Rᴇɴᴀᴍᴇ", url="https://t.me/MS_ReNamEr_BoT")],
+        [InlineKeyboardButton("Sᴛʀᴇᴀᴍ", url="https://t.me/Ms_FiLe2LINk_bOt")],
+        
         [InlineKeyboardButton("🆘 Support", url="https://t.me/YourSupportGroup")]
     ]
 
