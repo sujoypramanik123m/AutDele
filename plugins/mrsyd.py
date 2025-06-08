@@ -39,14 +39,17 @@ async def ensure_member(client, msg):
 
     not_joined = []
 
+    await client.send_message(user_id, "hhhhh3")
     for ch in SYD_CHANNELS:
         try:
             member = await client.get_chat_member(ch, user_id)
             if member.status in {"kicked", "left"}:
                 not_joined.append(ch)
         except UserNotParticipant:
+            await client.send_message(user_id, "hhhhh3")
             not_joined.append(ch)
-        except Exception:
+        except Exception as e:
+            await client.send_message(user_id, f"hhhhh3 {e}")
             # channel is private / bot not admin etc. treat as not joined
             not_joined.append(ch)
 
