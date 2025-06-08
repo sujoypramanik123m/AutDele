@@ -430,7 +430,7 @@ async def callback_handler(client: Client, query):
         start_sec = parse_hms(start_msg.text)
         await orig.reply(f"Sᴛᴀʀᴛ : {start_sec}")
         if start_sec is None:
-            return await start_msg.reply("Invalid time format. Trim cancelled.", quote=True)
+            return await start_msg.reply("Iɴᴠᴀʟɪᴅ ᴛɪᴍᴇ ꜰᴏʀᴍᴀᴛ (ᴜꜱᴇ '0:00' ʟɪᴋᴇ). Tʀɪᴍ ᴄᴀɴᴄᴇʟʟᴇᴅ.", quote=True)
 
         # Ask for end time
         prompt2 = await start_msg.reply(
@@ -467,7 +467,7 @@ async def callback_handler(client: Client, query):
                 message=media,
                 file_name=full_path,
                 progress=progress_for_pyrogram,
-                progress_args=("__Downloading…__", ack, time.time())
+                progress_args=("__Dᴏᴡɴʟᴏᴀᴅɪɴɢ…__", ack, time.time())
             )
 
             # First try a fast copy
@@ -480,7 +480,7 @@ async def callback_handler(client: Client, query):
 
             await orig.reply_video(
                 video=trimmed_path,
-                caption=f"✂️ Trimmed segment {start_msg.text} → {end_msg.text}",
+                caption=f"Tʀɪᴍᴍᴇᴅ ꜰʀᴏᴍ {start_msg.text} ᴛᴏ {end_msg.text}",
                 quote=True
             )
         except Exception as e:
