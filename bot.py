@@ -6,6 +6,7 @@ from pyrogram import Client, __version__
 from pyrogram.raw.all import layer
 from config import Config
 from aiohttp import web
+from helper.database import db
 from plugins.web_support import web_server
 from pytz import timezone
 from datetime import datetime
@@ -66,6 +67,12 @@ class Bot(Client):
                 await self.send_message(id, f"**__{me.first_name}  Iꜱ Sᴛᴀʀᴛᴇᴅ.....✨️__**")
             except:
                 pass
+
+        all_users = await db.get_all_users()
+        async for user in all_users:
+                user_id = user["_id"]
+                await db.set_user_value(user_id, "oneprocess", False)
+                await db.set_user_value(user_id, "twoprocess", False)
 
         if Config.LOG_CHANNEL:
             try:
