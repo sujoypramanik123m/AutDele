@@ -254,12 +254,12 @@ async def callback_handler(client: Client, query):
         sample_path = full_path.replace(".mp4", "_@GetTGlinks_sample.mp4")
 
         try:
-            progress_msg = await query.message.reply("📥 Starting download...", quote=True)
+            progress_msg = await query.message.reply("Sᴛᴀʀᴛɪɴɢ ᴅᴏᴡɴʟᴏᴀᴅ...", quote=True)
             await client.download_media(
                 message=media,
                 file_name=full_path,
                 progress=progress_for_pyrogram,
-                progress_args=("__Downloading…__", progress_msg, time.time())
+                progress_args=("__Dᴏᴡɴʟᴏᴀᴅɪɴɢ…__", progress_msg, time.time())
             )
             await progress_msg.edit("Gᴇɴᴇʀᴀᴛɪɴɢ...")
             start = random.randint(0, max(0, duration - 30))
@@ -299,7 +299,7 @@ async def callback_handler(client: Client, query):
     elif query.data == "screenshot":
         await query.answer()
         await orig.reply(
-            "🖼 Choose number of screenshots to generate:",
+            "Choose number of screenshots to generate:",
             reply_markup=build_even_keyboard(),
             quote=True
         )
