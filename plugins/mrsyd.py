@@ -199,9 +199,17 @@ def ffmpeg_sample(src: str, start: int, length: int, dst: str):
     ]
     subprocess.run(cmd, check=True, capture_output=True)
 
-def ffmpeg_screenshot(src: str, sec: int, dst: str):
-    cmd = ["ffmpeg", "-ss", str(sec), "-i", src, "-vframes", "1", "-q:v", "2", "-y", dst]
-    subprocess.run(cmd, check=True, capture_output=True)
+async def ffmpeg_screenshot_async(src: str, sec: int, dst: str):
+    cmd = [
+        "ffmpeg", "-ss", str(sec), "-i", src,
+        "-vframes", "1", "-q:v", "2", "-y", dst
+    ]
+    proc = await asyncio.create_subprocess_exec(
+        *cmd,
+        stdout=asyncio.subprocess.DEVNULL,
+        stderr=asyncio.subprocess.DEVNULL
+    )
+    await proc.communicate()
 
 # ── main callback handler ──────────────────────────────────────────────────────
 @Client.on_callback_query()
@@ -309,7 +317,7 @@ async def callback_handler(client: Client, query):
 
             for idx, ts in enumerate(timestamps, start=1):
                 shot_path = full_path.replace(".mp4", f"_s{idx}.jpg")
-                ffmpeg_screenshot(full_path, ts, shot_path)
+                await ffmpeg_screenshot_async(full_path, ts, shot_path)
                 paths.append(shot_path)
                 media_group.append(InputMediaPhoto(
                     media=shot_path,
@@ -347,6 +355,7 @@ async def callback_handler(client: Client, query):
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
             full_path = tmp.name
         audio_path = full_path.replace(".mp4", "_@GetTGlinks.m4a")
+        audio_path = full_path.replace(".mkv", "_@GetTGlinks.m4a")
 
         try:
             # download with progress
@@ -432,7 +441,7 @@ async def callback_handler(client: Client, query):
         ack = await end_msg.reply("📥 Downloading for trim…", quote=True)
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
             full_path = tmp.name
-        trimmed_path = full_path.replace(".mp4", "_trimmed.mp4")
+        trimmed_path = full_path.replace(".mp4", "_@GetTGlinks_trim.mp4")
         try:
             await client.download_media(
                 message=media,
