@@ -60,6 +60,15 @@ class Database:
     async def set_dump(self, id, dump: int):
         await self.col.update_one({'_id': int(id)}, {'$set': {'dump': int(dump)}})
 
+    async def get_user_value(self, user_id, key):
+        user = await self.col.find_one({"_id": int(user_id)})
+        if user and key in user:
+            return user[key]
+        return None
+
+    async def set_user_value(self, user_id, key, value):
+        await self.col.update_one({"_id": int(user_id)}, {"$set": {key: value}})
+
     async def get_dump(self, id):
         user = await self.col.find_one({'_id': int(id)})
         return user.get('dump', int(id))   
