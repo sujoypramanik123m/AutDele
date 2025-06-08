@@ -29,14 +29,10 @@ async def ensure_member(client, msg):
     Works with both Message and CallbackQuery objects.
     """
     await client.send_message(msg.from_user.id, "callllllllllllll3")
-    if hasattr(msg, "from_user"):         # Message
-        user_id   = msg.from_user.id
-        chat_id   = msg.chat.id
-        replyable = msg
-    else:                                 # CallbackQuery
-        user_id   = msg.from_user.id
-        chat_id   = msg.message.chat.id
-        replyable = msg.message          # reply to the msg that contains buttons
+                                  # CallbackQuery
+    user_id   = msg.from_user.id
+    chat_id   = msg.message.chat.id
+    replyable = msg.message          # reply to the msg that contains buttons
 
     not_joined = []
 
