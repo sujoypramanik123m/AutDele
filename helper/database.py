@@ -32,6 +32,8 @@ class Database:
             sydd=None,
             syddd=None,
             topic=None,
+            oneprocess=False,
+            twoprocess=False,
             dump=int(id),
             sydson="True",
             metadata=False,
