@@ -366,15 +366,14 @@ async def callback_handler(client: Client, query):
                 chat_id=query.from_user.id,
                 timeout=90
             )
-            await orig.reply("3")
         except asyncio.TimeoutError:
             await prompt1.edit("⏰ Timed-out. Trim cancelled.", parse_mode="md")
             return
         except Exception as e:
             await orig.reply(f"Error {e}")
 
-        await orig.reply("3")
         start_sec = parse_hms(start_msg.text)
+        await orig.reply(f"{start_sec}")
         if start_sec is None:
             return await start_msg.reply("❌ Invalid time format. Trim cancelled.", quote=True)
 
