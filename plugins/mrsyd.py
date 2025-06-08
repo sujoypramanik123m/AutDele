@@ -108,6 +108,7 @@ async def handle_process_flags(client, query):
                 await db.set_user_value(user_id, "twoprocess", True)
             return True
             await client.send_message(user_id, "33kkk")
+        await client.send_message(user_id, "ttooo33")
         return False  # ensure_member already sent join prompt
 
     # no job yet → start first one
