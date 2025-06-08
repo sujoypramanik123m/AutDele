@@ -331,7 +331,7 @@ async def callback_handler(client: Client, query):
                 paths.append(shot_path)
                 media_group.append(InputMediaPhoto(
                     media=shot_path,
-                    caption=f"📸 Screenshot {idx}/{count} at {ts}s" if idx == 1 else None
+                    caption=f"Sᴄʀᴇᴇɴꜱʜᴏᴛꜱ {count}" if idx == 1 else None
                 ))
 
             await client.send_media_group(
@@ -339,7 +339,7 @@ async def callback_handler(client: Client, query):
                 media=media_group,
                 reply_to_message_id=orig.id
             )
-
+            await progress_msg.delete()
         except Exception as e:
             await query.message.reply(
                 f"❌ FFmpeg error:\n<code>{e.stderr.decode()}</code>",
@@ -354,7 +354,7 @@ async def callback_handler(client: Client, query):
                     os.remove(p)
 
     elif query.data == "extract_audio":
-        await query.answer("🎧 Extracting audio…", show_alert=False)
+        await query.answer("🎧 Exᴛʀᴀᴄᴛɪɴɢ ᴀᴜᴅɪᴏ…", show_alert=False)
 
         orig = query.message.reply_to_message
         if not orig or not (orig.video or orig.document):
@@ -393,7 +393,7 @@ async def callback_handler(client: Client, query):
 
             await orig.reply_audio(
                 audio=audio_path,
-                caption="🎵 Extracted Audio",
+                caption="Exᴛʀᴀᴄᴛᴇᴅ Aᴜᴅɪᴏ",
                 quote=True
             )
         except Exception as e:
@@ -412,7 +412,7 @@ async def callback_handler(client: Client, query):
     elif query.data == "trim":
        # await query.answer()
         prompt1 = await orig.reply(
-            "Tʀɪᴍ: \nNᴏᴡ ꜱᴇɴᴅ **ꜱᴛᴀʀᴛ ᴛɪᴍᴇ**: \n\nᴇɢ: 0:00:30 (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)",
+            "Tʀɪᴍ: \nNᴏᴡ ꜱᴇɴᴅ **ꜱᴛᴀʀᴛ ᴛɪᴍᴇ**: \n\nᴇɢ: '0:00:30' (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)",
             quote=True
         )
 
@@ -434,7 +434,7 @@ async def callback_handler(client: Client, query):
 
         # Ask for end time
         prompt2 = await start_msg.reply(
-            "Nᴏᴡ ꜱᴇɴᴅ **ᴇɴᴅ ᴛɪᴍᴇ**: \n\nᴇɢ: 1:20:30 (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)", quote=True
+            "Nᴏᴡ ꜱᴇɴᴅ **ᴇɴᴅ ᴛɪᴍᴇ**: \n\nᴇɢ: '1:20:30' (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)", quote=True
         )
         try:
             end_msg = await client.listen(
@@ -509,13 +509,16 @@ async def callback_handler(client: Client, query):
             [InlineKeyboardButton("Gᴇɴᴇʀᴀᴛᴇ Sᴄʀᴇᴇɴꜱʜᴏᴛ", callback_data="screenshot")],
             [InlineKeyboardButton("Tʀɪᴍ", callback_data="trim")],
             [InlineKeyboardButton("Exᴛʀᴀᴄᴛ Aᴜᴅɪᴏ", callback_data="extract_audio")],
-            [InlineKeyboardButton("⚡ Fast Download", url=download_url),
-             InlineKeyboardButton("▶️ Watch Online", url=stream_url)],
-            [InlineKeyboardButton("🆘 Support", url="https://t.me/YourSupportGroup")]
+            [InlineKeyboardButton("Rᴇɴᴀᴍᴇ", url="https://t.me/MS_ReNamEr_BoT"),
+             InlineKeyboardButton("Sᴛʀᴇᴀᴍ", url="https://t.me/Ms_FiLe2LINk_bOt")],
+        
+            [InlineKeyboardButton("Sᴜᴩᴩᴏʀᴛ", url="https://t.me/Bot_cracker")],
+            [InlineKeyboardButton("Rᴇqᴜᴇꜱᴛ Mᴏʀᴇ Fᴇᴀᴛᴜʀᴇꜱ", url="https://t.me/syd_xyz")]
         ]
 
+
         await query.message.reply(
-            "✅ You have access. Choose an action below:",
+            "Cʜᴏᴏꜱᴇ ᴀɴ ᴀᴄᴛɪᴏɴ ʙᴇʟᴏᴡ:",
             reply_markup=InlineKeyboardMarkup(buttons),
             quote=True
         )
