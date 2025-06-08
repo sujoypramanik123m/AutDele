@@ -28,6 +28,7 @@ async def ensure_member(client, msg):
     Otherwise sends a join-prompt and returns False.
     Works with both Message and CallbackQuery objects.
     """
+    await client.send_message(user_id, "callllllllllllll3")
     if hasattr(msg, "from_user"):         # Message
         user_id   = msg.from_user.id
         chat_id   = msg.chat.id
