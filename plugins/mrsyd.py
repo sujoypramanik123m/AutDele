@@ -412,12 +412,11 @@ async def callback_handler(client: Client, query):
     elif query.data == "trim":
        # await query.answer()
         prompt1 = await orig.reply(
-            "✂️ **Trim:**\nSend start time in `m:s` or `h:m:s` format:",
+            "Tʀɪᴍ: \nNᴏᴡ ꜱᴇɴᴅ **ꜱᴛᴀʀᴛ ᴛɪᴍᴇ**: \n\nᴇɢ: 0:00:30 (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)",
             quote=True
         )
 
         try:
-            await orig.reply("3")
             start_msg = await client.listen(
                 chat_id=query.from_user.id,
                 timeout=90
@@ -431,11 +430,11 @@ async def callback_handler(client: Client, query):
         start_sec = parse_hms(start_msg.text)
         await orig.reply(f"Sᴛᴀʀᴛ : {start_sec}")
         if start_sec is None:
-            return await start_msg.reply("❌ Invalid time format. Trim cancelled.", quote=True)
+            return await start_msg.reply("Invalid time format. Trim cancelled.", quote=True)
 
         # Ask for end time
         prompt2 = await start_msg.reply(
-            "Now send **end time**:", quote=True
+            "Nᴏᴡ ꜱᴇɴᴅ **ᴇɴᴅ ᴛɪᴍᴇ**: \n\nᴇɢ: 1:20:30 (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)", quote=True
         )
         try:
             end_msg = await client.listen(
@@ -443,7 +442,7 @@ async def callback_handler(client: Client, query):
                 timeout=90
             )
         except asyncio.TimeoutError:
-            await prompt2.edit("⏰ Timed-out. Trim cancelled.")
+            await prompt2.edit("ᴛɪᴍᴇ-ᴏᴜᴛ. ᴛʀɪᴍ ᴄᴀɴᴄᴇʟʟᴇᴅ. ᴩʟᴇᴀꜱᴇ ʀᴇꜱᴛᴀʀᴛ ᴀɢᴀɪɴ.")
             return
         id_sec = parse_hms(end_msg.text)
         if end_sec is None:
@@ -498,8 +497,8 @@ async def callback_handler(client: Client, query):
 
     elif query.data == "check_subscription":
         if await ensure_member(client, query):
-            
             await query.message.reply_text("**ᴄʟɪᴄᴋ ᴏɴ ᴩʀᴏᴄᴇꜱꜱ** ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ...!")
+            await query.message.delete()
         else:
             await query.answer("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴊᴏɪɴᴇᴅ ɪɴ ᴀʟʟ, ᴩʟᴇᴀꜱᴇ ᴊᴏɪɴ.... 🎐", show_alert=True)
     elif query.data == "checksub":
