@@ -373,13 +373,13 @@ async def callback_handler(client: Client, query):
             await orig.reply(f"Error {e}")
 
         start_sec = parse_hms(start_msg.text)
-        await orig.reply(f"{start_sec}")
+        await orig.reply(f"Sᴛᴀʀᴛ : {start_sec}")
         if start_sec is None:
             return await start_msg.reply("❌ Invalid time format. Trim cancelled.", quote=True)
 
         # Ask for end time
         prompt2 = await start_msg.reply(
-            "Now send **end time**:", quote=True, parse_mode="md"
+            "Now send **end time**:", quote=True
         )
         try:
             end_msg = await client.listen(
@@ -393,6 +393,7 @@ async def callback_handler(client: Client, query):
         if end_sec is None:
             return await end_msg.reply("❌ Invalid time format. Trim cancelled.", quote=True)
 
+        await orig.reply(f"Eɴᴅ : {end_sec}")
         # Validation
         if end_sec <= start_sec:
             return await end_msg.reply("⚠️ End time must be greater than start time.", quote=True)
