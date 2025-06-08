@@ -68,7 +68,7 @@ async def ensure_member(client, msg):
     await replyable.reply_text(
         text=text,
         reply_markup=InlineKeyboardMarkup(join_rows),
-        quote=True,
+        reply_to=syd,
         disable_web_page_preview=True
     )
     return False
@@ -91,7 +91,7 @@ async def handle_process_flags(client, query):
     # first job is active → allow second only if member
     if oneprocess:
         await client.send_message(user_id, "ttt33")
-        if await ensure_member(client, query):
+        if await ensure_member(client, query, syd):
             if not twoprocess:
                 await client.send_message(user_id, "jbh33")
                 await db.set_user_value(user_id, "twoprocess", True)
@@ -500,11 +500,7 @@ async def callback_handler(client: Client, query):
                 if os.path.exists(p):
                     os.remove(p)
 
-        finally:
-            for p in (full_path, trimmed_path):
-                if os.path.exists(p):
-                    os.remove(p)
-
+        
 
     elif query.data == "check_subscription":
         if await ensure_member(client, query):
