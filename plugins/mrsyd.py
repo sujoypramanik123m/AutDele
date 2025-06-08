@@ -67,6 +67,7 @@ async def ensure_member(client, msg):
     await reply_to_msg.reply_text(
         text=text,
         reply_markup=InlineKeyboardMarkup(join_rows),
+        quote=True,
         disable_web_page_preview=True
     )
     return False
