@@ -201,7 +201,7 @@ async def ffmpeg_sample_async(src: str, start: int, length: int, dst: str):
 def ffmpeg_sample(src: str, start: int, length: int, dst: str):
     cmd = [
         "ffmpeg", "-ss", str(start), "-i", src, "-t", str(length),
-        "-metadata", "title=⭐ New Title ⭐",  # ✅ Change only the title
+        "-metadata", "title= Sample By: @Videos_Sample_Bot 🧊",  # ✅ Change only the title
         "-c:v", "libx264", "-c:a", "aac",
         "-preset", "ultrafast", "-y", dst
     ]
@@ -241,7 +241,7 @@ async def callback_handler(client: Client, query):
 
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
             full_path = tmp.name
-        sample_path = full_path.replace(".mp4", "_sample.mp4")
+        sample_path = full_path.replace(".mp4", "_@GetTGlinks_sample.mp4")
 
         try:
             progress_msg = await query.message.reply("📥 Starting download...", quote=True)
@@ -354,7 +354,7 @@ async def callback_handler(client: Client, query):
 
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
             full_path = tmp.name
-        audio_path = full_path.replace(".mp4", ".m4a")
+        audio_path = full_path.replace(".mp4", "_@GetTGlinks.m4a")
 
         try:
             # download with progress
