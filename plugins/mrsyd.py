@@ -28,10 +28,12 @@ async def ensure_member(client, msg):
     Otherwise sends a join-prompt and returns False.
     Works with both Message and CallbackQuery objects.
     """
-    
     user_id   = msg.from_user.id
     chat_id   = msg.message.chat.id
-    replyable = msg.message          # reply to the msg that contains buttons
+    replyable = msg.message
+
+    # Figure out the correct message to reply to
+    reply_to_msg = replyable.reply_to_message or replyable
 
     not_joined = []
     for ch in SYD_CHANNELS:
@@ -41,14 +43,12 @@ async def ensure_member(client, msg):
                 not_joined.append(ch)
         except UserNotParticipant:
             not_joined.append(ch)
-        except Exception as e:
-            # channel is private / bot not admin etc. treat as not joined
-            not_joined.append(ch)
+        except Exception:
+            pass
 
     if not not_joined:
-        return True   # user is OK
+        return True
 
-    # Build per-channel join buttons
     join_rows = [[
         InlineKeyboardButton(
             text=f"✧ Jᴏɪɴ {str(ch).replace('_',' ').title()} ✧",
@@ -56,7 +56,6 @@ async def ensure_member(client, msg):
         )
     ] for ch in not_joined]
 
-    # Extra rows: backup & re-check
     join_rows.append([InlineKeyboardButton("✧ Jᴏɪɴ Bᴀᴄᴋ Uᴩ ✧", url=SYD_BACKUP_LINK)])
     join_rows.append([InlineKeyboardButton("☑ ᴊᴏɪɴᴇᴅ ☑", callback_data="check_subscription")])
 
@@ -65,13 +64,13 @@ async def ensure_member(client, msg):
         "Pʟᴇᴀꜱᴇ ᴊᴏɪɴ ᴀɴᴅ ᴘʀᴇꜱꜱ **“ᴊᴏɪɴᴇᴅ”** ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ ⚡"
     )
 
-    await replyable.reply_text(
+    await reply_to_msg.reply_text(
         text=text,
         reply_markup=InlineKeyboardMarkup(join_rows),
-        reply_to=syd,
         disable_web_page_preview=True
     )
     return False
+
 
 async def handle_process_flags(client, query):
     user_id = query.from_user.id
