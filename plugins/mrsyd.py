@@ -176,7 +176,23 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
 
 # ── FFmpeg helpers ─────────────────────────────────────────────────────────────
 
-
+async def ffmpeg_trim_async(src: str, start_sec: int, end_sec: int,
+                            dst: str, reencode: bool = False):
+        if not reencode:
+            cmd = ["ffmpeg", "-ss", str(start_sec), "-to", str(end_sec),
+                   "-i", src, "-c", "copy", "-y", dst]
+        else:
+            cmd = ["ffmpeg", "-ss", str(start_sec), "-to", str(end_sec),
+                   "-i", src, "-c:v", "libx264", "-c:a", "aac",
+                   "-preset", "medium", "-y", dst]
+        proc = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.DEVNULL,
+            stderr=asyncio.subprocess.DEVNULL
+        )
+        await proc.communicate()
+        return proc.returncode
+                                
 async def ffmpeg_sample_async(src: str, start: int, length: int, dst: str):
     cmd = [
         "ffmpeg", "-ss", str(start), "-i", src, "-t", str(length),
@@ -263,7 +279,7 @@ async def callback_handler(client: Client, query):
             )
             await progress_msg.delete()
 
-        except subprocess.CalledProcessError as e:
+        except Exception as e:
             await query.message.reply(
                 f"❌ FFmpeg error:\n<code>{e.stderr.decode()}</code>",
                 parse_mode=enums.ParseMode.HTML,
@@ -330,7 +346,7 @@ async def callback_handler(client: Client, query):
                 reply_to_message_id=orig.id
             )
 
-        except subprocess.CalledProcessError as e:
+        except Exception as e:
             await query.message.reply(
                 f"❌ FFmpeg error:\n<code>{e.stderr.decode()}</code>",
                 parse_mode=enums.ParseMode.HTML,
@@ -348,17 +364,18 @@ async def callback_handler(client: Client, query):
 
         orig = query.message.reply_to_message
         if not orig or not (orig.video or orig.document):
-            return await query.message.reply("❌ Please reply to a video or audio-supported file.", quote=True)
+            return await query.message.reply(
+                "❌ Please reply to a video or audio-supported file.",
+                quote=True
+            )
 
         media = orig.video or orig.document
 
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
             full_path = tmp.name
         audio_path = full_path.replace(".mp4", "_@GetTGlinks.m4a")
-        audio_path = full_path.replace(".mkv", "_@GetTGlinks.m4a")
 
         try:
-            # download with progress
             await client.download_media(
                 message=media,
                 file_name=full_path,
@@ -366,20 +383,28 @@ async def callback_handler(client: Client, query):
                 progress_args=("__Downloading…__", query.message, time.time())
             )
             await query.message.edit("Gᴇɴᴇʀᴀᴛɪɴɢ ᴀɴᴅ ᴜᴩʟᴏᴀᴅɪɴɢ ᴀᴜᴅɪᴏ")
-            # extract audio
+
             cmd = [
-                "ffmpeg", "-i", full_path, "-vn", "-c:a", "aac", "-b:a", "192k", "-y", audio_path
+                "ffmpeg", "-i", full_path, "-vn",
+                "-c:a", "aac", "-b:a", "192k", "-y", audio_path
             ]
-            subprocess.run(cmd, check=True, capture_output=True)
+            proc = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.PIPE
+            )
+            _, err = await proc.communicate()
+            if proc.returncode != 0:
+                raise RuntimeError(err.decode() or "ffmpeg failed")
 
             await orig.reply_audio(
                 audio=audio_path,
                 caption="🎵 Extracted Audio",
                 quote=True
             )
-        except subprocess.CalledProcessError as e:
+        except Exception as e:
             await query.message.reply(
-                f"❌ FFmpeg error:\n<code>{e.stderr.decode()}</code>",
+                f"❌ FFmpeg error:\n<code>{e}</code>",
                 parse_mode=enums.ParseMode.HTML,
                 quote=True
             )
@@ -387,6 +412,8 @@ async def callback_handler(client: Client, query):
             for f in (full_path, audio_path):
                 if os.path.exists(f):
                     os.remove(f)
+
+
 
     elif query.data == "trim":
        # await query.answer()
@@ -402,7 +429,7 @@ async def callback_handler(client: Client, query):
                 timeout=90
             )
         except asyncio.TimeoutError:
-            await prompt1.edit("⏰ Timed-out. Trim cancelled.", parse_mode="md")
+            await prompt1.edit("⏰ Timed-out. Trim cancelled.")
             return
         except Exception as e:
             await orig.reply(f"Error {e}")
@@ -422,9 +449,9 @@ async def callback_handler(client: Client, query):
                 timeout=90
             )
         except asyncio.TimeoutError:
-            await prompt2.edit("⏰ Timed-out. Trim cancelled.", parse_mode="md")
+            await prompt2.edit("⏰ Timed-out. Trim cancelled.")
             return
-        end_sec = parse_hms(end_msg.text)
+        id_sec = parse_hms(end_msg.text)
         if end_sec is None:
             return await end_msg.reply("❌ Invalid time format. Trim cancelled.", quote=True)
 
@@ -451,33 +478,39 @@ async def callback_handler(client: Client, query):
             )
 
             # First try a fast copy
-            cmd = [
-                "ffmpeg", "-ss", str(start_sec), "-to", str(end_sec),
-                "-i", full_path, "-c", "copy", "-y", trimmed_path
-            ]
-            proc = subprocess.run(cmd, capture_output=True)
-            if proc.returncode != 0:  # fallback re-encode
-                cmd = [
-                    "ffmpeg", "-ss", str(start_sec), "-to", str(end_sec),
-                    "-i", full_path, "-c:v", "libx264", "-c:a", "aac",
-                    "-preset", "medium", "-y", trimmed_path
-                ]
-                subprocess.run(cmd, check=True, capture_output=True)
+            code = await ffmpeg_trim_async(full_path, start_sec, end_sec, trimmed_path)
+            if code != 0:  # fallback to re-encode
+                await ffmpeg_trim_async(
+                    full_path, start_sec, end_sec,
+                    trimmed_path, reencode=True
+                )
 
             await orig.reply_video(
                 video=trimmed_path,
                 caption=f"✂️ Trimmed segment {start_msg.text} → {end_msg.text}",
                 quote=True
             )
-        except subprocess.CalledProcessError as e:
-            await ack.edit(f"❌ FFmpeg error:\n<code>{e.stderr.decode()}</code>",
-                           parse_mode=enums.ParseMode.HTML)
+        except Exception as e:
+            await ack.edit(
+                f"❌ FFmpeg error:\n<code>{e}</code>",
+                parse_mode=enums.ParseMode.HTML
+            )
+        finally:
+            for p in (full_path, trimmed_path):
+                if os.path.exists(p):
+                    os.remove(p)
+
         finally:
             for p in (full_path, trimmed_path):
                 if os.path.exists(p):
                     os.remove(p)
 
 
+    elif query.data == "check_subscription":
+        if await ensure_member(client, query):
+            await query.message.delete()
+        else:
+            await query.answer("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴊᴏɪɴᴇᴅ ɪɴ ᴀʟʟ, ᴩʟᴇᴀꜱᴇ ᴊᴏɪɴ.... 🎐", show_alert=True)
     elif query.data == "checksub":
         await query.answer("🔍 Checking access…", show_alert=False)
 
