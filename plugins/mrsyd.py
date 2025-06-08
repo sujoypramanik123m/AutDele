@@ -213,11 +213,10 @@ async def callback_handler(client: Client, query):
     # ─ 1. 30-second sample
     if query.data == "sample":
         await query.answer("Generating sample…", show_alert=False)
-       # settings = await db.get_setings(query.from_user.id)
-     #   if settings.get('oneprocess'):
-            #
+        proceed = await handle_process_flags(client, query)
+        if not proceed:
+            return
             
-
 
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
             full_path = tmp.name
