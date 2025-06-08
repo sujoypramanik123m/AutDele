@@ -1,7 +1,7 @@
 import math, time, random, os, tempfile, subprocess, asyncio
 from pyrogram import Client, enums, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
-from utils import is_req_subscribed
+
 from info import AUTH_CHANNEL
 # ── helper UI builders ─────────────────────────────────────────────────────────
 from pyrogram.errors import UserNotParticipant
