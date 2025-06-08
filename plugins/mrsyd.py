@@ -252,6 +252,11 @@ async def callback_handler(client: Client, query):
             for f in (full_path, sample_path):
                 if os.path.exists(f):
                     os.remove(f)
+        if twoprocess:
+            await db.set_user_value(user_id, "twoprocess", False)
+        else:
+            await db.set_user_value(user_id, "oneprocess", False)
+
 
     # ─ 2. Ask for screenshot count
     elif query.data == "screenshot":
