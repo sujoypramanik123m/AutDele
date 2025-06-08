@@ -498,7 +498,8 @@ async def callback_handler(client: Client, query):
 
     elif query.data == "check_subscription":
         if await ensure_member(client, query):
-            await query.message.delete()
+            
+            await query.message.reply_text("**ᴄʟɪᴄᴋ ᴏɴ ᴩʀᴏᴄᴇꜱꜱ** ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ...!")
         else:
             await query.answer("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴊᴏɪɴᴇᴅ ɪɴ ᴀʟʟ, ᴩʟᴇᴀꜱᴇ ᴊᴏɪɴ.... 🎐", show_alert=True)
     elif query.data == "checksub":
