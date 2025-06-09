@@ -498,10 +498,8 @@ async def callback_handler(client: Client, query):
     elif query.data == "hardcode":
         await query.answer("🎞 Send subtitle file…", show_alert=False)
 
-        # 1️⃣ prompt user for subtitle
         prompt = await orig.reply(
-            "📄 **Pʟᴇᴀꜱᴇ ꜱᴇɴᴅ ʏᴏᴜʀ ꜱᴜʙᴛɪᴛʟᴇ ꜰɪʟᴇ (ꜱʀᴛ ᴏʀ ᴀꜱꜱ)** "
-            "(`.srt` or `.ass`).", quote=True
+            "📄 **Please send your subtitle file (.srt or .ass).**", quote=True
         )
 
         try:
@@ -512,17 +510,16 @@ async def callback_handler(client: Client, query):
         if not (sub_msg.document and sub_msg.document.file_name.lower().endswith((".srt", ".ass"))):
             return await sub_msg.reply("❌ Send a `.srt` or `.ass` subtitle file.", quote=True)
 
-        # 2️⃣ temp paths
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tv:
             video_path = tv.name
         with tempfile.NamedTemporaryFile(suffix=os.path.splitext(sub_msg.document.file_name)[1], delete=False) as ts:
             sub_path = ts.name
         burn_path = video_path.replace(".mp4", "_hardcoded.mp4")
-        ass_path  = sub_path  # may be replaced if .srt
+        ass_path = sub_path
 
         try:
-            # ⬇ Download media
             prog = await query.message.reply("📥 Downloading video…", quote=True)
+
             await client.download_media(
                 media,
                 file_name=video_path,
@@ -530,10 +527,8 @@ async def callback_handler(client: Client, query):
                 progress_args=("__Downloading…__", prog, time.time())
             )
 
-            # ⬇ Download subtitle
             await client.download_media(sub_msg, file_name=sub_path)
 
-            # 3️⃣ Convert .srt → .ass with styling
             if sub_path.endswith(".srt"):
                 ass_path = sub_path.replace(".srt", ".ass")
                 convert_cmd = ["ffmpeg", "-i", sub_path, ass_path]
@@ -544,7 +539,6 @@ async def callback_handler(client: Client, query):
                 )
                 await proc.communicate()
 
-                # Inject style for white text, black outline, bottom-center
                 style = (
                     "[Script Info]\nScriptType: v4.00+\n\n"
                     "[V4+ Styles]\n"
@@ -557,7 +551,6 @@ async def callback_handler(client: Client, query):
                     f.seek(0)
                     f.write(style + "[Events]\n" + content)
 
-            # 4️⃣ Burn subtitles with watermark
             await prog.edit("🔥 Burning subtitles…")
             duration = getattr(media, "duration", 1) or 1
 
@@ -602,15 +595,6 @@ async def callback_handler(client: Client, query):
 
             await proc.wait()
 
-            # 5️⃣ Check burned file
-            if not os.path.exists(burn_path) or os.stat(burn_path).st_size == 0:
-                return await query.message.reply(
-                    "❌ Error:\n<code>Burned file not created or is empty.</code>",
-                    parse_mode=enums.ParseMode.HTML,
-                    quote=True
-                )
-
-            # 6️⃣ Upload result
             await prog.edit("📤 Uploading hard-subbed video…")
             await orig.reply_video(
                 video=burn_path,
@@ -634,6 +618,7 @@ async def callback_handler(client: Client, query):
                         os.remove(f)
                     except:
                         pass
+
 
 
 
