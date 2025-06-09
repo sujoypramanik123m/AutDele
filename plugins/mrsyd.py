@@ -565,40 +565,50 @@ async def callback_handler(client: Client, query):
             duration = getattr(media, "duration", 1) or 1
 
             # 🔥 burn subs + watermark
-            await prog.edit("Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ…")
+                        # 🔥 burn subs + watermark
+            await prog.edit("🔥 Burning subtitles…")
             burn_cmd = [
                 "ffmpeg", "-i", video_path,
-                "-vf", (
+                "-vf",
+                (
                     f"ass={ass_path},"
                     "drawtext=text='Hard Coded By : @Videos_Sample_Bot':"
                     "fontsize=34:fontcolor=white:bordercolor=black:borderw=2:"
                     "x=20:y=(h-text_h)/2:"
-                    "enable='mod(t\\,1800)<5'"
+                    "enable=mod(t,1800)<5"
                 ),
                 "-c:v", "libx264", "-preset", "medium",
                 "-c:a", "copy", "-y", out_path
             ]
             proc = await asyncio.create_subprocess_exec(
-                *burn_cmd, stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.PIPE
+                *burn_cmd,
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.PIPE
             )
 
             regex = re.compile(r"time=(\d+):(\d+):([\d.]+)")
-            last = time.time()
+            last  = time.time()
             while True:
-                ln = await proc.stderr.readline()
-                if not ln:
+                line = await proc.stderr.readline()
+                if not line:
                     break
-                m = regex.search(ln.decode("utf-8", "ignore"))
+                m = regex.search(line.decode("utf-8", "ignore"))
                 if m:
                     h, m_, s = map(float, m.groups())
-                    pct = min(100, int(((h*3600+m_*60+s)/duration)*100))
+                    pct = min(100, int(((h*3600 + m_*60 + s)/duration)*100))
                     if time.time() - last > 2:
                         try:
                             await prog.edit(f"⏳ Burning… {pct}%")
                             last = time.time()
-                        except:
+                        except:         # message deleted/edited elsewhere
                             pass
-            await proc.wait()
+
+            return_code = await proc.wait()
+
+            # ✅ make sure file exists and is non-zero
+            if return_code != 0 or not os.path.exists(out_path) or os.path.getsize(out_path) == 0:
+                return await prog.edit("❌ FFmpeg failed – subtitle or draw-text syntax error.")
+
 
             # ⬆ upload
             await prog.edit("📤 Uploading result…")
