@@ -374,7 +374,7 @@ async def callback_handler(client: Client, query):
                 message=media,
                 file_name=full_path,
                 progress=progress_for_pyrogram,
-                progress_args=("__Downloading…__", query.message, time.time())
+                progress_args=("__Dᴏᴡɴʟᴏᴀᴅɪɴɢ…__", query.message, time.time())
             )
             await query.message.edit("Gᴇɴᴇʀᴀᴛɪɴɢ ᴀɴᴅ ᴜᴩʟᴏᴀᴅɪɴɢ ᴀᴜᴅɪᴏ")
 
@@ -412,7 +412,7 @@ async def callback_handler(client: Client, query):
     elif query.data == "trim":
        # await query.answer()
         prompt1 = await orig.reply(
-            "Tʀɪᴍ: \nNᴏᴡ ꜱᴇɴᴅ **ꜱᴛᴀʀᴛ ᴛɪᴍᴇ**: \n\nᴇɢ: '0:00:30' (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)",
+            "Tʀɪᴍ: \nNᴏᴡ ꜱᴇɴᴅ **ꜱᴛᴀʀᴛ ᴛɪᴍᴇ**: \n\nᴇɢ: `0:00:30` (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)",
             quote=True
         )
 
@@ -430,11 +430,11 @@ async def callback_handler(client: Client, query):
         start_sec = parse_hms(start_msg.text)
         await orig.reply(f"Sᴛᴀʀᴛ : {start_sec}")
         if start_sec is None:
-            return await start_msg.reply("Iɴᴠᴀʟɪᴅ ᴛɪᴍᴇ ꜰᴏʀᴍᴀᴛ (ᴜꜱᴇ '0:00' ʟɪᴋᴇ). Tʀɪᴍ ᴄᴀɴᴄᴇʟʟᴇᴅ.", quote=True)
+            return await start_msg.reply("Iɴᴠᴀʟɪᴅ ᴛɪᴍᴇ ꜰᴏʀᴍᴀᴛ (ᴜꜱᴇ `0:00` ʟɪᴋᴇ). Tʀɪᴍ ᴄᴀɴᴄᴇʟʟᴇᴅ.", quote=True)
 
         # Ask for end time
         prompt2 = await start_msg.reply(
-            "Nᴏᴡ ꜱᴇɴᴅ **ᴇɴᴅ ᴛɪᴍᴇ**: \n\nᴇɢ: '1:20:30' (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)", quote=True
+            "Nᴏᴡ ꜱᴇɴᴅ **ᴇɴᴅ ᴛɪᴍᴇ**: \n\nᴇɢ: `1:20:30` (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)", quote=True
         )
         try:
             end_msg = await client.listen(
