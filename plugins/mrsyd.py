@@ -524,7 +524,7 @@ async def callback_handler(client: Client, query):
             # ⬇ Download media
             prog = await query.message.reply("📥 Downloading video…", quote=True)
             await client.download_media(
-                media=media,
+                media,
                 file_name=video_path,
                 progress=progress_for_pyrogram,
                 progress_args=("__Downloading…__", prog, time.time())
