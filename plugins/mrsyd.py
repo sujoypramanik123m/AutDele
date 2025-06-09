@@ -577,20 +577,25 @@ async def callback_handler(client: Client, query):
                 duration = 1.0
 
             # 4️⃣ burn subtitles with watermark
+                        # 🔥 4️⃣ burn subtitles with watermark
             await prog.edit("🔥 Burning subtitles…")
+
+            if not os.path.exists(ass_path) or os.stat(ass_path).st_size == 0:
+                raise Exception("Subtitle file is empty or not found.")
+
             burn_cmd = [
-                "ffmpeg", "-i", video_path,
-                "-vf", (
-                    f"ass={ass_path},"
-                    "drawtext=text='Hard Coded By : @Videos_Sample_Bot':"
-                    "fontsize=34:fontcolor=white:bordercolor=black:borderw=2:"
-                    "x=20:y=(h-text_h)/2:enable='mod(t,1800)<5'"
-                ),
-                "-c:v", "libx264", "-preset", "medium", "-c:a", "copy", "-y", burn_path
+                "ffmpeg", "-hide_banner", "-loglevel", "error",
+                "-i", video_path,
+                "-vf", f"ass='{ass_path}',drawtext=text='Hard Coded By : @Videos_Sample_Bot':"
+                       "fontsize=34:fontcolor=white:bordercolor=black:borderw=2:"
+                       "x=20:y=(h-text_h)/2:enable='mod(t\\,1800)<5'",
+                "-c:v", "libx264", "-preset", "medium", "-c:a", "copy",
+                "-y", burn_path
             ]
+
             proc = await asyncio.create_subprocess_exec(
                 *burn_cmd,
-                stdout=asyncio.subprocess.DEVNULL,
+                stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE
             )
 
@@ -601,7 +606,8 @@ async def callback_handler(client: Client, query):
                 if not line:
                     break
 
-                match = pattern.search(line.decode("utf-8", errors="ignore"))
+                decoded = line.decode("utf-8", errors="ignore")
+                match = pattern.search(decoded)
                 if match:
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
@@ -615,6 +621,11 @@ async def callback_handler(client: Client, query):
                             pass
 
             await proc.wait()
+
+            # ✅ Check output exists and non-zero
+            if not os.path.exists(burn_path) or os.stat(burn_path).st_size == 0:
+                raise Exception("Burned file not created or is empty.")
+
 
             # 5️⃣ upload result with progress
             await prog.edit("📤 Uploading hard-subbed video…")
