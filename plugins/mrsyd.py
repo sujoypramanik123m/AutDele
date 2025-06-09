@@ -533,19 +533,36 @@ async def callback_handler(client: Client, query):
 
             # convert .srt → .ass if needed
             if sub_path.endswith(".srt"):
-                ass_path = sub_path.replace(".srt", ".ass")
-                await asyncio.create_subprocess_exec("ffmpeg", "-i", sub_path, ass_path)
-                style = (
-                    "[Script Info]\n\n[V4+ Styles]\n"
-                    "Format: Name,Fontname,Fontsize,PrimaryColour,OutlineColour,"
-                    "BorderStyle,Outline,Shadow,Alignment\n"
-                    "Style: Default,Arial,50,&H00FFFFFF,&H00000000,1,2,0,2\n\n"
-                    "[Events]\nFormat: Layer, Start, End, Style, Text\n"
-                )
-                with open(ass_path, "r+", encoding="utf-8") as f:
-                    body = f.read()
-                    f.seek(0)
-                    f.write(style + body)
+				ass_path = sub_path.replace(".srt", ".ass")
+
+				# convert .srt to .ass using ffmpeg
+				convert_proc = await asyncio.create_subprocess_exec(
+					"ffmpeg", "-i", sub_path, ass_path,
+					stdout=asyncio.subprocess.DEVNULL,
+					stderr=asyncio.subprocess.DEVNULL
+				)
+				await convert_proc.communicate()
+
+				# check if .ass file was successfully created
+				if not os.path.exists(ass_path):
+					return await query.message.reply(
+						"❌ Failed to convert `.srt` to `.ass`. Make sure the subtitle is valid.",
+						quote=True
+					)
+
+				# add subtitle styling (white text, black border, bottom center)
+				style = (
+					"[Script Info]\n\n[V4+ Styles]\n"
+					"Format: Name,Fontname,Fontsize,PrimaryColour,OutlineColour,"
+					"BorderStyle,Outline,Shadow,Alignment\n"
+					"Style: Default,Arial,48,&H00FFFFFF,&H00000000,1,2,0,2\n\n"
+					"[Events]\nFormat: Layer, Start, End, Style, Text\n"
+				)
+				with open(ass_path, "r+", encoding="utf-8") as f:
+					content = f.read()
+					f.seek(0)
+					f.write(style + content)
+
 
             # video duration for progress
             duration = getattr(media, "duration", 1) or 1
