@@ -539,7 +539,7 @@ async def callback_handler(client: Client, query):
                     "[Script Info]\n\n[V4+ Styles]\n"
                     "Format: Name,Fontname,Fontsize,PrimaryColour,OutlineColour,"
                     "BorderStyle,Outline,Shadow,Alignment\n"
-                    "Style: Default,Arial,48,&H00FFFFFF,&H00000000,1,2,0,2\n\n"
+                    "Style: Default,Arial,50,&H00FFFFFF,&H00000000,1,2,0,2\n\n"
                     "[Events]\nFormat: Layer, Start, End, Style, Text\n"
                 )
                 with open(ass_path, "r+", encoding="utf-8") as f:
@@ -551,7 +551,7 @@ async def callback_handler(client: Client, query):
             duration = getattr(media, "duration", 1) or 1
 
             # 🔥 burn subs + watermark
-            await prog.edit("🔥 Burning subtitles…")
+            await prog.edit("Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ…")
             burn_cmd = [
                 "ffmpeg", "-i", video_path,
                 "-vf", (
