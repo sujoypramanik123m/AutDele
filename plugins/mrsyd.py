@@ -1,4 +1,4 @@
-import math, time, random, os, tempfile, asyncio
+import math, time, random, os, tempfile, asyncioasyncio, re
 from pyrogram import Client, enums, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from helper.database import db
@@ -571,9 +571,34 @@ async def callback_handler(client: Client, query):
             proc = await asyncio.create_subprocess_exec(
                 *burn_cmd,
                 stdout=asyncio.subprocess.DEVNULL,
-                stderr=asyncio.subprocess.DEVNULL
+                stderr=asyncio.subprocess.PIPE
             )
-            await proc.communicate()
+
+            pattern = re.compile(r"time=(\d+):(\d+):([\d.]+)")
+            last_update = time.time()
+            percent_msg = "⏳ Burning subtitles: {progress}%"
+
+            while True:
+                line = await proc.stderr.readline()
+                if not line:
+                    break
+
+                match = pattern.search(line.decode("utf-8", errors="ignore"))
+                if match:
+                    h, m, s = map(float, match.groups())
+                    elapsed = h * 3600 + m * 60 + s
+                    progress = int((elapsed / duration) * 100)
+
+                    # Update message every ~3s
+                    if time.time() - last_update > 3:
+                        try:
+                            await prog.edit_text(percent_msg.format(progress=progress))
+                            last_update = time.time()
+                        except:
+                            pass
+
+            await proc.wait()
+
 
             # 5️⃣ upload result with progress
             await prog.edit("📤 Uploading hard-subbed video…")
