@@ -500,85 +500,93 @@ async def callback_handler(client: Client, query):
 
         # 1️⃣ prompt user for subtitle
         prompt = await orig.reply(
-            "📄 **Pʟᴇᴀꜱᴇ ꜱᴇɴᴅ ʏᴏᴜʀ ꜱᴜʙᴛɪᴛʟᴇ ꜰɪʟᴇ** "
+            "📄 **Pʟᴇᴀꜱᴇ ꜱᴇɴᴅ ʏᴏᴜʀ ꜱᴜʙᴛɪᴛʟᴇ ꜰɪʟᴇ (ꜱʀᴛ ᴏʀ ᴀꜱꜱ)** "
             "(`.srt` or `.ass`).", quote=True
         )
 
         try:
-            sub_msg = await client.listen(chat_id=query.from_user.id, timeout=90)
+            sub_msg = await client.listen(
+                chat_id=query.from_user.id,
+                timeout=90
+            )
         except asyncio.TimeoutError:
-            return await prompt.edit("⏰ Timed-out. Cancelled.")
+            await prompt.edit("⏰ Timed-out. Hard-code cancelled.")
+            return
 
-        if not (sub_msg.document and sub_msg.document.file_name.lower().endswith((".srt", ".ass"))):
-            return await sub_msg.reply("❌ Need a `.srt` or `.ass` file.", quote=True)
+        if not sub_msg.document:
+            return await sub_msg.reply("❌ Subtitle must be sent as a file.", quote=True)
 
-        # temp paths
-        with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tv:
-            video_path = tv.name
-        with tempfile.NamedTemporaryFile(suffix=os.path.splitext(sub_msg.document.file_name)[1], delete=False) as ts:
-            sub_path = ts.name
-        ass_path  = sub_path                       # may be overwritten
-        out_path  = video_path.replace(".mp4", "_hardcoded.mp4")
+        # 2️⃣ download media + subtitle
+        with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+            video_path = tmp.name
+        with tempfile.NamedTemporaryFile(suffix=os.path.splitext(sub_msg.document.file_name)[1], delete=False) as tmp:
+            sub_path = tmp.name
+
+        burn_path = video_path.replace(".mp4", "_hardcoded.mp4")
+        ass_path  = sub_path  # will overwrite if srt→ass
 
         try:
-            # ⬇ download video (progress)
+            # video download
             prog = await query.message.reply("📥 Downloading video…", quote=True)
             await client.download_media(
-                media, video_path,
+                message=media,
+                file_name=video_path,
                 progress=progress_for_pyrogram,
-                progress_args=("Video", prog, time.time())
+                progress_args=("__Downloading…__", prog, time.time())
             )
-            # ⬇ download subtitle (small, no progress)
-            await client.download_media(sub_msg, sub_path)
 
-            # convert .srt → .ass if needed
-            						# convert .srt → .ass if needed
-            # convert .srt → .ass if needed
+            # subtitle download (tiny, no progress)
+            await client.download_media(message=sub_msg, file_name=sub_path)
+
+            # 3️⃣ convert SRT → ASS if needed, with styling
             if sub_path.endswith(".srt"):
                 ass_path = sub_path.replace(".srt", ".ass")
-                
-                convert_proc = await asyncio.create_subprocess_exec(
-                    "ffmpeg", "-i", sub_path, ass_path,
+                convert_cmd = ["ffmpeg", "-i", sub_path, ass_path]
+                proc = await asyncio.create_subprocess_exec(
+                    *convert_cmd,
                     stdout=asyncio.subprocess.DEVNULL,
                     stderr=asyncio.subprocess.DEVNULL
                 )
-                await convert_proc.communicate()
+                await proc.communicate()
 
-                # confirm .ass was created
-                if not os.path.exists(ass_path):
-                    return await query.message.reply("❌ Failed to convert .srt to .ass. Make sure subtitle is valid.")
-
-                # prepend styling for white text / black border, center-bottom
+                # prepend styling
                 style = (
-                    "[Script Info]\n\n[V4+ Styles]\n"
-                    "Format: Name,Fontname,Fontsize,PrimaryColour,OutlineColour,"
-                    "BorderStyle,Outline,Shadow,Alignment\n"
-                    "Style: Default,Arial,48,&H00FFFFFF,&H00000000,1,2,0,2\n\n"
-                    "[Events]\nFormat: Layer, Start, End, Style, Text\n"
+                    "[Script Info]\n"
+                    "ScriptType: v4.00+\n\n"
+                    "[V4+ Styles]\n"
+                    "Format: Name, Fontname, Fontsize, PrimaryColour, OutlineColour, "
+                    "Bold, Italic, Alignment, MarginL, MarginR, MarginV, Encoding, Outline, Shadow\n"
+                    "Style: Default,Arial,48,&H00FFFFFF,&H00000000,0,0,2,10,10,30,1,2,0\n\n"
                 )
                 with open(ass_path, "r+", encoding="utf-8") as f:
                     content = f.read()
                     f.seek(0)
-                    f.write(style + content)
+                    f.write(style + "[Events]\n" + content)
 
-            # video duration for progress
-            duration = getattr(media, "duration", 1) or 1
+            # Get duration for progress
+            try:
+                meta_cmd = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", video_path]
+                meta_proc = await asyncio.create_subprocess_exec(
+                    *meta_cmd,
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.DEVNULL
+                )
+                out, _ = await meta_proc.communicate()
+                duration = float(out.decode().strip()) or 1.0
+            except:
+                duration = 1.0
 
-            # 🔥 burn subs + watermark
-                        # 🔥 burn subs + watermark
+            # 4️⃣ burn subtitles with watermark
             await prog.edit("🔥 Burning subtitles…")
             burn_cmd = [
                 "ffmpeg", "-i", video_path,
-                "-vf",
-                (
+                "-vf", (
                     f"ass={ass_path},"
                     "drawtext=text='Hard Coded By : @Videos_Sample_Bot':"
                     "fontsize=34:fontcolor=white:bordercolor=black:borderw=2:"
-                    "x=20:y=(h-text_h)/2:"
-                    "enable=mod(t,1800)<5"
+                    "x=20:y=(h-text_h)/2:enable='mod(t,1800)<5'"
                 ),
-                "-c:v", "libx264", "-preset", "medium",
-                "-c:a", "copy", "-y", out_path
+                "-c:v", "libx264", "-preset", "medium", "-c:a", "copy", "-y", burn_path
             ]
             proc = await asyncio.create_subprocess_exec(
                 *burn_cmd,
@@ -586,48 +594,53 @@ async def callback_handler(client: Client, query):
                 stderr=asyncio.subprocess.PIPE
             )
 
-            regex = re.compile(r"time=(\d+):(\d+):([\d.]+)")
-            last  = time.time()
+            pattern = re.compile(r"time=(\d+):(\d+):([\d.]+)")
+            last_update = time.time()
             while True:
                 line = await proc.stderr.readline()
                 if not line:
                     break
-                m = regex.search(line.decode("utf-8", "ignore"))
-                if m:
-                    h, m_, s = map(float, m.groups())
-                    pct = min(100, int(((h*3600 + m_*60 + s)/duration)*100))
-                    if time.time() - last > 2:
+
+                match = pattern.search(line.decode("utf-8", errors="ignore"))
+                if match:
+                    h, m, s = map(float, match.groups())
+                    elapsed = h * 3600 + m * 60 + s
+                    pct = min(100, int((elapsed / duration) * 100))
+
+                    if time.time() - last_update > 2:
                         try:
-                            await prog.edit(f"⏳ Burning… {pct}%")
-                            last = time.time()
-                        except:         # message deleted/edited elsewhere
+                            await prog.edit(f"⏳ Burning subtitles… {pct}%")
+                            last_update = time.time()
+                        except:
                             pass
 
-            return_code = await proc.wait()
+            await proc.wait()
 
-            # ✅ make sure file exists and is non-zero
-            if return_code != 0 or not os.path.exists(out_path) or os.path.getsize(out_path) == 0:
-                return await prog.edit("❌ FFmpeg failed – subtitle or draw-text syntax error.")
-
-
-            # ⬆ upload
-            await prog.edit("📤 Uploading result…")
+            # 5️⃣ upload result with progress
+            await prog.edit("📤 Uploading hard-subbed video…")
             await orig.reply_video(
-                video=out_path,
-                caption="🎬 Hard-subbed + watermark",
+                video=burn_path,
+                caption="🎬 Hard-subbed video (burned subtitles)",
                 quote=True,
                 progress=progress_for_pyrogram,
-                progress_args=("Upload", prog, time.time())
+                progress_args=("__Uploading…__", prog, time.time())
             )
             await prog.delete()
 
         except Exception as e:
-            await query.message.reply(f"❌ Error:\n<code>{e}</code>",
-                                      parse_mode=enums.ParseMode.HTML, quote=True)
+            await query.message.reply(
+                f"❌ Error:\n<code>{e}</code>",
+                parse_mode=enums.ParseMode.HTML,
+                quote=True
+            )
         finally:
-            for p in (video_path, sub_path, ass_path, out_path):
-                if os.path.exists(p):
-                    os.remove(p)
+            for f in (video_path, burn_path, sub_path, ass_path):
+                if os.path.exists(f):
+                    try:
+                        os.remove(f)
+                    except:
+                        pass
+
 
     elif query.data == "check_subscription":
         if await ensure_member(client, query):
