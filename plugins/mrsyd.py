@@ -1,4 +1,4 @@
-import math, time, random, os, tempfile, subprocess, asyncio
+import math, time, random, os, tempfile, asyncio
 from pyrogram import Client, enums, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from helper.database import db
