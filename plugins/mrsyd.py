@@ -634,7 +634,159 @@ async def callback_handler(client: Client, query):
                     except:
                         pass
 
-    elif query.data == "hardcode":
+    elif query.data == "hardcode": ##Testing All
+        await query.answer("🎞 Send subtitle file…", show_alert=False)
+
+        # 1️⃣ prompt user for subtitle
+        prompt = await orig.reply(
+            "📄 **Pʟᴇᴀꜱᴇ ꜱᴇɴᴅ ʏᴏᴜʀ ꜱᴜʙᴛɪᴛʟᴇ ꜰɪʟᴇ (ꜱʀᴛ ᴏʀ ᴀᴄᴄ)** "
+            "(`.srt` or `.ass`).", quote=True
+        )
+
+        try:
+            sub_msg = await client.listen(
+                chat_id=query.from_user.id,
+                timeout=90
+            )
+        except asyncio.TimeoutError:
+            await prompt.edit("⏰ Timed-out. Hard-code cancelled.")
+            return
+
+        if not sub_msg.document:
+            return await sub_msg.reply("❌ Subtitle must be sent as a file.", quote=True)
+
+        # 2️⃣ download media + subtitle
+        with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+            video_path = tmp.name
+        with tempfile.NamedTemporaryFile(suffix=os.path.splitext(sub_msg.document.file_name)[1], delete=False) as tmp:
+            sub_path = tmp.name
+
+        burn_path = video_path.replace(".mp4", "_hardcoded.mp4")
+        ass_path  = sub_path  # will overwrite if srt→ass
+
+        try:
+            # video download
+            prog = await query.message.reply("📥 Downloading video…", quote=True)
+            await client.download_media(
+                message=media,
+                file_name=video_path,
+                progress=progress_for_pyrogram,
+                progress_args=("__Downloading…__", prog, time.time())
+            )
+
+            # subtitle download (tiny, no progress)
+            await client.download_media(message=sub_msg, file_name=sub_path)
+
+            # 3️⃣ convert SRT → ASS if needed, with styling
+            if sub_path.endswith(".srt"):
+                ass_path = sub_path.replace(".srt", ".ass")
+                convert_cmd = ["ffmpeg", "-i", sub_path, ass_path]
+                proc = await asyncio.create_subprocess_exec(
+                    *convert_cmd,
+                    stdout=asyncio.subprocess.DEVNULL,
+                    stderr=asyncio.subprocess.DEVNULL
+                )
+                await proc.communicate()
+                # prepend styling for white text / black outline, bottom-center
+                style = (
+                    "[Script Info]\n"
+                    "ScriptType: v4.00+\n\n"
+                    "[V4+ Styles]\n"
+                    "Format: Name, Fontname, Fontsize, PrimaryColour, OutlineColour, "
+                    "Bold, Italic, Alignment, MarginL, MarginR, MarginV, Encoding, Outline, Shadow\n"
+                    "Style: Default,Arial,48,&H00FFFFFF,&H00000000,0,0,2,10,10,30,1,2,0\n\n"
+                )
+                with open(ass_path, "r+", encoding="utf-8") as f:
+                    content = f.read()
+                    f.seek(0)
+                    f.write(style + "[Events]\n" + content)
+
+            # 4️⃣ burn subtitles (async ffmpeg)
+            await prog.edit("🔥 Burning subtitles…")
+
+            # Get duration in seconds using ffprobe
+            ffprobe_cmd = [
+                "ffprobe", "-v", "error", "-show_entries",
+                "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", video_path
+            ]
+            proc = await asyncio.create_subprocess_exec(
+                *ffprobe_cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.DEVNULL
+            )
+            stdout, _ = await proc.communicate()
+            duration = float(stdout.decode().strip())
+
+            # Watermark + subtitle filters
+            vf_filters = (
+                f"ass='{ass_path}',"
+                "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
+                "text='@Videos_Sample_Bot':fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
+                "x=w-tw-20:y=20:enable='mod(t\\,300)<5'"
+            )
+
+            burn_cmd = [
+                "ffmpeg", "-i", video_path, "-vf", vf_filters,
+                "-c:v", "libx264", "-preset", "medium", "-c:a", "copy", "-y", burn_path
+            ]
+
+            proc = await asyncio.create_subprocess_exec(
+                *burn_cmd,
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.PIPE
+            )
+
+            pattern = re.compile(r"time=(\d+):(\d+):([\d.]+)")
+            last_update = time.time()
+            percent_msg = "⏳ Burning subtitles: {progress}%"
+
+            while True:
+                line = await proc.stderr.readline()
+                if not line:
+                    break
+
+                match = pattern.search(line.decode("utf-8", errors="ignore"))
+                if match:
+                    h, m, s = map(float, match.groups())
+                    elapsed = h * 3600 + m * 60 + s
+                    progress = int((elapsed / duration) * 100)
+
+                    if time.time() - last_update > 3:
+                        try:
+                            await prog.edit_text(percent_msg.format(progress=progress))
+                            last_update = time.time()
+                        except:
+                            pass
+
+            await proc.wait()
+
+
+            # 5️⃣ upload result with progress
+            await prog.edit("📤 Uploading hard-subbed video…")
+            await orig.reply_video(
+                video=burn_path,
+                caption="🎬 Hard-subbed video (burned subtitles)",
+                quote=True,
+                progress=progress_for_pyrogram,
+                progress_args=("__Uploading…__", prog, time.time())
+            )
+            await prog.delete()
+
+        except Exception as e:
+            await query.message.reply(
+                f"❌ Error:\n<code>{e}</code>",
+                parse_mode=enums.ParseMode.HTML,
+                quote=True
+            )
+        finally:
+            for f in (video_path, burn_path, sub_path, ass_path):
+                if os.path.exists(f):
+                    try:
+                        os.remove(f)
+                    except:
+                        pass
+                        
+    elif query.data == "hardcod": ##Working
         await query.answer("🎞 Send subtitle file…", show_alert=False)
 
         # 1️⃣ prompt user for subtitle
