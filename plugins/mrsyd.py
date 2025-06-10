@@ -566,9 +566,17 @@ async def callback_handler(client: Client, query):
             # 4️⃣ burn subtitles (async ffmpeg)
             await prog.edit("🔥 Burning subtitles…")
             burn_cmd = [
-                "ffmpeg", "-i", video_path, "-vf", f"ass={ass_path}",
+                "ffmpeg", "-i", video_path,
+                "-vf",
+                f"ass='{ass_path}',"
+                "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
+                "text='@Videos_Sample_Bot':"
+                "fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
+                "x=w-tw-20:y=20:"
+                "enable='mod(t\\,30)<5'",
                 "-c:v", "libx264", "-preset", "medium", "-c:a", "copy", "-y", burn_path
             ]
+
             proc = await asyncio.create_subprocess_exec(
                 *burn_cmd,
                 stdout=asyncio.subprocess.DEVNULL,
@@ -631,8 +639,8 @@ async def callback_handler(client: Client, query):
 
         # 1️⃣ prompt user for subtitle
         prompt = await orig.reply(
-            "📄 **Please reply to this message with your subtitle file** "
-            "(`.srt` or `.ass`).", quote=True, parse_mode="md"
+            "📄 **Pʟᴇᴀꜱᴇ ꜱᴇɴᴅ ʏᴏᴜʀ ꜱᴜʙᴛɪᴛʟᴇ ꜰɪʟᴇ (ꜱʀᴛ ᴏʀ ᴀᴄᴄ)** "
+            "(`.srt` or `.ass`).", quote=True
         )
 
         try:
