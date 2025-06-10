@@ -3,6 +3,7 @@ from pyrogram import Client, enums, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from helper.database import db
 from info import AUTH_CHANNEL
+import shlex
 # ── helper UI builders ─────────────────────────────────────────────────────────
 from pyrogram.errors import UserNotParticipant
 SYD_CHANNELS = ["Bot_Cracker", "Mod_Moviez_X", "MrSyD_Tg"]
