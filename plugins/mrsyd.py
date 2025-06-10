@@ -566,7 +566,7 @@ async def callback_handler(client: Client, query):
 
             # 4️⃣ burn subtitles (async ffmpeg)
             await prog.edit("🔥 Burning subtitles…")
-             burn_cmd = [
+            burn_cmd = [
                 "ffmpeg", "-i", video_path,
                 "-filter_complex",
                 f"[0:v]ass={shlex.quote(ass_path)},"
