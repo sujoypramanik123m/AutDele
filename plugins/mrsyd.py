@@ -566,17 +566,20 @@ async def callback_handler(client: Client, query):
 
             # 4️⃣ burn subtitles (async ffmpeg)
             await prog.edit("🔥 Burning subtitles…")
-            burn_cmd = [
+             burn_cmd = [
                 "ffmpeg", "-i", video_path,
-                "-vf",
-                f"ass={shlex.quote(ass_path)},"
+                "-filter_complex",
+                f"[0:v]ass={shlex.quote(ass_path)},"
                 "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
                 "text='@Videos_Sample_Bot':"
                 "fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
                 "x=w-tw-20:y=20:"
-                "enable='mod(t,300)<5'",
-                "-c:v", "libx264", "-preset", "medium", "-c:a", "copy", "-y", burn_path
+                "enable='mod(t,300)<5'[v]",
+                "-map", "[v]", "-map", "0:a?",
+                "-c:v", "libx264", "-preset", "medium", "-c:a", "copy",
+                "-y", burn_path
             ]
+
 
 
             proc = await asyncio.create_subprocess_exec(
