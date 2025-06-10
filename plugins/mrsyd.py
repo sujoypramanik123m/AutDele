@@ -568,14 +568,15 @@ async def callback_handler(client: Client, query):
             burn_cmd = [
                 "ffmpeg", "-i", video_path,
                 "-vf",
-                f"ass='{ass_path}',"
+                f"ass={shlex.quote(ass_path)},"
                 "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
                 "text='@Videos_Sample_Bot':"
                 "fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
                 "x=w-tw-20:y=20:"
-                "enable='mod(t\\,30)<5'",
+                "enable='mod(t\,300)<5'",
                 "-c:v", "libx264", "-preset", "medium", "-c:a", "copy", "-y", burn_path
             ]
+
 
             proc = await asyncio.create_subprocess_exec(
                 *burn_cmd,
