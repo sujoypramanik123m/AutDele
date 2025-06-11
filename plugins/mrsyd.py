@@ -564,23 +564,35 @@ async def callback_handler(client: Client, query):
                     f.seek(0)
                     f.write(style + "[Events]\n" + content)
 
-            # 4️⃣ burn subtitles (async ffmpeg)
+        
+            # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
             await prog.edit("🔥 Burning subtitles…")
+
+            # build the filter graph once so it stays readable
+            filter_graph = (
+                f"[0:v]ass='{ass_path}',"
+                "drawtext="
+                    "fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
+                    "text='@Videos_Sample_Bot':"
+                    "fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
+                    "x=w-text_w-20:y=20:"
+                    "enable='mod(t\\,300)<5'"
+                "[v]"
+            )
+
             burn_cmd = [
-                "ffmpeg", "-i", video_path,
-                "-filter_complex",
-                f"[0:v]ass={shlex.quote(ass_path)},"
-                "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
-                "text='@Videos_Sample_Bot':"
-                "fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
-                "x=w-tw-20:y=20:"
-                "enable='mod(t,300)<5'[v]",
-                "-map", "[v]", "-map", "0:a?",
-                "-c:v", "libx264", "-preset", "medium", "-c:a", "copy",
+                "ffmpeg",
+                "-i", video_path,
+                "-filter_complex", filter_graph,
+                "-map", "[v]",
+                "-map", "0:a?",
+                "-c:v", "libx264",
+                "-preset", "medium",
+                "-crf", "23",
+                "-c:a", "copy",
+                "-movflags", "+faststart",
                 "-y", burn_path
             ]
-
-
 
             proc = await asyncio.create_subprocess_exec(
                 *burn_cmd,
@@ -603,7 +615,6 @@ async def callback_handler(client: Client, query):
                     elapsed = h * 3600 + m * 60 + s
                     progress = int((elapsed / duration) * 100)
 
-                    # Update message every ~3s
                     if time.time() - last_update > 3:
                         try:
                             await prog.edit_text(percent_msg.format(progress=progress))
@@ -612,6 +623,7 @@ async def callback_handler(client: Client, query):
                             pass
 
             await proc.wait()
+
 
 
             # 5️⃣ upload result with progress
