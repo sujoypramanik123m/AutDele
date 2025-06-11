@@ -569,8 +569,9 @@ async def callback_handler(client: Client, query):
             await prog.edit("🔥 Burning subtitles…")
 
             # build the filter graph once so it stays readable
+            safe_ass_path = shlex.quote(ass_path)
             filter_graph = (
-                f"[0:v]ass='{ass_path}',"
+                f"[0:v]ass={safe_ass_path},"
                 "drawtext="
                     "fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
                     "text='@Videos_Sample_Bot':"
