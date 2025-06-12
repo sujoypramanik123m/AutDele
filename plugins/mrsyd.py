@@ -230,21 +230,21 @@ async def callback_handler(client: Client, query):
                [InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", callback_data="checksub")]]
 
         await query.message.reply(
-            text="Jᴏɪɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ Aɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ Tʀʏ Aɢᴀɪɴ Tᴏ Cᴏɴᴛɪɴᴜᴇ.",
+            text="Jᴏɪɴ Iɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ Aɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ Tʀʏ Aɢᴀɪɴ Tᴏ Cᴏɴᴛɪɴᴜᴇ.",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.MARKDOWN
         )
         return
     orig = query.message.reply_to_message
     if not orig or not (orig.video or orig.document):
-        return await query.answer("❌ Please reply to a media file.", show_alert=True)
+        return await query.answer("Nᴏ Fɪʟᴇꜱ Fᴏᴜɴᴅ. Rᴇᴩᴏʀᴛ Aᴅᴍɪɴ Iꜰ Iᴛ'ꜱ Aɴ Eʀʀᴏʀ", show_alert=True)
 
     media = orig.video or orig.document
     duration = getattr(media, "duration", 120) or 120
 
     # ─ 1. 30-second sample
     if query.data == "sample":
-        await query.answer("Generating sample…", show_alert=False)
+        await query.answer("Gᴇɴᴇʀᴀᴛɪɴɢ ꜱᴀᴍᴩʟᴇ ᴠɪᴅᴇᴏ 🎐.....", show_alert=False)
         proceed = await handle_process_flags(client, query)
         if not proceed:
             return
@@ -353,9 +353,15 @@ async def callback_handler(client: Client, query):
             for p in paths:
                 if os.path.exists(p):
                     os.remove(p)
+        twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
+        if twoprocess:
+            await db.set_user_value(query.from_user.id, "twoprocess", False)
+        else:
+            await db.set_user_value(query.from_user.id, "oneprocess", False)
+
 
     elif query.data == "extract_audio":
-        await query.answer("🎧 Exᴛʀᴀᴄᴛɪɴɢ ᴀᴜᴅɪᴏ…", show_alert=False)
+        await query.answer("Exᴛʀᴀᴄᴛɪɴɢ ᴀᴜᴅɪᴏ....🎧", show_alert=False)
 
         orig = query.message.reply_to_message
         if not orig or not (orig.video or orig.document):
@@ -394,7 +400,7 @@ async def callback_handler(client: Client, query):
 
             await orig.reply_audio(
                 audio=audio_path,
-                caption="Exᴛʀᴀᴄᴛᴇᴅ Aᴜᴅɪᴏ",
+                caption="Exᴛʀᴀᴄᴛᴇᴅ Aᴜᴅɪᴏ 🎙️",
                 quote=True
             )
         except Exception as e:
@@ -407,6 +413,12 @@ async def callback_handler(client: Client, query):
             for f in (full_path, audio_path):
                 if os.path.exists(f):
                     os.remove(f)
+                    
+        twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
+        if twoprocess:
+            await db.set_user_value(query.from_user.id, "twoprocess", False)
+        else:
+            await db.set_user_value(query.from_user.id, "oneprocess", False)
 
 
 
