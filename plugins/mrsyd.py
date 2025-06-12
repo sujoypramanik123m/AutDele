@@ -614,7 +614,12 @@ async def callback_handler(client: Client, query):
                 stderr=asyncio.subprocess.PIPE
             )
             probe = ffmpeg.probe(video_path)
-            duration = float(probe['format']['duration'])
+            durtion = getattr(media, "duration", None)
+            if not durtion:
+                try:
+                    durtion = float(probe['format']['duration'])
+                except:
+                    durtion = 36
             stderr_output = []
             pattern = re.compile(r"time=(\d+):(\d+):([\d\.]+)")
             last_update = time.time()
@@ -631,7 +636,7 @@ async def callback_handler(client: Client, query):
                 if match and duration:
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
-                    progress = min(int((elapsed / duration) * 100), 100)
+                    progress = min(int((elapsed / durtion) * 100), 100)
 
                     
                     if time.time() - last_update > 4:
