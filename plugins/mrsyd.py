@@ -633,7 +633,7 @@ async def callback_handler(client: Client, query):
                 stderr_output.append(decoded_line)
 
                 match = pattern.search(decoded_line)
-                if match and duration:
+                if match and durtion:
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
                     progress = min(int((elapsed / durtion) * 100), 100)
