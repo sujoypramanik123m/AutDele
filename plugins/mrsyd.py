@@ -612,9 +612,10 @@ async def callback_handler(client: Client, query):
                 stdout=asyncio.subprocess.DEVNULL,
                 stderr=asyncio.subprocess.PIPE
             )
-
+            probe = ffmpeg.probe(video_path)
+            duration = float(probe['format']['duration'])
             stderr_output = []
-            pattern = re.compile(r"time=(\d+):(\d+):(\d+\.\d+)")
+            pattern = re.compile(r"time=(\d+):(\d+):([\d\.]+)")
             last_update = time.time()
             percent_msg = "⏳ Burning subtitles: {progress}%"
 
@@ -626,12 +627,13 @@ async def callback_handler(client: Client, query):
                 stderr_output.append(decoded_line)
 
                 match = pattern.search(decoded_line)
-                if match:
+                if match and duration:
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
-                    progress = int((elapsed / duration) * 100)
+                    progress = min(int((elapsed / duration) * 100), 100)
 
-                    if time.time() - last_update > 3:
+                    
+                    if time.time() - last_update > 4:
                         try:
                             await prog.edit_text(percent_msg.format(progress=progress))
                             last_update = time.time()
