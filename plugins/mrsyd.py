@@ -622,7 +622,7 @@ async def callback_handler(client: Client, query):
                     durtion = probe['format']['duration']
                 durton = float(durtion)
             except:
-                durton = float(36)
+                durton = 36.0
             stderr_output = []
             pattern = re.compile(r"time=(\d+):(\d+):([\d\.]+)")
             last_update = time.time()
