@@ -753,7 +753,7 @@ async def callback_handler(client: Client, query):
                 f"ass='{ass_path}',"
                 "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
                 "text='@Videos_Sample_Bot':fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
-                "x=w-tw-20:y=20:enable='mod(t\\,300)<5'"
+                "x=w-tw-20:y=20:enable='mod(t\\,30)<5'"
             )
 
             burn_cmd = [
