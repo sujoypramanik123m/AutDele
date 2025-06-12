@@ -586,8 +586,8 @@ async def callback_handler(client: Client, query):
                 f"[0:v]ass={safe_ass_path},"
                 "drawtext="
                     "fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
-                    "text='@Videos_Sample_Bot':"
-                    "fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
+                    "text='Hard Coded By : @Videos_Sample_Bot':"
+                    "fontcolor=white:fontsize=18:borderw=2:bordercolor=black:"
                     "x=w-text_w-20:y=20:"
                     "enable='lt(mod(t\\,300)\\,5)'"
                 "[v]"
@@ -684,7 +684,7 @@ async def callback_handler(client: Client, query):
 
         # 1️⃣ prompt user for subtitle
         prompt = await orig.reply(
-            "📄 **Pʟᴇᴀꜱᴇ ꜱᴇɴᴅ ʏᴏᴜʀ ꜱᴜʙᴛɪᴛʟᴇ ꜰɪʟᴇ (ꜱʀᴛ ᴏʀ ᴀᴄᴄ)** "
+            "📄 **Pʟᴇᴀꜱᴇ ꜱᴇɴᴅ ʏᴏᴜʀ ꜱᴜʙᴛɪᴛʟᴇ ꜰɪʟᴇ** "
             "(`.srt` or `.ass`).", quote=True
         )
 
