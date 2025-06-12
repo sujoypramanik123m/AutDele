@@ -3,6 +3,7 @@ from pyrogram import Client, enums, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from helper.database import db
 from info import AUTH_CHANNEL
+import ffmpeg
 import shlex
 # ── helper UI builders ─────────────────────────────────────────────────────────
 from pyrogram.errors import UserNotParticipant
@@ -308,7 +309,7 @@ async def callback_handler(client: Client, query):
     # ─ 3. Take screenshots
     elif query.data.startswith("getshot#"):
         count = int(query.data.split("#")[1])
-        await query.answer(f"Taking {count} random screenshots…", show_alert=False)
+        await query.answer(f"Tᴀᴋɪɴɢ {count} ʀᴀɴᴅᴏᴍ ꜱᴄʀᴇᴇɴꜱʜᴏᴛꜱ…", show_alert=False)
 
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
             full_path = tmp.name
