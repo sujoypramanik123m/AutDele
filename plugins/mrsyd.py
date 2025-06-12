@@ -502,7 +502,7 @@ async def callback_handler(client: Client, query):
 
         # 1️⃣ prompt user for subtitle
         prompt = await orig.reply(
-            "📄 **Pʟᴇᴀꜱᴇ ꜱᴇɴᴅ ʏᴏᴜʀ ꜱᴜʙᴛɪᴛʟᴇ ꜰɪʟᴇ (ꜱʀᴛ ᴏʀ ᴀᴄᴄ)** "
+            "📄 **Pʟᴇᴀꜱᴇ ꜱᴇɴᴅ ʏᴏᴜʀ ꜱᴜʙᴛɪᴛʟᴇ ꜰɪʟᴇ** "
             "(`.srt` or `.ass`).", quote=True
         )
 
@@ -602,7 +602,7 @@ async def callback_handler(client: Client, query):
             )
 
             stderr_output = []
-            pattern = re.compile(r"time=(\d+):(\d+):([\d.]+)")
+            pattern = re.compile(r"time=(\d+):(\d+):(\d+\.\d+)")
             last_update = time.time()
             percent_msg = "⏳ Burning subtitles: {progress}%"
 
