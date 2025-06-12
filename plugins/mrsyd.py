@@ -626,7 +626,7 @@ async def callback_handler(client: Client, query):
                 durton = 36.0
 
             stderr_output = []
-            pattern = re.compile(r"time=(\d{2}):(\d{2}):(\d{2}\.\d{2})")
+            pattern = re.compile(r"time=(\d{2,}):(\d{2}):(\d{2}\.\d+)")
             last_update = time.time()
             percent_msg = "⏳ Burning subtitles: {progress}%"
 
@@ -644,15 +644,15 @@ async def callback_handler(client: Client, query):
                     elapsed = h * 3600 + m * 60 + s
                     progress = min(int((elapsed / durton) * 100), 100)
 
-                    if time.time() - last_update > 3:
+                    # 🔍 Debug print to check it's working (remove later)
+                    print(f"[FFMPEG] Elapsed: {elapsed:.2f} / {durton:.2f} → {progress}%")
+
+                    if time.time() - last_update > 2:
                         try:
                             await prog.edit_text(percent_msg.format(progress=progress))
                             last_update = time.time()
                         except:
                             pass
-
-
-            await proc.wait()
 
             # ✅ Check if output file exists
             if not os.path.exists(burn_path) or os.path.getsize(burn_path) == 0:
@@ -665,6 +665,7 @@ async def callback_handler(client: Client, query):
                 return
 
 
+            await proc.wait()
 
             # 5️⃣ upload result with progress
             await prog.edit("📤 Uploading hard-subbed video…")
