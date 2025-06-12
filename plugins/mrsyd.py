@@ -577,7 +577,7 @@ async def callback_handler(client: Client, query):
                     "text='@Videos_Sample_Bot':"
                     "fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
                     "x=w-text_w-20:y=20:"
-                    "enable='mod(t\\,300)<5'"
+                    "enable='lt(mod(t\\,300)\\,5)'"
                 "[v]"
             )
 
