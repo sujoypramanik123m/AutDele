@@ -616,15 +616,17 @@ async def callback_handler(client: Client, query):
             
  
             try:
-                durtion = getattr(media, "duration", None)
-                if not durtion:
+                durton = getattr(media, "duration", None)
+                if not durton:
                     probe = ffmpeg.probe(video_path)
-                    durtion = probe['format']['duration']
-                durton = float(durtion)
+                    durton = float(probe['format']['duration'])
+                else:
+                    durton = float(durton)
             except:
                 durton = 36.0
+
             stderr_output = []
-            pattern = re.compile(r"time=(\d+):(\d+):([\d\.]+)")
+            pattern = re.compile(r"time=(\d{2}):(\d{2}):(\d{2}\.\d{2})")
             last_update = time.time()
             percent_msg = "⏳ Burning subtitles: {progress}%"
 
@@ -632,22 +634,23 @@ async def callback_handler(client: Client, query):
                 line = await proc.stderr.readline()
                 if not line:
                     break
-                decoded_line = line.decode("utf-8", errors="ignore")
+
+                decoded_line = line.decode("utf-8", errors="ignore").strip()
                 stderr_output.append(decoded_line)
 
                 match = pattern.search(decoded_line)
-                if match and durton:
+                if match:
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
                     progress = min(int((elapsed / durton) * 100), 100)
 
-                    
-                    if time.time() - last_update > 4:
+                    if time.time() - last_update > 3:
                         try:
                             await prog.edit_text(percent_msg.format(progress=progress))
                             last_update = time.time()
                         except:
                             pass
+
 
             await proc.wait()
 
