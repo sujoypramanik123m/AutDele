@@ -566,9 +566,9 @@ async def callback_handler(client: Client, query):
 
         
             # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
+                        # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
             await prog.edit("🔥 Burning subtitles…")
 
-            # build the filter graph once so it stays readable
             safe_ass_path = shlex.quote(ass_path)
             filter_graph = (
                 f"[0:v]ass={safe_ass_path},"
@@ -601,6 +601,7 @@ async def callback_handler(client: Client, query):
                 stderr=asyncio.subprocess.PIPE
             )
 
+            stderr_output = []
             pattern = re.compile(r"time=(\d+):(\d+):([\d.]+)")
             last_update = time.time()
             percent_msg = "⏳ Burning subtitles: {progress}%"
@@ -609,8 +610,10 @@ async def callback_handler(client: Client, query):
                 line = await proc.stderr.readline()
                 if not line:
                     break
+                decoded_line = line.decode("utf-8", errors="ignore")
+                stderr_output.append(decoded_line)
 
-                match = pattern.search(line.decode("utf-8", errors="ignore"))
+                match = pattern.search(decoded_line)
                 if match:
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
@@ -624,6 +627,16 @@ async def callback_handler(client: Client, query):
                             pass
 
             await proc.wait()
+
+            # ✅ Check if output file exists
+            if not os.path.exists(burn_path) or os.path.getsize(burn_path) == 0:
+                error_log = "".join(stderr_output[-30:])
+                await query.message.reply(
+                    f"❌ ffmpeg failed:\n\n<code>{error_log}</code>",
+                    parse_mode=enums.ParseMode.HTML,
+                    quote=True
+                )
+                return
 
 
 
