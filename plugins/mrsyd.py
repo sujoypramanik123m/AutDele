@@ -662,7 +662,6 @@ async def callback_handler(client: Client, query):
                     elapsed = h * 3600 + m * 60 + s
                     progress = min(int((elapsed / durton) * 100), 100)
                 else:
-                    await query.message.reply("No match")
                     # fallback on wall time estimation
                     elapsed_wall = time.time() - start_time
                     progress = min(int((elapsed_wall / durton) * 100), 100)
