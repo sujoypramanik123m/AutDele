@@ -616,19 +616,30 @@ async def callback_handler(client: Client, query):
             
  
             try:
-                durton = getattr(media, "duration", None)
-                if not durton:
+                # Get duration from media or probe
+                durtion = getattr(media, "duration", None)
+                debug1 = f"🔍 media.duration: {durtion}"
+                await query.message.reply(debug1)
+
+                if not durtion:
                     probe = ffmpeg.probe(video_path)
-                    durton = float(probe['format']['duration'])
-                else:
-                    durton = float(durton)
-            except:
+                    durtion = probe['format']['duration']
+                    await query.message.reply(f"🔍 probed duration: {durtion}")
+
+                durton = float(durtion)
+            except Exception as e:
                 durton = 36.0
+                await query.message.reply(f"⚠️ duration fallback: {e}")
 
             stderr_output = []
-            pattern = re.compile(r"time=(\d{2,}):(\d{2}):(\d{2}\.\d+)")
-            last_update = time.time()
+            pattern = re.compile(r"time=(\d+):(\d+):([\d\.]+)")
+            start_time = time.time()
+            last_update = start_time
             percent_msg = "⏳ Burning subtitles: {progress}%"
+            progress = 0
+            updates = 0
+
+            await query.message.reply("📟 Started reading ffmpeg stderr…")
 
             while True:
                 line = await proc.stderr.readline()
@@ -638,34 +649,39 @@ async def callback_handler(client: Client, query):
                 decoded_line = line.decode("utf-8", errors="ignore").strip()
                 stderr_output.append(decoded_line)
 
+                # Debug: show a few stderr lines
+                updates += 1
+                if updates <= 3:
+                    await query.message.reply(f"🧾 stderr line: {decoded_line}")
+
                 match = pattern.search(decoded_line)
                 if match:
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
                     progress = min(int((elapsed / durton) * 100), 100)
+                else:
+                    # fallback on wall time estimation
+                    elapsed_wall = time.time() - start_time
+                    progress = min(int((elapsed_wall / durton) * 100), 100)
 
-                    # 🔍 Debug print to check it's working (remove later)
-                    print(f"[FFMPEG] Elapsed: {elapsed:.2f} / {durton:.2f} → {progress}%")
+                if time.time() - last_update >= 4:
+                    try:
+                        await prog.edit_text(percent_msg.format(progress=progress))
+                        last_update = time.time()
+                    except Exception as e:
+                        await query.message.reply(f"⚠️ Progress update error: {e}")
 
-                    if time.time() - last_update > 2:
-                        try:
-                            await prog.edit_text(percent_msg.format(progress=progress))
-                            last_update = time.time()
-                        except:
-                            pass
+            await proc.wait()
 
             # ✅ Check if output file exists
             if not os.path.exists(burn_path) or os.path.getsize(burn_path) == 0:
-                error_log = "".join(stderr_output[-30:])
+                error_log = "\n".join(stderr_output[-15:])
                 await query.message.reply(
                     f"❌ ffmpeg failed:\n\n<code>{error_log}</code>",
                     parse_mode=enums.ParseMode.HTML,
                     quote=True
                 )
                 return
-
-
-            await proc.wait()
 
             # 5️⃣ upload result with progress
             await prog.edit("📤 Uploading hard-subbed video…")
