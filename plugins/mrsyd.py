@@ -460,7 +460,7 @@ async def callback_handler(client: Client, query):
             return
         id_sec = parse_hms(end_msg.text)
         if end_sec is None:
-            return await end_msg.reply("❌ Invalid time format. Trim cancelled.", quote=True)
+            return await end_msg.reply("Iɴᴠᴀʟɪᴅ ᴛɪᴍᴇ ꜰᴏʀᴍᴀᴛ (ᴜꜱᴇ `0:00` ʟɪᴋᴇ). Tʀɪᴍ ᴄᴀɴᴄᴇʟʟᴇᴅ.", quote=True)
 
         await orig.reply(f"Eɴᴅ : {end_sec}")
         # Validation
