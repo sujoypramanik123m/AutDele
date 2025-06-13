@@ -611,7 +611,7 @@ async def callback_handler(client: Client, query):
             proc = await asyncio.create_subprocess_exec(
                 *burn_cmd,
                 stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE  # Capture stderr (which shows progress)
+                stderr=asyncio.subprocess.STDOUT  # Capture stderr (which shows progress)
             )
 
             
@@ -633,7 +633,7 @@ async def callback_handler(client: Client, query):
                 await query.message.reply(f"⚠️ duration fallback: {e}")
 
             stderr_output = []
-            pattern = re.compile(r"time=(\d+):(\d+):([\d\.]+)")
+            pattern = re.compile(r"time=(\d+):(\d+):(\d+\.\d+)")
             start_time = time.time()
             last_update = start_time
             percent_msg = "⏳ Burning subtitles: {progress}%"
