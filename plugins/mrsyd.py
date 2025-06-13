@@ -620,13 +620,12 @@ async def callback_handler(client: Client, query):
                 # Get duration from media or probe
                 durtion = getattr(media, "duration", None)
                 debug1 = f"🔍 media.duration: {durtion}"
-                await query.message.reply(debug1)
+                
 
                 if not durtion:
                     probe = ffmpeg.probe(video_path)
                     durtion = probe['format']['duration']
-                    await query.message.reply(f"🔍 probed duration: {durtion}")
-
+                    
                 durton = float(durtion)
             except Exception as e:
                 durton = 36.0
@@ -640,8 +639,7 @@ async def callback_handler(client: Client, query):
             progress = 0
             updates = 0
 
-            await query.message.reply("📟 Started reading ffmpeg stderr…")
-
+            
             while True:
                 line = await proc.stdout.readline()
                 if not line:
@@ -652,8 +650,9 @@ async def callback_handler(client: Client, query):
 
                 # Debug: show a few stderr lines
                 updates += 1
-                if updates <= 3:
-                    await query.message.reply(f"🧾 stderr line: {decoded_line}")
+              #  if updates <= 3:
+                    
+
 
                 match = pattern.search(decoded_line)
                 if match:
