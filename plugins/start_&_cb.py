@@ -54,7 +54,6 @@ async def handle_ile(client, message):
         [InlineKeyboardButton("Exᴛʀᴀᴄᴛ Aᴜᴅɪᴏ", callback_data="extract_audio")],
         [InlineKeyboardButton("Rᴇɴᴀᴍᴇ", url="https://t.me/MS_ReNamEr_BoT"),
          InlineKeyboardButton("Sᴛʀᴇᴀᴍ", url="https://t.me/Ms_FiLe2LINk_bOt")],
-        [InlineKeyboardButton("Hᴀʀᴅ Cᴏᴅᴇ (❄️)", callback_data="hardcode")],
         [InlineKeyboardButton("Sᴜᴩᴩᴏʀᴛ", url="https://t.me/Bot_cracker")],
         [InlineKeyboardButton("Rᴇqᴜᴇꜱᴛ Mᴏʀᴇ Fᴇᴀᴛᴜʀᴇꜱ", url="https://t.me/syd_xyz")]
     ]
