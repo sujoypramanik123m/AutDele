@@ -633,7 +633,7 @@ async def callback_handler(client: Client, query):
                 await query.message.reply(f"⚠️ duration fallback: {e}")
 
             stderr_output = []
-            pattern = re.compile(r"time=(\d+):(\d+):(\d+\.\d+)")
+            pattern = re.compile(r"time=(\d{2}):(\d{2}):(\d{2}(?:\.\d+)?)")
             start_time = time.time()
             last_update = start_time
             percent_msg = "⏳ Burning subtitles: {progress}%"
@@ -657,10 +657,12 @@ async def callback_handler(client: Client, query):
 
                 match = pattern.search(decoded_line)
                 if match:
+                    await query.message.reply(f"{match}")
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
                     progress = min(int((elapsed / durton) * 100), 100)
                 else:
+                    await query.message.reply("No match")
                     # fallback on wall time estimation
                     elapsed_wall = time.time() - start_time
                     progress = min(int((elapsed_wall / durton) * 100), 100)
