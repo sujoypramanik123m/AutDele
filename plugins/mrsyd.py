@@ -344,7 +344,7 @@ async def callback_handler(client: Client, query):
             await progress_msg.delete()
         except Exception as e:
             await query.message.reply(
-                f"❌ FFmpeg error:\n<code>{e.stderr.decode()}</code>",
+                f"❌ FFmpeg error:\n<code>{e.stderr.decode()}</code> \n\nSend This Message To @SyD_Xyz For Help",
                 parse_mode=enums.ParseMode.HTML,
                 quote=True
             )
