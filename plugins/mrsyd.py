@@ -587,8 +587,8 @@ async def callback_handler(client: Client, query):
                 f"[0:v]ass={safe_ass_path},"
                 "drawtext="
                     "fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
-                    "text='Hard Coded By : @Videos_Sample_Bot':"
-                    "fontcolor=white:fontsize=18:borderw=2:bordercolor=black:"
+                    "text='Hard Coded By : \n@Videos_Sample_Bot':"
+                    "fontcolor=white@0.6:fontsize=18:borderw=0:"
                     "x=w-text_w-20:y=20:"
                     "enable='lt(mod(t\\,300)\\,5)'"
                 "[v]"
@@ -663,7 +663,7 @@ async def callback_handler(client: Client, query):
                 else:
                     # fallback on wall time estimation
                     elapsed_wall = time.time() - start_time
-                    progress = min(int((elapsed_wall / durton) * 100), 100)
+                    progress = min(int(((elapsed_wall * 20) / durton) * 100), 100)
                   
                 await query.message.reply(f"{progress}")
 
@@ -694,7 +694,7 @@ async def callback_handler(client: Client, query):
                 caption="🎬 Hard-subbed video (burned subtitles)",
                 quote=True,
                 progress=progress_for_pyrogram,
-                progress_args=("__Uploading…__", prog, time.time())
+                progress_args=("__Uᴩʟᴏᴀᴅɪɴɢ ʜᴀʀᴅ ᴄᴏᴅᴇᴅ ꜰɪʟᴇ...__", prog, time.time())
             )
             await prog.delete()
 
