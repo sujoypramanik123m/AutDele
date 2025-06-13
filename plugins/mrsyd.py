@@ -659,13 +659,13 @@ async def callback_handler(client: Client, query):
                     
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
-                    await query.message.reply(f"{elapsed}")
                     progress = min(int((elapsed / durton) * 100), 100)
                 else:
                     # fallback on wall time estimation
                     elapsed_wall = time.time() - start_time
                     progress = min(int((elapsed_wall / durton) * 100), 100)
-                    await query.message.reply(f" {progress} ended")
+                  
+                await query.message.reply(f"{progress}")
 
                 if time.time() - last_update >= 4:
                     try:
