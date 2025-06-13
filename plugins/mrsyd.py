@@ -315,12 +315,12 @@ async def callback_handler(client: Client, query):
             full_path = tmp.name
 
         try:
-            progress_msg = await query.message.reply("📥 Starting download...", quote=True)
+            progress_msg = await query.message.reply("Sᴛᴀʀᴛɪɴɢ ᴅᴏᴡɴʟᴏᴀᴅ...!", quote=True)
             await client.download_media(
                 message=media,
                 file_name=full_path,
                 progress=progress_for_pyrogram,
-                progress_args=("__Downloading…__", progress_msg, time.time())
+                progress_args=("__Dᴏᴡɴʟᴏᴀᴅɪɴɢ…__", progress_msg, time.time())
             )
 
             timestamps = sorted(random.sample(range(2, max(duration - 1, 3)), count))
@@ -328,7 +328,7 @@ async def callback_handler(client: Client, query):
             paths = []
 
             for idx, ts in enumerate(timestamps, start=1):
-                shot_path = full_path.replace(".mp4", f"_s{idx}.jpg")
+                shot_path = full_path.replace(".mp4", f"_@GetTGlinks_{idx}.jpg")
                 await ffmpeg_screenshot_async(full_path, ts, shot_path)
                 paths.append(shot_path)
                 media_group.append(InputMediaPhoto(
@@ -436,7 +436,7 @@ async def callback_handler(client: Client, query):
                 timeout=90
             )
         except asyncio.TimeoutError:
-            await prompt1.edit("⏰ Timed-out. Trim cancelled.")
+            await prompt1.edit("Tɪᴍᴇ-ᴏᴜᴛ. ᴛʀɪᴍ ᴄᴀɴᴄᴇʟʟᴇᴅ, ᴩʟᴇᴀꜱᴇ ʀᴇꜱᴛᴀʀᴛ ᴀɢᴀɪɴ..")
             return
         except Exception as e:
             await orig.reply(f"Error {e}")
@@ -580,7 +580,7 @@ async def callback_handler(client: Client, query):
         
             # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
                         # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
-            await prog.edit("🔥 Burning subtitles…")
+            await prog.edit("Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ... (ʜᴀʀᴅ ᴄᴏᴅɪɴɢ)")
 
             safe_ass_path = shlex.quote(ass_path)
             filter_graph = (
