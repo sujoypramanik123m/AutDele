@@ -657,9 +657,10 @@ async def callback_handler(client: Client, query):
 
                 match = pattern.search(decoded_line)
                 if match:
-                    await query.message.reply(f"{match}")
+                    
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
+                    await query.message.reply(f"{elapsed}")
                     progress = min(int((elapsed / durton) * 100), 100)
                 else:
                     # fallback on wall time estimation
