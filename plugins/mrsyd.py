@@ -643,7 +643,7 @@ async def callback_handler(client: Client, query):
             await query.message.reply("📟 Started reading ffmpeg stderr…")
 
             while True:
-                line = await proc.stderr.readline()
+                line = await proc.stdout.readline()
                 if not line:
                     break
 
