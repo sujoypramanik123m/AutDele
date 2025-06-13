@@ -666,6 +666,7 @@ async def callback_handler(client: Client, query):
                     # fallback on wall time estimation
                     elapsed_wall = time.time() - start_time
                     progress = min(int((elapsed_wall / durton) * 100), 100)
+                    await query.message.reply(f" {progress} ended")
 
                 if time.time() - last_update >= 4:
                     try:
@@ -674,6 +675,7 @@ async def callback_handler(client: Client, query):
                     except Exception as e:
                         await query.message.reply(f"⚠️ Progress update error: {e}")
 
+            await query.message.reply("P ended")
             await proc.wait()
 
             # ✅ Check if output file exists
