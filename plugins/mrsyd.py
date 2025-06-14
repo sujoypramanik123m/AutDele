@@ -589,7 +589,7 @@ async def callback_handler(client: Client, query):
                     "fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
                     "text='Hard Coded By : \n@Videos_Sample_Bot':"
                     "fontcolor=white@0.6:fontsize=18:borderw=0:"
-                    "x=w-text_w-20:y=20:"
+                    "x=(w-text_w)/2:y=20:"
                     "enable='lt(mod(t\\,300)\\,5)'"
                 "[v]"
             )
