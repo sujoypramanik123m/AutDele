@@ -635,11 +635,14 @@ async def callback_handler(client: Client, query):
             pattern = re.compile(r"time=(\d{2}):(\d{2}):(\d{2}(?:\.\d+)?)")
             start_time = time.time()
             last_update = start_time
-            percent_msg = "Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}%"
+            percent_msg = "{anim} \nBᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}%"
             progress = 0
             updates = 0
 
             
+            loop_anim = ["▁ ▂ ▃ ▅ ▆ ▇ ▆ ▅ ▃ ▂", "▂ ▃ ▅ ▆ ▇ ▆ ▅ ▃ ▂ ▁", "▃ ▅ ▆ ▇ ▆ ▅ ▃ ▂ ▁ ▂", "▅ ▆ ▇ ▆ ▅ ▃ ▂ ▁ ▂ ▃", "▆ ▇ ▆ ▅ ▃ ▂ ▁ ▂ ▃ ▅", "▇ ▆ ▅ ▃ ▂ ▁ ▂ ▃ ▅ ▆"]
+            anim_index = 0
+
             while True:
                 line = await proc.stdout.readline()
                 if not line:
@@ -648,31 +651,27 @@ async def callback_handler(client: Client, query):
                 decoded_line = line.decode("utf-8", errors="ignore").strip()
                 stderr_output.append(decoded_line)
 
-                # Debug: show a few stderr lines
                 updates += 1
-              #  if updates <= 3:
-                    
-
 
                 match = pattern.search(decoded_line)
                 if match:
-                    
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
                     progress = min(int((elapsed / durton) * 100), 100)
                 else:
-                    # fallback on wall time estimation
                     elapsed_wall = time.time() - start_time
-                    progress = min(int((elapsed_wall / (durton  * 20)) * 100), 100)
-                  
-                await query.message.reply(f"{progress}")
+                    progress = min(int((elapsed_wall / (durton * 20)) * 100), 100)
 
+                anim = loop_anim[anim_index % len(loop_anim)]
+                anim_index += 1
+                
                 if time.time() - last_update >= 4:
                     try:
-                        await prog.edit_text(percent_msg.format(progress=progress))
+                        await prog.edit_text(percent_msg)
                         last_update = time.time()
                     except Exception as e:
                         await query.message.reply(f"⚠️ Progress update error: {e}")
+
 
             await query.message.reply("P ended")
             await proc.wait()
