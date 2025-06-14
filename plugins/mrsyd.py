@@ -458,7 +458,7 @@ async def callback_handler(client: Client, query):
         except asyncio.TimeoutError:
             await prompt2.edit("ᴛɪᴍᴇ-ᴏᴜᴛ. ᴛʀɪᴍ ᴄᴀɴᴄᴇʟʟᴇᴅ. ᴩʟᴇᴀꜱᴇ ʀᴇꜱᴛᴀʀᴛ ᴀɢᴀɪɴ.")
             return
-        id_sec = parse_hms(end_msg.text)
+        end_sec = parse_hms(end_msg.text)
         if end_sec is None:
             return await end_msg.reply("Iɴᴠᴀʟɪᴅ ᴛɪᴍᴇ ꜰᴏʀᴍᴀᴛ (ᴜꜱᴇ `0:00` ʟɪᴋᴇ). Tʀɪᴍ ᴄᴀɴᴄᴇʟʟᴇᴅ.", quote=True)
 
@@ -542,7 +542,7 @@ async def callback_handler(client: Client, query):
 
         try:
             # video download
-            prog = await query.message.reply("📥 Downloading video…", quote=True)
+            prog = await query.message.reply("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ᴠɪᴅᴇᴏ…", quote=True)
             await client.download_media(
                 message=media,
                 file_name=video_path,
@@ -550,6 +550,7 @@ async def callback_handler(client: Client, query):
                 progress_args=("__Downloading…__", prog, time.time())
             )
 
+            await prog.edit("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ..")
             # subtitle download (tiny, no progress)
             await client.download_media(message=sub_msg, file_name=sub_path)
 
@@ -587,7 +588,7 @@ async def callback_handler(client: Client, query):
                 f"[0:v]ass={safe_ass_path},"
                 "drawtext="
                     "fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
-                    "text='Hard Coded By : \n@Videos_Sample_Bot':"
+                    "text='Hard Coded By : @Videos_Sample_Bot':"
                     "fontcolor=white@0.6:fontsize=18:borderw=0:"
                     "x=(w-text_w)/2:y=20:"
                     "enable='lt(mod(t\\,300)\\,5)'"
@@ -621,7 +622,6 @@ async def callback_handler(client: Client, query):
                 durtion = getattr(media, "duration", None)
                 debug1 = f"🔍 media.duration: {durtion}"
                 
-
                 if not durtion:
                     probe = ffmpeg.probe(video_path)
                     durtion = probe['format']['duration']
@@ -635,7 +635,7 @@ async def callback_handler(client: Client, query):
             pattern = re.compile(r"time=(\d{2}):(\d{2}):(\d{2}(?:\.\d+)?)")
             start_time = time.time()
             last_update = start_time
-            percent_msg = "⏳ Burning subtitles: {progress}%"
+            percent_msg = "Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}%"
             progress = 0
             updates = 0
 
