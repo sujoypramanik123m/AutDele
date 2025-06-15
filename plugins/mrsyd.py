@@ -457,9 +457,7 @@ async def callback_handler(client: Client, query):
 
 
     elif query.data == "trim":
-        proceed = await handle_process_flags(client, query)
-        if not proceed:
-            return
+        
        # await query.answer()
         prompt1 = await orig.reply(
             "Tʀɪᴍ: \nNᴏᴡ ꜱᴇɴᴅ **ꜱᴛᴀʀᴛ ᴛɪᴍᴇ**: \n\nᴇɢ: `0:00:30` (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)",
@@ -512,6 +510,9 @@ async def callback_handler(client: Client, query):
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
             full_path = tmp.name
         trimmed_path = full_path.replace(".mp4", "_@GetTGlinks_trim.mp4")
+        proceed = await handle_process_flags(client, query)
+        if not proceed:
+            return
         try:
             await client.download_media(
                 message=media,
@@ -534,11 +535,18 @@ async def callback_handler(client: Client, query):
                 quote=True
             )
         except Exception as e:
+            twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
+            if twoprocess:
+                await db.set_user_value(query.from_user.id, "twoprocess", False)
+            else:
+                await db.set_user_value(query.from_user.id, "oneprocess", False)
+
             await ack.edit(
                 f"❌ FFmpeg error:\n<code>{e}</code>",
                 parse_mode=enums.ParseMode.HTML
             )
         finally:
+            
             for p in (full_path, trimmed_path):
                 if os.path.exists(p):
                     os.remove(p)
@@ -730,6 +738,12 @@ async def callback_handler(client: Client, query):
                     parse_mode=enums.ParseMode.HTML,
                     quote=True
                 )
+                twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
+                if twoprocess:
+                    await db.set_user_value(query.from_user.id, "twoprocess", False)
+                else:
+                    await db.set_user_value(query.from_user.id, "oneprocess", False)
+
                 return
 
             # 5️⃣ upload result with progress
@@ -750,13 +764,13 @@ async def callback_handler(client: Client, query):
                 quote=True
             )
         finally:
-            for f in (video_path, burn_path, sub_path, ass_path):
+            for f in (video_path, burn_path, sub_path, ass_path, delayed_ass_path, delayed_srt_path):
                 if os.path.exists(f):
                     try:
                         os.remove(f)
                     except:
                         pass
-
+                
     elif query.data == "harcode":
         await query.answer("🎞 Send subtitle file…", show_alert=False)
 
