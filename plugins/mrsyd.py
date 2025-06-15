@@ -510,7 +510,7 @@ async def callback_handler(client: Client, query):
 
     
 
-    elif query.data == "harcode":
+    elif query.data == "hardcode":
         await query.answer("🎞 Send subtitle file…", show_alert=False)
 
         # 1️⃣ prompt user for subtitle
