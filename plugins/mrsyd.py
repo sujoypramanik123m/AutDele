@@ -867,7 +867,7 @@ async def callback_handler(client: Client, query):
             pattern = re.compile(r"time=(\d{2}):(\d{2}):(\d{2}(?:\.\d+)?)")
             start_time = time.time()
             last_update = start_time
-            percent_msg = "{anim} \nBᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}%"
+            
             progress = 0
             updates = 0
 
@@ -896,6 +896,7 @@ async def callback_handler(client: Client, query):
 
                 anim = loop_anim[anim_index % len(loop_anim)]
                 anim_index += 1
+                percent_msg = f"{anim} \nBᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}%"
                 
                 if time.time() - last_update >= 4:
                     try:
