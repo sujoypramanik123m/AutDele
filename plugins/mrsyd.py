@@ -841,7 +841,7 @@ async def callback_handler(client: Client, query):
             await syd.delete()
             delayed_srt_path = None
             delayed_ass_path = None
-            prog = await query.message.reply(f"Pʀᴏᴄᴇꜱꜱɪɴɢ... \n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: {deay}", quote=True)
+            progr = await query.message.reply(f"Pʀᴏᴄᴇꜱꜱɪɴɢ... \n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: {deay}", quote=True)
             if delay != 0.0:
                 if sub_path.endswith(".srt"):
                     delayed_srt_path = sub_path.replace(".srt", "_delayed.srt")
@@ -942,7 +942,7 @@ async def callback_handler(client: Client, query):
         
             # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
                         # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
-            await prog.edit(f"Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ... (ʜᴀʀᴅ ᴄᴏᴅɪɴɢ)\n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: {deay} ")
+            await progr.edit(f"Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ... (ʜᴀʀᴅ ᴄᴏᴅɪɴɢ)\n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: {deay} ")
 
             safe_ass_path = shlex.quote(ass_path)
             filter_graph = (
@@ -1050,7 +1050,7 @@ async def callback_handler(client: Client, query):
                 return
 
             # 5️⃣ upload result with progress
-            await prog.edit("📤 Uploading hard-subbed video…")
+            await progr.edit("📤 Uploading hard-subbed video…")
             await orig.reply_video(
                 video=burn_path,
                 caption="🎬 Hᴀʀᴅ-ꜱᴜʙʙᴇᴅ ᴠɪᴅᴇᴏ (ʙᴜʀɴᴇᴅ ꜱᴜʙᴛɪᴛʟᴇꜱ)",
@@ -1058,7 +1058,7 @@ async def callback_handler(client: Client, query):
                 progress=progress_for_pyrogram,
                 progress_args=("__Uᴩʟᴏᴀᴅɴɢ ʜᴀʀᴅ ᴄᴏᴅᴇᴅ ꜰɪʟᴇ...__", prog, time.time())
             )
-            await prog.delete()
+            await progr.delete()
 
         except Exception as e:
             await query.message.reply(
