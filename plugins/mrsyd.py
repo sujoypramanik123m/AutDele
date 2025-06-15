@@ -278,6 +278,12 @@ async def callback_handler(client: Client, query):
             await progress_msg.delete()
 
         except Exception as e:
+            twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
+            if twoprocess:
+                await db.set_user_value(query.from_user.id, "twoprocess", False)
+            else:
+                await db.set_user_value(query.from_user.id, "oneprocess", False)
+
             await query.message.reply(
                 f"❌ FFmpeg error:\n<code>{e.stderr.decode()}</code>",
                 parse_mode=enums.ParseMode.HTML,
@@ -348,6 +354,12 @@ async def callback_handler(client: Client, query):
             )
             await progress_msg.delete()
         except Exception as e:
+            twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
+            if twoprocess:
+                await db.set_user_value(query.from_user.id, "twoprocess", False)
+            else:
+                await db.set_user_value(query.from_user.id, "oneprocess", False)
+
             await query.message.reply(
                 f"❌ FFmpeg error:\n<code>{e.stderr.decode()}</code> \n\nSend This Message To @SyD_Xyz For Help",
                 parse_mode=enums.ParseMode.HTML,
@@ -417,6 +429,12 @@ async def callback_handler(client: Client, query):
                 quote=True
             )
         except Exception as e:
+            twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
+            if twoprocess:
+                await db.set_user_value(query.from_user.id, "twoprocess", False)
+            else:
+                await db.set_user_value(query.from_user.id, "oneprocess", False)
+
             await query.message.reply(
                 f"❌ FFmpeg error:\n<code>{e}</code>",
                 parse_mode=enums.ParseMode.HTML,
