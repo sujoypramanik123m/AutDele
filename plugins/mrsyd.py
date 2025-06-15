@@ -802,7 +802,8 @@ async def callback_handler(client: Client, query):
             sub_path = tmp.name
 
         await prompt.delete()
-        await sub_msg.delete()
+
+
         burn_path = video_path.replace(".mp4", "_hardcoded.mp4")
         ass_path  = sub_path  # will overwrite if srt→ass
 
