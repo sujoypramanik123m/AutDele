@@ -712,7 +712,7 @@ async def callback_handler(client: Client, query):
                     except:
                         pass
 
-    elif query.data == "hardcode": ##Testing All
+    elif query.data == "harcode":
         await query.answer("🎞 Send subtitle file…", show_alert=False)
 
         # 1️⃣ prompt user for subtitle
@@ -744,7 +744,7 @@ async def callback_handler(client: Client, query):
 
         try:
             # video download
-            prog = await query.message.reply("📥 Downloading video…", quote=True)
+            prog = await query.message.reply("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ᴠɪᴅᴇᴏ…", quote=True)
             await client.download_media(
                 message=media,
                 file_name=video_path,
@@ -752,8 +752,39 @@ async def callback_handler(client: Client, query):
                 progress_args=("__Downloading…__", prog, time.time())
             )
 
+            await prog.edit("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ..")
             # subtitle download (tiny, no progress)
             await client.download_media(message=sub_msg, file_name=sub_path)
+
+            
+                        # Ask for subtitle delay
+            await prompt.edit(
+                "⏱ **Enter delay for subtitles in seconds** (e.g., `-2` to show earlier, `3.5` to delay).\n"
+                "Send `/skip` to use without delay."
+            )
+            try:
+                delay_msg = await client.listen(query.from_user.id, timeout=30)
+                if delay_msg.text and delay_msg.text.strip().lower() != "/skip":
+                    delay = float(delay_msg.text.strip())
+                else:
+                    delay = 0.0
+            except:
+                delay = 0.0  # fallback if no input
+
+            # Apply delay if subtitle is in .srt (we handle .srt separately already)
+            if sub_path.endswith(".srt") and delay != 0.0:
+                delayed_srt_path = sub_path.replace(".srt", "_delayed.srt")
+                delay_cmd = [
+                    "ffmpeg", "-i", sub_path, "-itsoffset", str(delay),
+                    "-c", "copy", delayed_srt_path
+                ]
+                proc = await asyncio.create_subprocess_exec(
+                    *delay_cmd,
+                    stdout=asyncio.subprocess.DEVNULL,
+                    stderr=asyncio.subprocess.DEVNULL
+                )
+                await proc.communicate()
+                sub_path = delayed_srt_path  # use delayed srt
 
             # 3️⃣ convert SRT → ASS if needed, with styling
             if sub_path.endswith(".srt"):
@@ -779,65 +810,113 @@ async def callback_handler(client: Client, query):
                     f.seek(0)
                     f.write(style + "[Events]\n" + content)
 
-            # 4️⃣ burn subtitles (async ffmpeg)
-            await prog.edit("🔥 Burning subtitles…")
+        
+            # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
+                        # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
+            await prog.edit("Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ... (ʜᴀʀᴅ ᴄᴏᴅɪɴɢ)")
 
-            # Get duration in seconds using ffprobe
-            ffprobe_cmd = [
-                "ffprobe", "-v", "error", "-show_entries",
-                "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", video_path
-            ]
-            proc = await asyncio.create_subprocess_exec(
-                *ffprobe_cmd,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.DEVNULL
-            )
-            stdout, _ = await proc.communicate()
-            duration = float(stdout.decode().strip())
-
-            # Watermark + subtitle filters
-            vf_filters = (
-                f"ass='{ass_path}',"
-                "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
-                "text='@Videos_Sample_Bot':fontcolor=white:fontsize=24:borderw=2:bordercolor=black:"
-                "x=w-tw-20:y=20:enable='mod(t\\,30)<5'"
+            safe_ass_path = shlex.quote(ass_path)
+            filter_graph = (
+                f"[0:v]ass={safe_ass_path},"
+                "drawtext="
+                    "fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
+                    "text='Hard Coded By : @Videos_Sample_Bot':"
+                    "fontcolor=white@0.6:fontsize=18:borderw=0:"
+                    "x=(w-text_w)/2:y=20:"
+                    "enable='lt(mod(t\\,300)\\,5)'"
+                "[v]"
             )
 
             burn_cmd = [
-                "ffmpeg", "-i", video_path, "-vf", vf_filters,
-                "-c:v", "libx264", "-preset", "medium", "-c:a", "copy", "-y", burn_path
+                "ffmpeg",
+                "-i", video_path,
+                "-filter_complex", filter_graph,
+                "-map", "[v]",
+                "-map", "0:a?",
+                "-c:v", "libx264",
+                "-preset", "medium",
+                "-crf", "23",
+                "-c:a", "copy",
+                "-movflags", "+faststart",
+                "-y", burn_path
             ]
 
             proc = await asyncio.create_subprocess_exec(
                 *burn_cmd,
-                stdout=asyncio.subprocess.DEVNULL,
-                stderr=asyncio.subprocess.PIPE
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.STDOUT  # Capture stderr (which shows progress)
             )
 
-            pattern = re.compile(r"time=(\d+):(\d+):([\d.]+)")
-            last_update = time.time()
-            percent_msg = "⏳ Burning subtitles: {progress}%"
+            
+ 
+            try:
+                # Get duration from media or probe
+                durtion = getattr(media, "duration", None)
+                debug1 = f"🔍 media.duration: {durtion}"
+                
+                if not durtion:
+                    probe = ffmpeg.probe(video_path)
+                    durtion = probe['format']['duration']
+                    
+                durton = float(durtion)
+            except Exception as e:
+                durton = 36.0
+                await query.message.reply(f"⚠️ duration fallback: {e}")
+
+            stderr_output = []
+            pattern = re.compile(r"time=(\d{2}):(\d{2}):(\d{2}(?:\.\d+)?)")
+            start_time = time.time()
+            last_update = start_time
+            percent_msg = "{anim} \nBᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}%"
+            progress = 0
+            updates = 0
+
+            
+            loop_anim = ["▁ ▂ ▃ ▅ ▆ ▇ ▆ ▅ ▃ ▂", "▂ ▃ ▅ ▆ ▇ ▆ ▅ ▃ ▂ ▁", "▃ ▅ ▆ ▇ ▆ ▅ ▃ ▂ ▁ ▂", "▅ ▆ ▇ ▆ ▅ ▃ ▂ ▁ ▂ ▃", "▆ ▇ ▆ ▅ ▃ ▂ ▁ ▂ ▃ ▅", "▇ ▆ ▅ ▃ ▂ ▁ ▂ ▃ ▅ ▆"]
+            anim_index = 0
 
             while True:
-                line = await proc.stderr.readline()
+                line = await proc.stdout.readline()
                 if not line:
                     break
 
-                match = pattern.search(line.decode("utf-8", errors="ignore"))
+                decoded_line = line.decode("utf-8", errors="ignore").strip()
+                stderr_output.append(decoded_line)
+
+                updates += 1
+
+                match = pattern.search(decoded_line)
                 if match:
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
-                    progress = int((elapsed / duration) * 100)
+                    progress = min(int((elapsed / durton) * 100), 100)
+                else:
+                    elapsed_wall = time.time() - start_time
+                    progress = min(int((elapsed_wall / (durton * 20)) * 100), 100)
 
-                    if time.time() - last_update > 3:
-                        try:
-                            await prog.edit_text(percent_msg.format(progress=progress))
-                            last_update = time.time()
-                        except:
-                            pass
+                anim = loop_anim[anim_index % len(loop_anim)]
+                anim_index += 1
+                
+                if time.time() - last_update >= 4:
+                    try:
+                        await prog.edit_text(percent_msg)
+                        last_update = time.time()
+                    except Exception as e:
+                        await query.message.reply(f"⚠️ Progress update error: {e}")
 
+
+            await query.message.reply("P ended")
             await proc.wait()
 
+            # ✅ Check if output file exists
+            if not os.path.exists(burn_path) or os.path.getsize(burn_path) == 0:
+                error_log = "\n".join(stderr_output[-15:])
+                await query.message.reply(
+                    f"❌ ffmpeg failed:\n\n<code>{error_log}</code>",
+                    parse_mode=enums.ParseMode.HTML,
+                    quote=True
+                )
+                return
 
             # 5️⃣ upload result with progress
             await prog.edit("📤 Uploading hard-subbed video…")
@@ -846,7 +925,7 @@ async def callback_handler(client: Client, query):
                 caption="🎬 Hard-subbed video (burned subtitles)",
                 quote=True,
                 progress=progress_for_pyrogram,
-                progress_args=("__Uploading…__", prog, time.time())
+                progress_args=("__Uᴩʟᴏᴀᴅɪɴɢ ʜᴀʀᴅ ᴄᴏᴅᴇᴅ ꜰɪʟᴇ...__", prog, time.time())
             )
             await prog.delete()
 
@@ -863,6 +942,7 @@ async def callback_handler(client: Client, query):
                         os.remove(f)
                     except:
                         pass
+
                         
     elif query.data == "hardcod": ##Working
         await query.answer("🎞 Send subtitle file…", show_alert=False)
