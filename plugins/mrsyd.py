@@ -766,12 +766,14 @@ async def callback_handler(client: Client, query):
         with tempfile.NamedTemporaryFile(suffix=os.path.splitext(sub_msg.document.file_name)[1], delete=False) as tmp:
             sub_path = tmp.name
 
+        await prompt.delete()
+        await sub_msg.delete()
         burn_path = video_path.replace(".mp4", "_hardcoded.mp4")
         ass_path  = sub_path  # will overwrite if srt→ass
 
         try:
             # video download
-            prog = await query.message.reply("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ᴠɪᴅᴇᴏ…", quote=True)
+            pro = await query.message.reply("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ᴠɪᴅᴇᴏ…", quote=True)
             await client.download_media(
                 message=media,
                 file_name=video_path,
@@ -779,13 +781,14 @@ async def callback_handler(client: Client, query):
                 progress_args=("__Downloading…__", prog, time.time())
             )
 
-            await prog.edit("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ..")
+            await pro.edit("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ..")
             # subtitle download (tiny, no progress)
             await client.download_media(message=sub_msg, file_name=sub_path)
 
+            await pro.delete()
             
                         # Ask for subtitle delay
-            await prompt.edit(
+            syd = await query.message.reply(
                 "⏱ **Enter delay for subtitles in seconds** (e.g., `-2` to show earlier, `3.5` to delay).\n"
                 "Send `/skip` to use without delay."
             )
@@ -798,10 +801,10 @@ async def callback_handler(client: Client, query):
             except:
                 delay = 0.0
             await query.message.reply(f"{delay}")
-
+            await syd.delete()
             delayed_srt_path = None
             delayed_ass_path = None
-
+            prog = await query.message.reply("Pʀᴏᴄᴇꜱꜱɪɴɢ...", quote=True)
             if delay != 0.0:
                 if sub_path.endswith(".srt"):
                     delayed_srt_path = sub_path.replace(".srt", "_delayed.srt")
@@ -876,6 +879,7 @@ async def callback_handler(client: Client, query):
                         f.write(shift_ass(ass_data, delay))
                     sub_path = delayed_ass_path
 
+            prog = await query.message.reply("Pʀᴏᴄᴇꜱꜱɪɴɢ...", quote=True)
             # 3️⃣ convert SRT → ASS if needed, with styling
             if sub_path.endswith(".srt"):
                 ass_path = sub_path.replace(".srt", ".ass")
