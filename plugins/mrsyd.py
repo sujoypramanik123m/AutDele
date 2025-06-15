@@ -287,7 +287,7 @@ async def callback_handler(client: Client, query):
                     os.remove(f)
 
         syd = await query.message.reply("Yᴏᴜ ʜᴀᴠᴇ ᴛᴏ ᴡᴀɪᴛ 5 ᴍɪɴᴜᴛᴇꜱ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ ᴏʀ ɢᴏ ᴩᴀʀᴀʟʟᴇʟ..!")
-        await asyncio.sleep(2)
+        await asyncio.sleep(300)
         await syd.delete()
         await query.message.reply("Sᴇɴᴅ ꜰɪʟᴇ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ...! 🧊")
         twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
@@ -308,6 +308,9 @@ async def callback_handler(client: Client, query):
 
     # ─ 3. Take screenshots
     elif query.data.startswith("getshot#"):
+        proceed = await handle_process_flags(client, query)
+        if not proceed:
+            return
         count = int(query.data.split("#")[1])
         await query.answer(f"Tᴀᴋɪɴɢ {count} ʀᴀɴᴅᴏᴍ ꜱᴄʀᴇᴇɴꜱʜᴏᴛꜱ…", show_alert=False)
 
@@ -354,6 +357,10 @@ async def callback_handler(client: Client, query):
             for p in paths:
                 if os.path.exists(p):
                     os.remove(p)
+        syd = await query.message.reply("Yᴏᴜ ʜᴀᴠᴇ ᴛᴏ ᴡᴀɪᴛ 5 ᴍɪɴᴜᴛᴇꜱ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ ᴏʀ ɢᴏ ᴩᴀʀᴀʟʟᴇʟ..!")
+        await asyncio.sleep(300)
+        await syd.delete()
+        await query.message.reply("Sᴇɴᴅ ꜰɪʟᴇ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ...! 🧊")
         twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
         if twoprocess:
             await db.set_user_value(query.from_user.id, "twoprocess", False)
@@ -364,6 +371,9 @@ async def callback_handler(client: Client, query):
     elif query.data == "extract_audio":
         await query.answer("Exᴛʀᴀᴄᴛɪɴɢ ᴀᴜᴅɪᴏ....🎧", show_alert=False)
 
+        proceed = await handle_process_flags(client, query)
+        if not proceed:
+            return
         orig = query.message.reply_to_message
         if not orig or not (orig.video or orig.document):
             return await query.message.reply(
@@ -414,7 +424,10 @@ async def callback_handler(client: Client, query):
             for f in (full_path, audio_path):
                 if os.path.exists(f):
                     os.remove(f)
-                    
+        syd = await query.message.reply("Yᴏᴜ ʜᴀᴠᴇ ᴛᴏ ᴡᴀɪᴛ 5 ᴍɪɴᴜᴛᴇꜱ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ ᴏʀ ɢᴏ ᴩᴀʀᴀʟʟᴇʟ..!")
+        await asyncio.sleep(300)
+        await syd.delete()
+        await query.message.reply("Sᴇɴᴅ ꜰɪʟᴇ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ...! 🧊")
         twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
         if twoprocess:
             await db.set_user_value(query.from_user.id, "twoprocess", False)
@@ -424,6 +437,9 @@ async def callback_handler(client: Client, query):
 
 
     elif query.data == "trim":
+        proceed = await handle_process_flags(client, query)
+        if not proceed:
+            return
        # await query.answer()
         prompt1 = await orig.reply(
             "Tʀɪᴍ: \nNᴏᴡ ꜱᴇɴᴅ **ꜱᴛᴀʀᴛ ᴛɪᴍᴇ**: \n\nᴇɢ: `0:00:30` (ʜᴏᴜʀ:ᴍɪɴ:ꜱᴇᴄ)",
@@ -506,6 +522,16 @@ async def callback_handler(client: Client, query):
             for p in (full_path, trimmed_path):
                 if os.path.exists(p):
                     os.remove(p)
+        syd = await query.message.reply("Yᴏᴜ ʜᴀᴠᴇ ᴛᴏ ᴡᴀɪᴛ 5 ᴍɪɴᴜᴛᴇꜱ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ ᴏʀ ɢᴏ ᴩᴀʀᴀʟʟᴇʟ..!")
+        await asyncio.sleep(300)
+        await syd.delete()
+        await query.message.reply("Sᴇɴᴅ ꜰɪʟᴇ ꜰᴏʀ ɴᴇxᴛ ᴩʀᴏᴄᴇꜱꜱ...! 🧊")
+        twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
+        if twoprocess:
+            await db.set_user_value(query.from_user.id, "twoprocess", False)
+        else:
+            await db.set_user_value(query.from_user.id, "oneprocess", False)
+
 
 
     
@@ -770,6 +796,8 @@ async def callback_handler(client: Client, query):
             except:
                 delay = 0.0  # fallback if no input
 
+            delayed_srt_path = None
+
             # Apply delay if subtitle is in .srt (we handle .srt separately already)
             if sub_path.endswith(".srt") and delay != 0.0:
                 delayed_srt_path = sub_path.replace(".srt", "_delayed.srt")
@@ -808,7 +836,6 @@ async def callback_handler(client: Client, query):
                     content = f.read()
                     f.seek(0)
                     f.write(style + "[Events]\n" + content)
-
         
             # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
                         # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
@@ -819,7 +846,7 @@ async def callback_handler(client: Client, query):
                 f"[0:v]ass={safe_ass_path},"
                 "drawtext="
                     "fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
-                    "text='Hard Coded By : @Videos_Sample_Bot':"
+                    "text='Hard Coded By \n@Videos_Sample_Bot':"
                     "fontcolor=white@0.6:fontsize=18:borderw=0:"
                     "x=(w-text_w)/2:y=20:"
                     "enable='lt(mod(t\\,300)\\,5)'"
@@ -925,7 +952,7 @@ async def callback_handler(client: Client, query):
                 caption="🎬 Hard-subbed video (burned subtitles)",
                 quote=True,
                 progress=progress_for_pyrogram,
-                progress_args=("__Uᴩʟᴏᴀᴅɪɴɢ ʜᴀʀᴅ ᴄᴏᴅᴇᴅ ꜰɪʟᴇ...__", prog, time.time())
+                progress_args=("__Uᴩʟᴏᴀᴅɴɢ ʜᴀʀᴅ ᴄᴏᴅᴇᴅ ꜰɪʟᴇ...__", prog, time.time())
             )
             await prog.delete()
 
@@ -936,7 +963,7 @@ async def callback_handler(client: Client, query):
                 quote=True
             )
         finally:
-            for f in (video_path, burn_path, sub_path, ass_path):
+            for f in (video_path, burn_path, sub_path, ass_path, delayed_srt_path):
                 if os.path.exists(f):
                     try:
                         os.remove(f)
@@ -1042,7 +1069,7 @@ async def callback_handler(client: Client, query):
                 quote=True
             )
         finally:
-            for f in (video_path, burn_path, sub_path, ass_path):
+            for f in (video_path, burn_path, sub_path, ass_path, delayed_srt_path):
                 if os.path.exists(f):
                     try:
                         os.remove(f)
