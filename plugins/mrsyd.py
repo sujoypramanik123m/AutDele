@@ -1,4 +1,6 @@
 import math, time, random, os, tempfile, asyncio, re
+from datetime import timedelta
+
 from pyrogram import Client, enums, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from helper.database import db
@@ -794,24 +796,85 @@ async def callback_handler(client: Client, query):
                 else:
                     delay = 0.0
             except:
-                delay = 0.0  # fallback if no input
+                delay = 0.0
+            await query.message.reply(f"{delay}")
 
             delayed_srt_path = None
+            delayed_ass_path = None
 
-            # Apply delay if subtitle is in .srt (we handle .srt separately already)
-            if sub_path.endswith(".srt") and delay != 0.0:
-                delayed_srt_path = sub_path.replace(".srt", "_delayed.srt")
-                delay_cmd = [
-                    "ffmpeg", "-i", sub_path, "-itsoffset", str(delay),
-                    "-c", "copy", delayed_srt_path
-                ]
-                proc = await asyncio.create_subprocess_exec(
-                    *delay_cmd,
-                    stdout=asyncio.subprocess.DEVNULL,
-                    stderr=asyncio.subprocess.DEVNULL
-                )
-                await proc.communicate()
-                sub_path = delayed_srt_path  # use delayed srt
+            if delay != 0.0:
+                if sub_path.endswith(".srt"):
+                    delayed_srt_path = sub_path.replace(".srt", "_delayed.srt")
+
+                    def shift_srt(text, delay_sec):
+                        import re
+                        from datetime import timedelta
+
+                        def shift(ts):
+                            h, m, s_ms = ts.split(":")
+                            s, ms = s_ms.split(",")
+                            t = timedelta(hours=int(h), minutes=int(m), seconds=int(s), milliseconds=int(ms))
+                            t += timedelta(seconds=delay_sec)
+                            if t.total_seconds() < 0:
+                                t = timedelta(0)
+                            total_ms = int(t.total_seconds() * 1000)
+                            hh = total_ms // 3600000
+                            mm = (total_ms % 3600000) // 60000
+                            ss = (total_ms % 60000) // 1000
+                            mss = total_ms % 1000
+                            return f"{hh:02}:{mm:02}:{ss:02},{mss:03}"
+
+                        def process_line(line):
+                            match = re.match(r"(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})", line)
+                            if match:
+                                return f"{shift(match[1])} --> {shift(match[2])}"
+                            return line
+
+                        return "\n".join(process_line(l) for l in text.splitlines())
+
+                    with open(sub_path, "r", encoding="utf-8") as f:
+                        srt_data = f.read()
+                    with open(delayed_srt_path, "w", encoding="utf-8") as f:
+                        f.write(shift_srt(srt_data, delay))
+                    sub_path = delayed_srt_path
+
+                elif sub_path.endswith(".ass"):
+                    delayed_ass_path = sub_path.replace(".ass", "_delayed.ass")
+
+                    def shift_ass(text, delay_sec):
+                        import re
+                        from datetime import timedelta
+
+                        def shift_time(ts):
+                            h, m, s_cs = ts.split(":")
+                            s, cs = s_cs.split(".")
+                            t = timedelta(hours=int(h), minutes=int(m), seconds=int(s), milliseconds=int(cs) * 10)
+                            t += timedelta(seconds=delay_sec)
+                            if t.total_seconds() < 0:
+                                t = timedelta(0)
+                            total_cs = int(t.total_seconds() * 100)
+                            hh = total_cs // 360000
+                            mm = (total_cs % 360000) // 6000
+                            ss = (total_cs % 6000) // 100
+                            ccs = total_cs % 100
+                            return f"{hh}:{mm:02}:{ss:02}.{ccs:02}"
+
+                        def repl(line):
+                            if line.startswith("Dialogue:"):
+                                parts = line.split(",", 3)
+                                if len(parts) >= 3:
+                                    start = shift_time(parts[1])
+                                    end = shift_time(parts[2])
+                                    return f"{parts[0]},{start},{end},{parts[3]}"
+                            return line
+
+                        return "\n".join(repl(l) for l in text.splitlines())
+
+                    with open(sub_path, "r", encoding="utf-8") as f:
+                        ass_data = f.read()
+                    with open(delayed_ass_path, "w", encoding="utf-8") as f:
+                        f.write(shift_ass(ass_data, delay))
+                    sub_path = delayed_ass_path
 
             # 3️⃣ convert SRT → ASS if needed, with styling
             if sub_path.endswith(".srt"):
@@ -963,7 +1026,7 @@ async def callback_handler(client: Client, query):
                 quote=True
             )
         finally:
-            for f in (video_path, burn_path, sub_path, ass_path, delayed_srt_path):
+            for f in (video_path, burn_path, sub_path, ass_path, delayed_ass_path, delayed_srt_path):
                 if os.path.exists(f):
                     try:
                         os.remove(f)
