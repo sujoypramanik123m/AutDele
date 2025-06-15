@@ -12,6 +12,9 @@ from pyrogram.errors import UserNotParticipant
 SYD_CHANNELS = ["Bot_Cracker", "Mod_Moviez_X", "MrSyD_Tg"]
 SYD_BACKUP_LINK = "https://t.me/+0Zi1FC4ulo8zYzVl"        # your backup group
 
+def clean_number(val):
+    return int(val) if val == int(val) else val
+
 async def is_req_subscribed(bot, query):
     if await db.find_join_req(query.from_user.id):
         return True
@@ -832,11 +835,12 @@ async def callback_handler(client: Client, query):
                     delay = 0.0
             except:
                 delay = 0.0
-            await query.message.reply(f"{delay}")
+            deay = clean_number(delay)
+            await query.message.reply(f"{deay}")
             await syd.delete()
             delayed_srt_path = None
             delayed_ass_path = None
-            prog = await query.message.reply("Pʀᴏᴄᴇꜱꜱɪɴɢ...", quote=True)
+            prog = await query.message.reply(f"Pʀᴏᴄᴇꜱꜱɪɴɢ... \n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: {deay}", quote=True)
             if delay != 0.0:
                 if sub_path.endswith(".srt"):
                     delayed_srt_path = sub_path.replace(".srt", "_delayed.srt")
@@ -911,8 +915,7 @@ async def callback_handler(client: Client, query):
                         f.write(shift_ass(ass_data, delay))
                     sub_path = delayed_ass_path
 
-            prog = await query.message.reply("Pʀᴏᴄᴇꜱꜱɪɴɢ...", quote=True)
-            # 3️⃣ convert SRT → ASS if needed, with styling
+              # 3️⃣ convert SRT → ASS if needed, with styling
             if sub_path.endswith(".srt"):
                 ass_path = sub_path.replace(".srt", ".ass")
                 convert_cmd = ["ffmpeg", "-i", sub_path, ass_path]
@@ -938,7 +941,7 @@ async def callback_handler(client: Client, query):
         
             # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
                         # 4️⃣ burn subtitles + watermark  ─────────────────────────────────────────
-            await prog.edit("Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ... (ʜᴀʀᴅ ᴄᴏᴅɪɴɢ)")
+            await prog.edit(f"Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ... (ʜᴀʀᴅ ᴄᴏᴅɪɴɢ)\n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: {deay} ")
 
             safe_ass_path = shlex.quote(ass_path)
             filter_graph = (
@@ -1021,7 +1024,7 @@ async def callback_handler(client: Client, query):
 
                 anim = loop_anim[anim_index % len(loop_anim)]
                 anim_index += 1
-                percent_msg = f"{anim} \nBᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}%"
+                percent_msg = f"{anim} \nBᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}% \n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: {deay}"
                 
                 if time.time() - last_update >= 4:
                     try:
@@ -1049,7 +1052,7 @@ async def callback_handler(client: Client, query):
             await prog.edit("📤 Uploading hard-subbed video…")
             await orig.reply_video(
                 video=burn_path,
-                caption="🎬 Hard-subbed video (burned subtitles)",
+                caption="🎬 Hᴀʀᴅ-ꜱᴜʙʙᴇᴅ ᴠɪᴅᴇᴏ (ʙᴜʀɴᴇᴅ ꜱᴜʙᴛɪᴛʟᴇꜱ)",
                 quote=True,
                 progress=progress_for_pyrogram,
                 progress_args=("__Uᴩʟᴏᴀᴅɴɢ ʜᴀʀᴅ ᴄᴏᴅᴇᴅ ꜰɪʟᴇ...__", prog, time.time())
