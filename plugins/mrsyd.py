@@ -1027,9 +1027,9 @@ async def callback_handler(client: Client, query):
                     h, m, s = map(float, match.groups())
                     elapsed = h * 3600 + m * 60 + s
                     progress = min(int((elapsed / durton) * 100), 100)
-                else:
-                    elapsed_wall = time.time() - start_time
-                    progress = min(int((elapsed_wall / (durton * 20)) * 100), 100)
+              #  else:
+                    #elapsed_wall = time.time() - start_time
+                    #progress = min(int((elapsed_wall / (durton * 20)) * 100), 100)
 
                 anim = loop_anim[anim_index % len(loop_anim)]
                 anim_index += 1
