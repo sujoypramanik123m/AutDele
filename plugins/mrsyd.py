@@ -1034,7 +1034,7 @@ async def callback_handler(client: Client, query):
 
                 anim = loop_anim[anim_index % len(loop_anim)]
                 anim_index += 1
-                percent_msg = f"{anim} \nBᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}% \n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: {deay}"
+                percent_msg = f"Bᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}% \n{anim}\n\n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: {deay}"
                 
                 if time.time() - last_update >= 4:
                     try:
