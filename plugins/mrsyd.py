@@ -821,7 +821,7 @@ async def callback_handler(client: Client, query):
                 message=media,
                 file_name=video_path,
                 progress=progress_for_pyrogram,
-                progress_args=("__Downloading…__", pro, time.time())
+                progress_args=("__Dᴏᴡɴʟᴏᴀᴅɪɴɢ…__", pro, time.time())
             )
 
             await pro.edit("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ..")
@@ -843,6 +843,7 @@ async def callback_handler(client: Client, query):
                     delay = 0.0
             except:
                 delay = 0.0
+                syyd = await query.message.reply(f"Sᴜʙᴛɪᴛʟᴇ ꜱʜɪꜰᴛ, ꜱᴇᴄᴏɴᴅꜱ ᴛɪᴍᴇ ᴏᴜᴛ...\n\nPʀᴏᴄᴇꜱꜱ ᴄᴏɴᴛɪɴᴜᴇꜱ... (ʜᴀʀᴅ ᴄᴏᴅɪɴɢ)\n\n• ꜱᴜʙᴛɪᴛʟᴇ ᴛɪᴍᴇ ᴀᴅᴊᴜꜱᴛ: 0 ʙʏ ᴅᴇꜰᴜᴀʟᴛ (ʀᴇꜱᴛᴀʀᴛ ᴩʀᴏᴄᴇꜱꜱ ᴛᴏ ᴇᴅɪᴛ ɪᴛ) ")
             deay = clean_number(delay)
             await query.message.reply(f"{deay}")
             await syd.delete()
@@ -956,7 +957,7 @@ async def callback_handler(client: Client, query):
                 f"[0:v]ass={safe_ass_path},"
                 "drawtext="
                     "fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
-                    "text='Hard Coded By \n@Videos_Sample_Bot':"
+                    "text='Hᴀʀᴅ Cᴏᴅᴇᴅ Bʏ @Vɪᴅᴇᴏꜱ_Sᴀᴍᴩʟᴇ_Bᴏᴛ':"
                     "fontcolor=white@0.6:fontsize=18:borderw=0:"
                     "x=10:y=10:"
                     "enable='lt(mod(t\\,300)\\,5)'"
@@ -1045,7 +1046,7 @@ async def callback_handler(client: Client, query):
 
             await query.message.reply("P ended")
             await proc.wait()
-
+            await syyd.delete()
             # ✅ Check if output file exists
             if not os.path.exists(burn_path) or os.path.getsize(burn_path) == 0:
                 error_log = "\n".join(stderr_output[-15:])
