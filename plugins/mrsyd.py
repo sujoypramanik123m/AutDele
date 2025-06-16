@@ -398,6 +398,7 @@ async def callback_handler(client: Client, query):
                 quote=True
             )
 
+        syd = await query.message.reply("Pʀᴏᴄᴇꜱꜱɪɴɢ..")
         media = orig.video or orig.document
 
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
@@ -409,7 +410,7 @@ async def callback_handler(client: Client, query):
                 message=media,
                 file_name=full_path,
                 progress=progress_for_pyrogram,
-                progress_args=("__Dᴏᴡɴʟᴏᴀᴅɪɴɢ…__", query.message, time.time())
+                progress_args=("__Dᴏᴡɴʟᴏᴀᴅɪɴɢ…__", syd, time.time())
             )
             await query.message.edit("Gᴇɴᴇʀᴀᴛɪɴɢ ᴀɴᴅ ᴜᴩʟᴏᴀᴅɪɴɢ ᴀᴜᴅɪᴏ")
 
@@ -429,7 +430,10 @@ async def callback_handler(client: Client, query):
             await orig.reply_audio(
                 audio=audio_path,
                 caption="Exᴛʀᴀᴄᴛᴇᴅ Aᴜᴅɪᴏ 🎙️",
-                quote=True
+                quote=True,
+                progress=progress_for_pyrogram,                    # <<< NEW
+                progress_args=("__Uᴩʟᴏᴀᴅɪɴɢ Aᴜᴅɪᴏ__", syd, time.time())  # <<< NEW
+            
             )
         except Exception as e:
             twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
@@ -535,7 +539,10 @@ async def callback_handler(client: Client, query):
             await orig.reply_video(
                 video=trimmed_path,
                 caption=f"Tʀɪᴍᴍᴇᴅ ꜰʀᴏᴍ {start_msg.text} ᴛᴏ {end_msg.text}",
-                quote=True
+                quote=True,
+                progress=progress_for_pyrogram,                    # <<< NEW
+                progress_args=("__Uᴩʟᴏᴀᴅɪɴɢ Aᴜᴅɪᴏ__", ack, time.time())  # <<< NEW
+            
             )
         except Exception as e:
             twoprocess = await db.get_user_value(query.from_user.id, "twoprocess") or False
@@ -814,7 +821,7 @@ async def callback_handler(client: Client, query):
                 message=media,
                 file_name=video_path,
                 progress=progress_for_pyrogram,
-                progress_args=("__Downloading…__", prog, time.time())
+                progress_args=("__Downloading…__", pro, time.time())
             )
 
             await pro.edit("Dᴏᴡɴʟᴏᴀᴅɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ..")
@@ -825,8 +832,8 @@ async def callback_handler(client: Client, query):
             
                         # Ask for subtitle delay
             syd = await query.message.reply(
-                "⏱ **Enter delay for subtitles in seconds** (e.g., `-2` to show earlier, `3.5` to delay).\n"
-                "Send `/skip` to use without delay."
+                "⏱ **Eɴᴛᴇʀ ꜱᴜʙᴛɪᴛʟᴇ ꜱʜɪꜰᴛ \nꜰᴏʀ ᴅᴇʟᴀʏɪɴɢ ᴏʀ ᴀᴅᴠᴀɴᴄɪɴɢ ᴛʜᴇ ᴀᴩᴩᴇᴀʀᴇɴᴄᴇ ᴏꜰ ꜱᴜʙᴛɪᴛʟᴇꜱ <u>ɪɴ ꜱᴇᴄᴏɴᴅꜱ</u>** \n(ᴇɢ, `-2` ᴛᴏ ꜱʜᴏᴡ ꜱᴜʙᴛɪᴛʟᴇꜱ 2ꜱ ᴇᴀʀʟɪᴇʀ, `3.5` ᴛᴏ ᴅᴇʟᴀʏ 3.5ꜱ).\n"
+                "```Sᴇɴᴅ /skip ᴛᴏ ᴜꜱᴇ ᴡɪᴛʜᴏᴜᴛ ꜱʜɪꜰᴛɪɴɢ.```"
             )
             try:
                 delay_msg = await client.listen(query.from_user.id, timeout=30)
@@ -1056,7 +1063,7 @@ async def callback_handler(client: Client, query):
                 caption="🎬 Hᴀʀᴅ-ꜱᴜʙʙᴇᴅ ᴠɪᴅᴇᴏ (ʙᴜʀɴᴇᴅ ꜱᴜʙᴛɪᴛʟᴇꜱ)",
                 quote=True,
                 progress=progress_for_pyrogram,
-                progress_args=("__Uᴩʟᴏᴀᴅɴɢ ʜᴀʀᴅ ᴄᴏᴅᴇᴅ ꜰɪʟᴇ...__", prog, time.time())
+                progress_args=("__Uᴩʟᴏᴀᴅɴɢ ʜᴀʀᴅ ᴄᴏᴅᴇᴅ ꜰɪʟᴇ...__", progr, time.time())
             )
             await progr.delete()
 
