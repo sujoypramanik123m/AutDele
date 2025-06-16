@@ -796,11 +796,11 @@ async def callback_handler(client: Client, query):
                 timeout=90
             )
         except asyncio.TimeoutError:
-            await prompt.edit("⏰ Timed-out. Hard-code cancelled.")
+            await prompt.edit("⏰ Timed-out. Hard-code cancelled ✗")
             return
 
         if not sub_msg.document:
-            return await sub_msg.reply("❌ Subtitle must be sent as a file.", quote=True)
+            return await sub_msg.reply("Sᴜʙᴛɪᴛʟᴇ ᴍᴜꜱᴛ ʙᴇ ꜱᴇɴᴛ ᴀꜱ ꜰɪʟᴇ. Pʀᴏᴄᴇꜱꜱ Cᴀɴᴄᴇʟʟᴇᴅ ✗", quote=True)
 
         # 2️⃣ download media + subtitle
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
