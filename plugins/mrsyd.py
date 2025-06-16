@@ -728,7 +728,7 @@ async def callback_handler(client: Client, query):
                 anim = loop_anim[anim_index % len(loop_anim)]
                 anim_index += 1
                 percent_msg = "{anim} \nBᴜʀɴɪɴɢ ꜱᴜʙᴛɪᴛʟᴇꜱ: {progress}%"
-                
+                await query.message.reply(f"{percent_msg}")
                 if time.time() - last_update >= 4:
                     try:
                         await prog.edit_text(percent_msg)
