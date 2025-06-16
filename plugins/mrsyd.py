@@ -832,8 +832,8 @@ async def callback_handler(client: Client, query):
             
                         # Ask for subtitle delay
             syd = await query.message.reply(
-                "⏱ **Eɴᴛᴇʀ ꜱᴜʙᴛɪᴛʟᴇ ꜱʜɪꜰᴛ \nꜰᴏʀ ᴅᴇʟᴀʏɪɴɢ ᴏʀ ᴀᴅᴠᴀɴᴄɪɴɢ ᴛʜᴇ ᴀᴩᴩᴇᴀʀᴇɴᴄᴇ ᴏꜰ ꜱᴜʙᴛɪᴛʟᴇꜱ <u>ɪɴ ꜱᴇᴄᴏɴᴅꜱ</u>** \n(ᴇɢ, `-2` ᴛᴏ ꜱʜᴏᴡ ꜱᴜʙᴛɪᴛʟᴇꜱ 2ꜱ ᴇᴀʀʟɪᴇʀ, `3.5` ᴛᴏ ᴅᴇʟᴀʏ 3.5ꜱ).\n"
-                "```Sᴇɴᴅ /skip ᴛᴏ ᴜꜱᴇ ᴡɪᴛʜᴏᴜᴛ ꜱʜɪꜰᴛɪɴɢ.```"
+                "⏱ **Eɴᴛᴇʀ ꜱᴜʙᴛɪᴛʟᴇ ꜱʜɪꜰᴛ: \n\nꜰᴏʀ ᴅᴇʟᴀʏɪɴɢ ᴏʀ ᴀᴅᴠᴀɴᴄɪɴɢ ᴛʜᴇ ᴀᴩᴩᴇᴀʀᴇɴᴄᴇ ᴏꜰ ꜱᴜʙᴛɪᴛʟᴇꜱ <u>ɪɴ ꜱᴇᴄᴏɴᴅꜱ</u>** \n\n(ᴇɢ, `-2` ᴛᴏ ꜱʜᴏᴡ ꜱᴜʙᴛɪᴛʟᴇꜱ 2ꜱ ᴇᴀʀʟɪᴇʀ, `3.5` ᴛᴏ ᴅᴇʟᴀʏ 3.5ꜱ).\n"
+                "Sᴇɴᴅ /skip ᴛᴏ ᴜꜱᴇ ᴡɪᴛʜᴏᴜᴛ ꜱʜɪꜰᴛɪɴɢ."
             )
             try:
                 delay_msg = await client.listen(query.from_user.id, timeout=30)
@@ -1036,7 +1036,7 @@ async def callback_handler(client: Client, query):
                 
                 if time.time() - last_update >= 4:
                     try:
-                        await prog.edit_text(percent_msg)
+                        await progr.edit_text(percent_msg)
                         await query.message.reply(percent_msg)
                         last_update = time.time()
                     except Exception as e:
