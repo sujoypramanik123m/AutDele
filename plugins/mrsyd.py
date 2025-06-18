@@ -231,17 +231,18 @@ async def ffmpeg_screenshot_async(src: str, sec: int, dst: str):
 # ── main callback handler ──────────────────────────────────────────────────────
 @Client.on_callback_query()
 async def callback_handler(client: Client, query):
+    orig = query.message.reply_to_message
     if AUTH_CHANNEL and not await is_req_subscribed(client, query):
         btn = [[InlineKeyboardButton("⊛ Jᴏɪɴ Uᴘᴅᴀᴛᴇꜱ CʜᴀɴɴᴇL ⊛", url=invite_link.invite_link)],
                [InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", callback_data="checksub")]]
 
-        await query.message.reply(
+        await orig.reply_text(
             text="Jᴏɪɴ Iɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ Aɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ Tʀʏ Aɢᴀɪɴ Tᴏ Cᴏɴᴛɪɴᴜᴇ.",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.MARKDOWN
         )
+        await query.message.delete()
         return
-    orig = query.message.reply_to_message
     if not orig or not (orig.video or orig.document):
         return await query.answer("Nᴏ Fɪʟᴇꜱ Fᴏᴜɴᴅ. Rᴇᴩᴏʀᴛ Aᴅᴍɪɴ Iꜰ Iᴛ'ꜱ Aɴ Eʀʀᴏʀ", show_alert=True)
 
@@ -1091,22 +1092,23 @@ async def callback_handler(client: Client, query):
             await query.answer("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴊᴏɪɴᴇᴅ ɪɴ ᴀʟʟ, ᴩʟᴇᴀꜱᴇ ᴊᴏɪɴ.... 🎐", show_alert=True)
     elif query.data == "checksub":
         await query.answer("🔍 Checking access…", show_alert=False)
-
+        
         buttons = [
             [InlineKeyboardButton("Sᴀᴍᴩʟᴇ - 30ꜱ", callback_data="sample")],
             [InlineKeyboardButton("Gᴇɴᴇʀᴀᴛᴇ Sᴄʀᴇᴇɴꜱʜᴏᴛ", callback_data="screenshot")],
             [InlineKeyboardButton("Tʀɪᴍ", callback_data="trim")],
+            [InlineKeyboardButton("Hᴀʀᴅ Cᴏᴅᴇ (❄️)", callback_data="harcode")],
             [InlineKeyboardButton("Exᴛʀᴀᴄᴛ Aᴜᴅɪᴏ", callback_data="extract_audio")],
             [InlineKeyboardButton("Rᴇɴᴀᴍᴇ", url="https://t.me/MS_ReNamEr_BoT"),
              InlineKeyboardButton("Sᴛʀᴇᴀᴍ", url="https://t.me/Ms_FiLe2LINk_bOt")],
-        
             [InlineKeyboardButton("Sᴜᴩᴩᴏʀᴛ", url="https://t.me/Bot_cracker")],
             [InlineKeyboardButton("Rᴇqᴜᴇꜱᴛ Mᴏʀᴇ Fᴇᴀᴛᴜʀᴇꜱ", url="https://t.me/syd_xyz")]
         ]
 
 
-        await query.message.reply(
-            "Cʜᴏᴏꜱᴇ ᴀɴ ᴀᴄᴛɪᴏɴ ʙᴇʟᴏᴡ:",
+        await orig.reply_text(
+            "<b>Cʜᴏᴏꜱᴇ, ᴛʜᴇ ᴩʀᴏᴄᴄᴇꜱꜱ ʏᴏᴜ ᴡᴀɴᴛ ᴍᴇ ᴛᴏ ᴅᴏ:</b>",
             reply_markup=InlineKeyboardMarkup(buttons),
             quote=True
         )
+        await query.message.delete()
