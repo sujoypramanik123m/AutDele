@@ -23,7 +23,7 @@ async def is_req_subscribed(bot, query):
     except UserNotParticipant:
         pass
     except Exception as e:
-        logger.exception(e)
+        print(e)
     else:
         if user.status != enums.ChatMemberStatus.BANNED:
             return True
