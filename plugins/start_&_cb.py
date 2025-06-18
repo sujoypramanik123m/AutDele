@@ -55,8 +55,14 @@ async def handle_ile(client, message):
     file_id = message.document.file_id if message.document else message.video.file_id
     file_name = message.document.file_name if message.document else message.video.file_name
 
-    log_msg = await client.send_cached_media(chat_id=Config.LOG_CHANNEL, file_id=file_id)
-
+    try:
+        log_msg = await client.send_cached_media(chat_id=Config.LOG_CHANNEL, file_id=file_id)
+        await log_msg.reply_text(
+        f"#Generated\n\n👤 User: {username}\n🆔 ID: <code>{user_id}</code>\n📄 File: {file_name}",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Message", user_id=user_id)]])
+        )
+    except:
+        pass
     buttons = [
         [InlineKeyboardButton("Sᴀᴍᴩʟᴇ - 30ꜱ", callback_data="sample")],
         [InlineKeyboardButton("Gᴇɴᴇʀᴀᴛᴇ Sᴄʀᴇᴇɴꜱʜᴏᴛ", callback_data="screenshot")],
@@ -76,11 +82,7 @@ async def handle_ile(client, message):
         quote=True
     )
 
-    # 7. Log It
-    await log_msg.reply_text(
-        f"#Generated\n\n👤 User: {username}\n🆔 ID: <code>{user_id}</code>\n📄 File: {file_name}",
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("▶️ Watch", url=stream_url)]])
-    )
+    
 @Client.on_message(filters.command("start") & filters.chat(-1002687879857))
 async def sydstart(client, message):
     await message.reply_text(".")
