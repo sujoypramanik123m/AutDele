@@ -232,12 +232,15 @@ async def ffmpeg_screenshot_async(src: str, sec: int, dst: str):
 @Client.on_callback_query()
 async def callback_handler(client: Client, query):
     orig = query.message.reply_to_message
-    await query.message.reply("Sᴛᴀʀᴛɪɴɢ")
     if AUTH_CHANNEL and not await is_req_subscribed(client, query):
+        try:
+            invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL), creates_join_request=True)
+        except ChatAdminRequired:
+            print("Make sure Bot is admin in Forcesub channel")
+            return
         btn = [[InlineKeyboardButton("⊛ Jᴏɪɴ Uᴘᴅᴀᴛᴇꜱ CʜᴀɴɴᴇL ⊛", url=invite_link.invite_link)],
                [InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", callback_data="checksub")]]
 
-        await query.message.reply("Sᴛᴀʀᴛɪɴɢ")
         await orig.reply(
             text="Jᴏɪɴ Iɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ Aɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ Tʀʏ Aɢᴀɪɴ Tᴏ Cᴏɴᴛɪɴᴜᴇ.",
             reply_markup=InlineKeyboardMarkup(btn),
