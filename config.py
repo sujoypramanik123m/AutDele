@@ -17,7 +17,7 @@ class Config(object):
 
     # other configs
     BOT_UPTIME = time.time()
-    PICS = os.environ.get("PICS", 'https://envs.sh/XN2.jpg https://envs.sh/XNu.jpg https://envs.sh/XNd.jpg https://envs.sh/XNh.jpg').split()
+    PICS = os.environ.get("PICS", 'https://envs.sh/XN2.jpg https://envs.sh/XNu.jpg https://envs.sh/yqA.jpg https://envs.sh/XNh.jpg').split()
     ADMIN = [int(admin) if id_pattern.search(
         admin) else admin for admin in os.environ.get('ADMIN', '').split()]  # ⚠️ Required
 
