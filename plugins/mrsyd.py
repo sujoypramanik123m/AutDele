@@ -232,11 +232,13 @@ async def ffmpeg_screenshot_async(src: str, sec: int, dst: str):
 @Client.on_callback_query()
 async def callback_handler(client: Client, query):
     orig = query.message.reply_to_message
+    await query.message.reply("Sᴛᴀʀᴛɪɴɢ")
     if AUTH_CHANNEL and not await is_req_subscribed(client, query):
         btn = [[InlineKeyboardButton("⊛ Jᴏɪɴ Uᴘᴅᴀᴛᴇꜱ CʜᴀɴɴᴇL ⊛", url=invite_link.invite_link)],
                [InlineKeyboardButton("↻ Tʀʏ Aɢᴀɪɴ ↻", callback_data="checksub")]]
 
-        await orig.reply_text(
+        await query.message.reply("Sᴛᴀʀᴛɪɴɢ")
+        await orig.reply(
             text="Jᴏɪɴ Iɴ Oᴜʀ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ Aɴᴅ Tʜᴇɴ Cʟɪᴄᴋ Oɴ Tʀʏ Aɢᴀɪɴ Tᴏ Cᴏɴᴛɪɴᴜᴇ.",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.MARKDOWN
