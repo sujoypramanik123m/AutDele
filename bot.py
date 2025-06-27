@@ -6,7 +6,7 @@ from pyrogram import Client, __version__
 from pyrogram.raw.all import layer
 from config import Config
 from aiohttp import web
-from helper.database import db
+from plugins.database import db
 from plugins.web_support import web_server
 from pytz import timezone
 from datetime import datetime
@@ -68,12 +68,7 @@ class Bot(Client):
             except:
                 pass
 
-        all_users = await db.get_all_users()
-        async for user in all_users:
-                user_id = user["_id"]
-                await db.set_user_value(user_id, "oneprocess", False)
-                await db.set_user_value(user_id, "twoprocess", False)
-
+        
         if Config.LOG_CHANNEL:
             try:
                 curr = datetime.now(timezone("Asia/Kolkata"))
