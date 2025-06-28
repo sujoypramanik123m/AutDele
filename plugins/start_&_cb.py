@@ -2,7 +2,7 @@ import random
 import logging
 from pyrogram import Client, filters, enums
 from pyrogram.enums import ParseMode
-from pyrogram.errors import FloodWait, ChatAdminRequired
+from pyrogram.errors import FloodWait, ChatAdminRequired, UserNotParticipant, PeerIdInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, CallbackQuery, Message
 from helper.database import db
 from config import Config, Txt
