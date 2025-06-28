@@ -204,7 +204,7 @@ async def set_delete_handler(bot, message: Message):
         if not await is_user_admin(bot, message.from_user.id, chat_id):
             return await message.reply("❌ You must be admin in that group.")
 
-        await db.col.update_one(
+        await db.chats.update_one(
             {"chat_id": chat_id},
             {"$set": {"delete_after": time_sec}},
             upsert=True
