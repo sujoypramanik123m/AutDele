@@ -79,9 +79,16 @@ async def is_bot_admin(bot, chat_id: int):
 
 async def is_user_admin(bot, user_id: int, chat_id: int):
     try:
-        member = await bot.get_chat_member(chat_id, user_id)
-        return member.status in ["administrator", "creator"]
-    except:
+        user = await bot.get_chat_member(chat_id, user_id)
+        if (
+            user.status != enums.ChatMemberStatus.ADMINISTRATOR
+            and user.status != enums.ChatMemberStatus.OWNER
+            and user_id not in Config.ADMIN
+        ):
+            return False
+        return True
+    except Exception as e:
+        print(f"is_user_admin error: {e}")
         return False
 
 
