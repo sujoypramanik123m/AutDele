@@ -112,7 +112,7 @@ async def ensure_member(client, msg):
             member = await client.get_chat_member(chat_id, user_id)
             if member.status in {"left", "kicked"}:
                 not_joined.append(("private", chat_id))
-        except (UserNotParticipant, PeerIdInvalid, ChatAdminRequired):
+        except UserNotParticipant:
             not_joined.append(("private", chat_id))
         except Exception:
             pass
@@ -163,8 +163,11 @@ async def set_delete_handler(bot, message: Message):
         return
     await message.reply("❌")
     args = message.text.split()
+    await message.reply("❌")
     chat_type = getattr(message.chat, "type", None)
+    await message.reply("❌")
     if chat_type in ["group", "supergroup"]:
+        await message.reply("❌")
         if len(args) != 2:
             return await message.reply("⚠️ Usage: `/setdelete 30s`, `2m`, or `1h`", quote=True)
 
@@ -186,6 +189,7 @@ async def set_delete_handler(bot, message: Message):
         await message.reply(f"✅ Messages will auto-delete after {time_sec} seconds.")
 
     elif chat_type == "private":
+        await message.reply("❌")
         if len(args) != 3:
             return await message.reply("⚠️ Usage: `/setdelete <chat_id> <time>`", quote=True)
 
@@ -223,7 +227,9 @@ async def get_delete_handler(bot, message: Message):
 
     args = message.text.split()
 
+    await message.reply("❌")
     if message.chat.type in ["group", "supergroup"]:
+        await message.reply("❌")
         if not await is_user_admin(bot, message.from_user.id, message.chat.id):
             return await message.reply("❌ Only group admins can view auto-delete time.")
 
