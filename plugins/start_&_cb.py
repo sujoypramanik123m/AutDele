@@ -164,9 +164,7 @@ async def set_delete_handler(bot, message: Message):
     await message.reply("❌")
     args = message.text.split()
     await message.reply("❌")
-    chat_type = getattr(message.chat, "type", None)
-    await message.reply("❌")
-    if chat_type in ["group", "supergroup"]:
+    if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         await message.reply("❌")
         if len(args) != 2:
             return await message.reply("⚠️ Usage: `/setdelete 30s`, `2m`, or `1h`", quote=True)
@@ -188,7 +186,7 @@ async def set_delete_handler(bot, message: Message):
         )
         await message.reply(f"✅ Messages will auto-delete after {time_sec} seconds.")
 
-    elif chat_type == "private":
+    else:
         await message.reply("❌")
         if len(args) != 3:
             return await message.reply("⚠️ Usage: `/setdelete <chat_id> <time>`", quote=True)
