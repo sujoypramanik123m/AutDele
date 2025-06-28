@@ -158,9 +158,10 @@ async def ensure_member(client, msg):
 # --- /setdelete ---
 @Client.on_message(filters.command("setdelete"))
 async def set_delete_handler(bot, message: Message):
+    await message.reply("❌")
     if not await ensure_member(bot, message):
         return
-
+    await message.reply("❌")
     args = message.text.split()
 
     if message.chat.type in ["group", "supergroup"]:
@@ -214,8 +215,11 @@ async def set_delete_handler(bot, message: Message):
 # --- /getdelete ---
 @Client.on_message(filters.command("getdelete"))
 async def get_delete_handler(bot, message: Message):
+    await message.reply("❌")
     if not await ensure_member(bot, message):
+        await message.reply("❌")
         return
+    await message.reply("❌")
 
     args = message.text.split()
 
@@ -250,6 +254,7 @@ async def get_delete_handler(bot, message: Message):
 
 @Client.on_message(filters.command("deldelete"))
 async def del_delete_handler(bot, message: Message):
+    await message.reply("❌")
     if not await ensure_member(bot, message):
         return
 
