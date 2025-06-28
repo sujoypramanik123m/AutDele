@@ -165,7 +165,6 @@ async def ensure_member(client, msg):
 # --- /setdelete ---
 @Client.on_message(filters.command("setdelete"))
 async def set_delete_handler(bot, message: Message):
-    await message.reply("❌")
     if not await ensure_member(bot, message):
         return
     args = message.text.split()
@@ -225,17 +224,18 @@ async def set_delete_handler(bot, message: Message):
 # --- /getdelete ---
 @Client.on_message(filters.command("getdelete"))
 async def get_delete_handler(bot, message: Message):
-    await message.reply("❌")
     if not await ensure_member(bot, message):
         return
 
     args = message.text.split()
 
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        
+        await message.reply("❌")
         if not await is_user_admin(bot, message.from_user.id, message.chat.id):
             return await message.reply("❌ Only group admins can view auto-delete time.")
 
+        
+        await message.reply("❌")
         seconds = await db.get_chat_delete_time(message.chat.id)
         if seconds:
             await message.reply(f"🕒 Auto-delete is set to **{seconds} seconds**.")
