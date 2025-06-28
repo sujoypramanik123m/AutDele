@@ -55,6 +55,9 @@ import asyncio, re
 SYD_CHANNELS = ["@Bot_Cracker", "@MrSyD_TG"]
 SYD_BACKUP_LINK = "https://t.me/backup_channel"
 REQUIRED_CHAT_IDS = ["-1001823125512"]
+CHAT_INVITE_LINKS = {
+    -1001823125512: "https://t.me/+sBspXGfNFYtmZWRl"  # Replace with actual invite links
+}
 
 # --- Time Parser ---
 def parse_time(time_str):
@@ -88,7 +91,7 @@ async def ensure_member(client, msg):
     Sends join/invite buttons if not.
     """
     user_id = msg.from_user.id
-    replyable = msg.message if hasattr(msg, "message") else msg
+    replyable = msg #.message if hasattr(msg, "message") else msg
 
     not_joined = []
 
