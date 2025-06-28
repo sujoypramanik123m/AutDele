@@ -161,11 +161,9 @@ async def set_delete_handler(bot, message: Message):
     await message.reply("❌")
     if not await ensure_member(bot, message):
         return
-    await message.reply("❌")
     args = message.text.split()
-    await message.reply("❌")
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        await message.reply("❌")
+        
         if len(args) != 2:
             return await message.reply("⚠️ Usage: `/setdelete 30s`, `2m`, or `1h`", quote=True)
 
@@ -173,8 +171,10 @@ async def set_delete_handler(bot, message: Message):
         if not time_sec:
             return await message.reply("❌ Invalid format. Use `s`, `m`, or `h`.")
 
-        if not await is_bot_admin(bot, message.chat.id):
-            return await message.reply("❌ I need to be admin to delete messages.")
+        try:
+            await message.delete()
+        except Exception as e:
+            return await message.reply("❌ I need to be admin (with delete permission) to auto-delete messages.")
 
         if not await is_user_admin(bot, message.from_user.id, message.chat.id):
             return await message.reply("❌ Only group admins can view auto-delete time.")
@@ -187,7 +187,6 @@ async def set_delete_handler(bot, message: Message):
         await message.reply(f"✅ Messages will auto-delete after {time_sec} seconds.")
 
     else:
-        await message.reply("❌")
         if len(args) != 3:
             return await message.reply("⚠️ Usage: `/setdelete <chat_id> <time>`", quote=True)
 
@@ -200,8 +199,10 @@ async def set_delete_handler(bot, message: Message):
         if not time_sec:
             return await message.reply("❌ Invalid time format.")
 
-        if not await is_bot_admin(bot, chat_id):
-            return await message.reply("❌ I must be admin in that group.")
+        try:
+            await message.delete()
+        except Exception as e:
+            return await message.reply("❌ I need to be admin (with delete permission) to auto-delete messages.")
 
         if not await is_user_admin(bot, message.from_user.id, chat_id):
             return await message.reply("❌ You must be admin in that group.")
@@ -219,15 +220,12 @@ async def set_delete_handler(bot, message: Message):
 async def get_delete_handler(bot, message: Message):
     await message.reply("❌")
     if not await ensure_member(bot, message):
-        await message.reply("❌")
         return
-    await message.reply("❌")
 
     args = message.text.split()
 
-    await message.reply("❌")
-    if message.chat.type in ["group", "supergroup"]:
-        await message.reply("❌")
+    if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        
         if not await is_user_admin(bot, message.from_user.id, message.chat.id):
             return await message.reply("❌ Only group admins can view auto-delete time.")
 
@@ -237,7 +235,7 @@ async def get_delete_handler(bot, message: Message):
         else:
             await message.reply("❌ Auto-delete not set in this group.")
 
-    elif message.chat.type == "private":
+    else:
         if len(args) != 2:
             return await message.reply("⚠️ Usage: `/getdelete <chat_id>`")
 
@@ -258,20 +256,19 @@ async def get_delete_handler(bot, message: Message):
 
 @Client.on_message(filters.command("deldelete"))
 async def del_delete_handler(bot, message: Message):
-    await message.reply("❌")
     if not await ensure_member(bot, message):
         return
 
     args = message.text.split()
 
-    if message.chat.type in ["group", "supergroup"]:
+    if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         if not await is_user_admin(bot, message.from_user.id, message.chat.id):
             return await message.reply("❌ Only group admins can remove auto-delete.")
 
         await db.remove_chat_delete_time(message.chat.id)
         await message.reply("✅ Auto-delete removed for this group.")
 
-    elif message.chat.type == "private":
+    else:
         if len(args) != 2:
             return await message.reply("⚠️ Usage: `/deldelete <chat_id>`")
 
