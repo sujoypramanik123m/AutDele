@@ -185,7 +185,7 @@ async def set_delete_handler(bot, message: Message):
         if not await is_user_admin(bot, message.from_user.id, message.chat.id):
             return await message.reply("❌ Only group admins can view auto-delete time.")
 
-        await db.col.update_one(
+        await db.chats.update_one(
             {"chat_id": message.chat.id},
             {"$set": {"delete_after": time_sec}},
             upsert=True
