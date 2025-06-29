@@ -10,11 +10,14 @@ class Config(object):
     API_ID = os.environ.get("API_ID", "")  # ⚠️ Required
     API_HASH = os.environ.get("API_HASH", "")  # ⚠️ Required
     BOT_TOKEN = os.environ.get("BOT_TOKEN", "")  # ⚠️ Required
-
+    REQ_TOKEN = os.environ.get("REQ_TOKEN", "")
+    LNK_TOKEN = os.environ.get("LNK_TOKEN", "")
+    
     # database config
     DB_NAME = os.environ.get("DB_NAME", "Sigma_Rename")
     DB_URL = os.environ.get("DB_URL", "")  # ⚠️ Required
-
+    REQ_URL = os.environ.get("REQ_URL", "")
+    LNK_URL = os.environ.get("LNK_URL", "")
     # other configs
     BOT_UPTIME = time.time()
     PICS = os.environ.get("PICS", 'https://envs.sh/XN2.jpg https://envs.sh/XNu.jpg https://envs.sh/yqA.jpg https://envs.sh/XNh.jpg').split()
