@@ -18,13 +18,14 @@ logger.setLevel(logging.INFO)
 @Client.on_message(filters.command(["stats", "status"]) & filters.user(Config.ADMIN))
 async def get_stats(bot, message):
     total_users = await db.total_users_count()
+    total_grp = await db.total_grps_count()
     uptime = time.strftime("%Hh%Mm%Ss", time.gmtime(
         time.time() - Config.BOT_UPTIME))
     start_t = time.time()
     st = await message.reply('**Aᴄᴄᴇꜱꜱɪɴɢ Tʜᴇ Dᴇᴛᴀɪʟꜱ.....**')
     end_t = time.time()
     time_taken_s = (end_t - start_t) * 1000
-    await st.edit(text=f"**--Bᴏᴛ Sᴛᴀᴛᴜꜱ--** \n\n**⌚️ Bᴏᴛ Uᴩᴛɪᴍᴇ:** {uptime} \n**🐌 Cᴜʀʀᴇɴᴛ Pɪɴɢ:** `{time_taken_s:.3f} ᴍꜱ` \n**👭 Tᴏᴛᴀʟ Uꜱᴇʀꜱ:** `{total_users}`")
+    await st.edit(text=f"**--Bᴏᴛ Sᴛᴀᴛᴜꜱ--** \n\n**⌚️ Bᴏᴛ Uᴩᴛɪᴍᴇ:** {uptime} \n**🐌 Cᴜʀʀᴇɴᴛ Pɪɴɢ:** `{time_taken_s:.3f} ᴍꜱ` \n**👭 Tᴏᴛᴀʟ Uꜱᴇʀꜱ:** `{total_users}`\n 🍹Tᴏᴛᴀʟ Gʀᴏᴜᴩꜱ: `{total_grp}`")
 
 
 # Restart to cancell all process
@@ -53,6 +54,32 @@ async def broadcast_handler(bot: Client, m: Message):
             failed += 1
         if sts == 400:
             await db.delete_user(user['_id'])
+        done += 1
+        if not done % 20:
+            await sts_msg.edit(f"Bʀᴏᴀᴅᴄᴀꜱᴛ Iɴ Pʀᴏɢʀᴇꜱꜱ: \nTᴏᴛᴀʟ Uꜱᴇʀꜱ {total_users} \nCᴏᴍᴩʟᴇᴛᴇᴅ: {done} / {total_users}\nSᴜᴄᴄᴇꜱꜱ: {success}\nFᴀɪʟᴇᴅ: {failed}")
+    completed_in = datetime.timedelta(seconds=int(time.time() - start_time))
+    await sts_msg.edit(f"Bʀᴏᴀᴅᴄᴀꜱᴛ Cᴏᴍᴩʟᴇᴛᴇᴅ: \nCᴏᴍᴩʟᴇᴛᴇᴅ Iɴ `{completed_in}`.\n\nTᴏᴛᴀʟ Uꜱᴇʀꜱ {total_users}\nCᴏᴍᴩʟᴇᴛᴇᴅ: {done} / {total_users}\nSᴜᴄᴄᴇꜱꜱ: {success}\nFᴀɪʟᴇᴅ: {failed}")
+
+
+@Client.on_message(filters.command("group_broadcast") & filters.user(Config.ADMIN) & filters.reply)
+async def broadcst_handler(bot: Client, m: Message):
+    await bot.send_message(Config.LOG_CHANNEL, f"{m.from_user.mention} or {m.from_user.id} Iꜱ ꜱᴛᴀʀᴛᴇᴅ ᴛʜᴇ Gʀᴩ Bʀᴏᴀᴅᴄᴀꜱᴛ......")
+    all_grps = await db.get_all_grps()
+    broadcast_msg = m.reply_to_message
+    sts_msg = await m.reply_text("Bʀᴏᴀᴅᴄᴀꜱᴛ Sᴛᴀʀᴛᴇᴅ..!")
+    done = 0
+    failed = 0
+    success = 0
+    start_time = time.time()
+    total_grps = await db.total_grps_count()
+    async for user in all_grps:
+        sts = await send_msg(user['_id'], broadcast_msg)
+        if sts == 200:
+            success += 1
+        else:
+            failed += 1
+        if sts == 400:
+            await m.reply(f"Cant Send To {user['_id']}")
         done += 1
         if not done % 20:
             await sts_msg.edit(f"Bʀᴏᴀᴅᴄᴀꜱᴛ Iɴ Pʀᴏɢʀᴇꜱꜱ: \nTᴏᴛᴀʟ Uꜱᴇʀꜱ {total_users} \nCᴏᴍᴩʟᴇᴛᴇᴅ: {done} / {total_users}\nSᴜᴄᴄᴇꜱꜱ: {success}\nFᴀɪʟᴇᴅ: {failed}")
