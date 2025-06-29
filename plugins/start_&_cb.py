@@ -275,8 +275,9 @@ async def del_delete_handler(bot, message: Message):
         await db.remove_chat_delete_time(message.chat.id)
         await message.reply("✅ Auto-delete removed for this group.")
         return
-    
+    await message.reply(f"{len(args)}")
     if len(args) != 2:
+        await message.reply(f"{len(args)}")
         return await message.reply("⚠️ Usage: `/deldelete <chat_id>`")
     try:
         chat_id = int(args[1])
