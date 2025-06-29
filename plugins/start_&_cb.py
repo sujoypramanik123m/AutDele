@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 @Client.on_message(filters.command("start"))
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        await db.add_grps(message.chat.id)
+        await db.add_grp(message.chat.id)
     if message.from_user.id in Config.BANNED_USERS:
         await message.reply_text("Sorry, You are banned.")
         return
@@ -170,7 +170,7 @@ async def set_delete_handler(bot, message: Message):
         return
     args = message.text.split()
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        
+         await db.add_grp(message.chat.id)
         if len(args) != 2:
             return await message.reply("⚠️ Usage: `/setdelete 30s`, `2m`, or `1h`", quote=True)
 
@@ -233,7 +233,7 @@ async def get_delete_handler(bot, message: Message):
     args = message.text.split()
 
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        
+        await db.add_grp(message.chat.id)
         if not await is_user_admin(bot, message.from_user.id, message.chat.id):
             return await message.reply("❌ Only group admins can view auto-delete time.")
 
@@ -270,9 +270,9 @@ async def del_delete_handler(bot, message: Message):
     args = message.text.split()
 
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        await db.add_grp(message.chat.id)
         if not await is_user_admin(bot, message.from_user.id, message.chat.id):
             return await message.reply("❌ Only group admins can remove auto-delete.")
-
         await db.remove_chat_delete_time(message.chat.id)
         await message.reply("✅ Auto-delete removed for this group.")
         return
