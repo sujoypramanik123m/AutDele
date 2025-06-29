@@ -38,24 +38,45 @@ async def start(client, message):
 
 
 
+
 @Client.on_message(filters.group & ~filters.service)
 async def delete_message(bot: Client, message: Message):
     await db.add_grp(message.chat.id)
+
+    # skip non-text messages
+    if not message.text:
+        return
+
+    user_id = message.from_user.id
+    try:
+        user = await bot.get_chat_member(message.chat.id, user_id)
+        user_status = user.status
+    except:
+        user_status = None
+
     if (
-       user.status != enums.ChatMemberStatus.ADMINISTRATOR
-       and user.status != enums.ChatMemberStatus.OWNER
-       and user_id not in Config.ADMIN
-        ):
-       return
+        user_status != enums.ChatMemberStatus.ADMINISTRATOR
+        and user_status != enums.ChatMemberStatus.OWNER
+        and user_id not in Config.ADMIN
+    ):
+        return
+
     text = message.text.lower()
     words = text.split()
+
     for word in words:
-        if word.startswith("http") or (word.startswith("@") or (word.startswith("t.me/") or (word.startswith("bitly") and word != "@admin"):
-            
+        if (
+            word.startswith("http")
+            or word.startswith("@")
+            or word.startswith("t.me/")
+            or word.startswith("bitly")
+        ) and word != "@admin":
             try:
                 await message.delete()
-            except:
+            except Exception:
                 pass
+            break  # no need to check further once deleted
+
 
 
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
