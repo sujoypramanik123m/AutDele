@@ -194,7 +194,7 @@ async def set_delete_handler(bot, message: Message):
         return 
     
     if len(args) != 3:
-        return await message.reply("⚠️ Usage: `/setdelete <chat_id> <time>`", quote=True)
+        return await message.reply("⚠️ Usage: `/setdelete chat_id time`", quote=True)
 
     try:
         chat_id = int(args[1])
@@ -245,7 +245,7 @@ async def get_delete_handler(bot, message: Message):
         return
     
     if len(args) != 2:
-        return await message.reply("⚠️ Usage: `/getdelete <chat_id>`")
+        return await message.reply("⚠️ Usage: `/getdelete chat_id`")
     try:
         chat_id = int(args[1])
     except ValueError:
@@ -278,7 +278,7 @@ async def del_delete_handler(bot, message: Message):
     await message.reply(f"{len(args)}")
     if len(args) != 2:
         await message.reply(f"{len(args)}")
-        return await message.reply("⚠️ Usage: `/deldelete <chat_id>`")
+        return await message.reply("⚠️ Usage: `/deldelete chat_id`")
     try:
         chat_id = int(args[1])
     except ValueError:
