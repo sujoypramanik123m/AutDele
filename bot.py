@@ -20,8 +20,6 @@ import pyromod
 if not os.path.exists("received_files"):
     os.makedirs("received_files")
 
-CHANNELS = ["-1002464733363", "-1002429058090", "-1002433450358"]
-MSYD = -1002377676305
 
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
@@ -62,6 +60,28 @@ class Bot(Client):
         await web.TCPSite(app, bind_address, Config.PORT).start()
         logging.info(f"{me.first_name} ✅✅ BOT started successfully ✅✅")
 
+        syd = Client(
+            "SyD",
+            api_hash=Config.API_HASH,
+            api_id=Config.API_ID,
+            plugins={
+                "root": "ReQSyD"
+            },
+            workers=50,
+            bot_token=Config.REQ_TOKEN
+        )
+        await syd.start()
+        syyd = Client(
+            "SyD",
+            api_hash=Config.API_HASH,
+            api_id=Config.API_ID,
+            plugins={
+                "root": "LnKSyD"
+            },
+            workers=50,
+            bot_token=Config.LNK_TOKEN
+        )
+        await syyd.start()
         for id in Config.ADMIN:
             try:
                 await self.send_message(id, f"**__{me.first_name}  Iꜱ Sᴛᴀʀᴛᴇᴅ.....✨️__**")
