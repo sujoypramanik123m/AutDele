@@ -71,7 +71,7 @@ class Bot(Client):
             workers=50,
             bot_token=Config.LNK_TOKEN
         )
-        await syyd.start()
+       # await syyd.start()
         for id in Config.ADMIN:
             try:
                 await self.send_message(id, f"**__{me.first_name}  Iꜱ Sᴛᴀʀᴛᴇᴅ.....✨️__**")
@@ -88,7 +88,7 @@ class Bot(Client):
             workers=50,
             bot_token=Config.REQ_TOKEN
         )
-        await syd.start()
+       # await syd.start()
         
         if Config.LOG_CHANNEL:
             try:
