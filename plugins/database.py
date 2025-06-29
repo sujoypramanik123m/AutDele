@@ -11,9 +11,16 @@ class Database:
 
     # ─── USER METHODS ────────────────────────────────────────────────────────────
 
-    async def add_user(self, user_id: int):
-        if not await self.users.find_one({"_id": user_id}):
-            await self.users.insert_one({"_id": user_id})
+    async def is_user_exist(self, id):
+        user = await self.users.find_one({'_id': int(id)})
+        return bool(user)
+
+    async def add_user(self, b, m):
+        u = m.from_user
+        if not await self.is_user_exist(u.id):
+            user = self.new_user(u.id)
+            await self.users.insert_one(user)
+            #await send_log(b, u)
 
     async def get_all_users(self):
         return self.users.find({})
