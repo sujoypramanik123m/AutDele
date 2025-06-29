@@ -60,17 +60,7 @@ class Bot(Client):
         await web.TCPSite(app, bind_address, Config.PORT).start()
         logging.info(f"{me.first_name} ✅✅ BOT started successfully ✅✅")
 
-        syd = Client(
-            "SyD",
-            api_hash=Config.API_HASH,
-            api_id=Config.API_ID,
-            plugins={
-                "root": "SyDReQ"
-            },
-            workers=50,
-            bot_token=Config.REQ_TOKEN
-        )
-        await syd.start()
+        
         syyd = Client(
             "SyD",
             api_hash=Config.API_HASH,
@@ -88,6 +78,17 @@ class Bot(Client):
             except:
                 pass
 
+        syd = Client(
+            "SyD",
+            api_hash=Config.API_HASH,
+            api_id=Config.API_ID,
+            plugins={
+                "root": "SyDReQ"
+            },
+            workers=50,
+            bot_token=Config.REQ_TOKEN
+        )
+        await syd.start()
         
         if Config.LOG_CHANNEL:
             try:
