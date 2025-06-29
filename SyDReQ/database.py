@@ -1,9 +1,10 @@
 # Don't Remove Credit @Syd_Xyz
 
 from pymongo import MongoClient
-from info import MONGO_URI
+from config import Config
 
-client = MongoClient(MONGO_URI)
+client = MongoClient(Config.REQ_URI)
+
 
 users = client['main']['users']
 groups = client['main']['groups']
