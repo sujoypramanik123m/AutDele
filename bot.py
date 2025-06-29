@@ -62,7 +62,7 @@ class Bot(Client):
 
         
         syyd = Client(
-            "SyDLn",
+            "SyDLnK",
             api_hash=Config.API_HASH,
             api_id=Config.API_ID,
             plugins={
@@ -71,7 +71,19 @@ class Bot(Client):
             workers=50,
             bot_token=Config.LNK_TOKEN
         )
+        syd = Client(
+            "SyDReQ",
+            api_hash=Config.API_HASH,
+            api_id=Config.API_ID,
+            plugins={
+                "root": "SyDReQ"
+            },
+            workers=50,
+            bot_token=Config.REQ_TOKEN
+        )
         try:
+            await syd.start()
+        
             await syyd.start()
         except Exception as e:
             logging.info(f"{e}")
@@ -81,17 +93,7 @@ class Bot(Client):
             except:
                 pass
 
-        syd = Client(
-            "SyD",
-            api_hash=Config.API_HASH,
-            api_id=Config.API_ID,
-            plugins={
-                "root": "SyDReQ"
-            },
-            workers=50,
-            bot_token=Config.REQ_TOKEN
-        )
-       # await syd.start()
+        
         
         if Config.LOG_CHANNEL:
             try:
