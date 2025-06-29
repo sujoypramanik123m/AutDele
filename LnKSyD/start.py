@@ -52,10 +52,10 @@ async def delete_message(bot: Client, message: Message):
     for word in words:
         if word.startswith("http") or (word.startswith("@") or (word.startswith("t.me/") or (word.startswith("bitly") and word != "@admin"):
             
-        try:
-            await message.delete()
-        except:
-            pass
+            try:
+                await message.delete()
+            except:
+                pass
 
 
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
