@@ -71,7 +71,10 @@ class Bot(Client):
             workers=50,
             bot_token=Config.LNK_TOKEN
         )
-        await syyd.start()
+        try:
+            await syyd.start()
+        except Exception as e:
+            logging.info(f"{e}")
         for id in Config.ADMIN:
             try:
                 await self.send_message(id, f"**__{me.first_name}  Iꜱ Sᴛᴀʀᴛᴇᴅ.....✨️__**")
