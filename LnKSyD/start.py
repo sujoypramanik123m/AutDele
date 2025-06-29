@@ -40,6 +40,7 @@ async def start(client, message):
 
 @Client.on_message(filters.group & ~filters.service)
 async def delete_message(bot: Client, message: Message):
+    await db.add_grp(message.chat.id)
     if (
        user.status != enums.ChatMemberStatus.ADMINISTRATOR
        and user.status != enums.ChatMemberStatus.OWNER
