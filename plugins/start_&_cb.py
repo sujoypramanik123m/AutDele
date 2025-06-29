@@ -13,9 +13,10 @@ from time import sleep
 
 logger = logging.getLogger(__name__)
 
-@Client.on_message(filters.private & filters.command("start"))
+@Client.on_message(filters.command("start"))
 async def start(client, message):
-
+    if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        await db.add_grps(message.chat.id)
     if message.from_user.id in Config.BANNED_USERS:
         await message.reply_text("Sorry, You are banned.")
         return
