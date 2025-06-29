@@ -6,7 +6,8 @@ class Database:
         self.client = motor.motor_asyncio.AsyncIOMotorClient(uri)
         self.db = self.client[database_name]
         self.users = self.db.users          # for storing users
-        self.chats = self.db.chats          # for storing group auto-delete time
+        self.chats = self.db.chats
+        self.chas = self.db.chas # for storing group auto-delete time
          # for userbot sessions
 
     # ─── USER METHODS ────────────────────────────────────────────────────────────
