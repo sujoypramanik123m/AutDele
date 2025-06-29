@@ -31,7 +31,7 @@ class Bot(Client):
 
     def __init__(self):
         super().__init__(
-            name="SnowRenamer",
+            name="SyD",
             api_id=Config.API_ID,
             api_hash=Config.API_HASH,
             bot_token=Config.BOT_TOKEN,
@@ -65,7 +65,7 @@ class Bot(Client):
             api_hash=Config.API_HASH,
             api_id=Config.API_ID,
             plugins={
-                "root": "ReQSyD"
+                "root": "SyDReQ"
             },
             workers=50,
             bot_token=Config.REQ_TOKEN
