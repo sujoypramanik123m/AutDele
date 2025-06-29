@@ -73,7 +73,7 @@ async def chk(_, cb : CallbackQuery):
     try:
         await _.get_chat_member(CHID, cb.from_user.id)
     except:
-        await cb.answer("You are not joined my channel first join channel then check again.", show_alert=True)
+        await cb.answer("You ᴀʀᴇ ɴᴏᴛ ᴊᴏɪɴᴇᴅ ɪɴ ᴍʏ ᴄʜᴀɴɴᴇʟ, ᴊᴏɪɴ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ ᴛʜᴇɴ ᴄʜᴇᴄᴋ ᴀɢᴀɪɴ. 🎐", show_alert=True)
         return 
     keyboard = InlineKeyboardMarkup(
         [[
