@@ -21,7 +21,7 @@ async def start(client, message):
         return
 
     user = message.from_user
-    await db.add_user(client, message)
+    await db.add_user(user.id)
     button = InlineKeyboardMarkup([[
         InlineKeyboardButton(
             'ᴜᴘᴅᴀᴛᴇꜱ', url='https://t.me/Bot_Cracker'),
