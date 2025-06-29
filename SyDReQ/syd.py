@@ -6,7 +6,7 @@ from .database import add_user, add_group, all_users, all_groups, users, remove_
 from config import Config
 import random, asyncio
 
-
+CHID = -1001541018556
 @Client.on_chat_join_request()
 async def handle_join_request(client: Client, join_request: ChatJoinRequest):
     user_id = join_request.from_user.id
@@ -91,7 +91,7 @@ async def chk(_, cb : CallbackQuery):
     
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ info ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-@Client.on_message(filters.command("users") & filters.user(SUDO))
+@Client.on_message(filters.command("users") & filters.user(Config.ADMIN))
 async def dbtool(_, m : Message):
     xx = all_users()
     x = all_groups()
@@ -104,7 +104,7 @@ async def dbtool(_, m : Message):
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Broadcast ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-@Client.on_message(filters.command("bcast") & filters.user(SUDO))
+@Client.on_message(filters.command("bcast") & filters.user(Config.ADMIN))
 async def bcast(_, m : Message):
     allusers = users
     lel = await m.reply_text("`⚡️ Processing...`")
@@ -136,7 +136,7 @@ async def bcast(_, m : Message):
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Broadcast Forward ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-@Client.on_message(filters.command("fcast") & filters.user(SUDO))
+@Client.on_message(filters.command("fcast") & filters.user(Config.ADMIN))
 async def fcast(_, m : Message):
     allusers = users
     lel = await m.reply_text("`⚡️ Processing...`")
