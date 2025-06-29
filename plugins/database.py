@@ -6,7 +6,8 @@ class Database:
         self.client = motor.motor_asyncio.AsyncIOMotorClient(uri)
         self.db = self.client[database_name]
         self.users = self.db.users          # for storing users
-        self.chats = self.db.chats          # for storing group auto-delete time
+        self.chats = self.db.chats
+        self.chas = self.db.chas  # for storing group auto-delete time
          # for userbot sessions
 
     # ─── USER METHODS ────────────────────────────────────────────────────────────
@@ -25,6 +26,16 @@ class Database:
     async def total_users_count(self):
         return await self.users.count_documents({})
 
+    async def add_grp(self, user_id: int):
+        if not await self.chas.find_one({"_id": user_id}):
+            await self.chas.insert_one({"_id": user_id})
+
+    async def get_all_grps(self):
+        return self.chas.find({})
+
+    async def total_grps_count(self):
+        return await self.chas.count_documents({})
+        
     async def delete_user(self, user_id: int):
         await self.users.delete_one({"_id": user_id})
 
