@@ -191,34 +191,36 @@ async def set_delete_handler(bot, message: Message):
             upsert=True
         )
         await message.reply(f"✅ Messages will auto-delete after {time_sec} seconds.")
+        return 
+    
+    if len(args) != 3:
+        return await message.reply("⚠️ Usage: `/setdelete <chat_id> <time>`", quote=True)
 
-    else:
-        if len(args) != 3:
-            return await message.reply("⚠️ Usage: `/setdelete <chat_id> <time>`", quote=True)
+    try:
+        chat_id = int(args[1])
+    except ValueError:
+        return await message.reply("❌ Invalid chat ID.")
 
-        try:
-            chat_id = int(args[1])
-        except ValueError:
-            return await message.reply("❌ Invalid chat ID.")
+    time_sec = parse_time(args[2])
+      
+    if not time_sec:
+        return await message.reply("❌ Invalid time format.")
 
-        time_sec = parse_time(args[2])
-        if not time_sec:
-            return await message.reply("❌ Invalid time format.")
+      
+    try:
+        await message.delete()
+    except Exception as e:
+        return await message.reply("❌ I need to be admin (with delete permission) to auto-delete messages.")
 
-        try:
-            await message.delete()
-        except Exception as e:
-            return await message.reply("❌ I need to be admin (with delete permission) to auto-delete messages.")
+    if not await is_user_admin(bot, message.from_user.id, chat_id):
+        return await message.reply("❌ You must be admin in that group.")
 
-        if not await is_user_admin(bot, message.from_user.id, chat_id):
-            return await message.reply("❌ You must be admin in that group.")
-
-        await db.chats.update_one(
-            {"chat_id": chat_id},
-            {"$set": {"delete_after": time_sec}},
-            upsert=True
-        )
-        await message.reply(f"✅ Messages will auto-delete in `{chat_id}` after {time_sec} seconds.")
+    await db.chats.update_one(
+        {"chat_id": chat_id},
+        {"$set": {"delete_after": time_sec}},
+        upsert=True
+    )
+    await message.reply(f"✅ Messages will auto-delete in `{chat_id}` after {time_sec} seconds.")
 
 
 # --- /getdelete ---
@@ -230,35 +232,33 @@ async def get_delete_handler(bot, message: Message):
     args = message.text.split()
 
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        await message.reply("❌")
+        
         if not await is_user_admin(bot, message.from_user.id, message.chat.id):
             return await message.reply("❌ Only group admins can view auto-delete time.")
 
         
-        await message.reply("❌")
         seconds = await db.get_chat_delete_time(message.chat.id)
         if seconds:
             await message.reply(f"🕒 Auto-delete is set to **{seconds} seconds**.")
         else:
             await message.reply("❌ Auto-delete not set in this group.")
+        return
+    
+    if len(args) != 2:
+        return await message.reply("⚠️ Usage: `/getdelete <chat_id>`")
+    try:
+        chat_id = int(args[1])
+    except ValueError:
+        return await message.reply("❌ Invalid chat_id.")
 
+    if not await is_user_admin(bot, message.from_user.id, chat_id):
+        return await message.reply("❌ You must be admin in that group.")
+
+    seconds = await db.get_chat_delete_time(chat_id)
+    if seconds:
+        await message.reply(f"🕒 Auto-delete for `{chat_id}` is set to **{seconds} seconds**.")
     else:
-        if len(args) != 2:
-            return await message.reply("⚠️ Usage: `/getdelete <chat_id>`")
-
-        try:
-            chat_id = int(args[1])
-        except ValueError:
-            return await message.reply("❌ Invalid chat_id.")
-
-        if not await is_user_admin(bot, message.from_user.id, chat_id):
-            return await message.reply("❌ You must be admin in that group.")
-
-        seconds = await db.get_chat_delete_time(chat_id)
-        if seconds:
-            await message.reply(f"🕒 Auto-delete for `{chat_id}` is set to **{seconds} seconds**.")
-        else:
-            await message.reply("❌ Auto-delete not set in that group.")
+        await message.reply("❌ Auto-delete not set in that group.")
 
 
 @Client.on_message(filters.command("deldelete"))
@@ -274,28 +274,27 @@ async def del_delete_handler(bot, message: Message):
 
         await db.remove_chat_delete_time(message.chat.id)
         await message.reply("✅ Auto-delete removed for this group.")
+        return
+    
+    if len(args) != 2:
+        return await message.reply("⚠️ Usage: `/deldelete <chat_id>`")
+    try:
+        chat_id = int(args[1])
+    except ValueError:
+        return await message.reply("❌ Invalid chat_id.")
 
-    else:
-        if len(args) != 2:
-            return await message.reply("⚠️ Usage: `/deldelete <chat_id>`")
+    if not await is_user_admin(bot, message.from_user.id, chat_id):
+        return await message.reply("❌ You must be admin in that group.")
 
-        try:
-            chat_id = int(args[1])
-        except ValueError:
-            return await message.reply("❌ Invalid chat_id.")
-
-        if not await is_user_admin(bot, message.from_user.id, chat_id):
-            return await message.reply("❌ You must be admin in that group.")
-
-        await db.remove_chat_delete_time(chat_id)
-        await message.reply(f"✅ Auto-delete removed for chat `{chat_id}`.")
+    await db.remove_chat_delete_time(chat_id)
+    await message.reply(f"✅ Auto-delete removed for chat `{chat_id}`.")
 
 
 
 # --- Auto Delete Group Messages ---
 @Client.on_message(filters.group & ~filters.service)
 async def auto_delete_message(bot: Client, message: Message):
-    config = await db.col.find_one({"chat_id": message.chat.id})
+    config = await db.chats.find_one({"chat_id": message.chat.id})
     if config and config.get("delete_after"):
         delay = config["delete_after"]
         await asyncio.sleep(delay)
