@@ -55,9 +55,9 @@ async def delete_message(bot: Client, message: Message):
         user_status = None
 
     if (
-        user_status != enums.ChatMemberStatus.ADMINISTRATOR
-        and user_status != enums.ChatMemberStatus.OWNER
-        and user_id not in Config.ADMIN
+        user_status = enums.ChatMemberStatus.ADMINISTRATOR
+        and user_status = enums.ChatMemberStatus.OWNER
+        and user_id in Config.ADMIN
     ):
         return
 
