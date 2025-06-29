@@ -17,7 +17,6 @@ logger = logging.getLogger(__name__)
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         await db.add_grp(message.chat.id)
-        await message.reply_text("Sorry")
     if message.from_user.id in Config.BANNED_USERS:
         await message.reply_text("Sorry, You are banned.")
         return
