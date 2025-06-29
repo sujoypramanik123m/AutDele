@@ -170,7 +170,7 @@ async def set_delete_handler(bot, message: Message):
         return
     args = message.text.split()
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-         await db.add_grp(message.chat.id)
+        await db.add_grp(message.chat.id)
         if len(args) != 2:
             return await message.reply("⚠️ Usage: `/setdelete 30s`, `2m`, or `1h`", quote=True)
 
