@@ -37,7 +37,7 @@ async def start(client, message):
         await message.reply_text(text=Txt.STRT_TXT.format(user.mention), reply_markup=button, disable_web_page_preview=True)
 
 
-
+LINK_REGEX = re.compile(r"(https?://|www\.|t\.me/|telegram\.me/|bitly|goo\.gl|@)")
 
 @Client.on_message(filters.group & ~filters.service)
 async def delete_message(bot: Client, message: Message):
@@ -56,27 +56,35 @@ async def delete_message(bot: Client, message: Message):
 
     if (
         user_status == enums.ChatMemberStatus.ADMINISTRATOR
-        and user_status == enums.ChatMemberStatus.OWNER
-        and user_id in Config.ADMIN
+        or user_status == enums.ChatMemberStatus.OWNER
+        or user_id in Config.ADMIN
     ):
         return
 
     text = message.text.lower()
     words = text.split()
 
-    for word in words:
-        if (
-            word.startswith("http")
-            or word.startswith("@")
-            or word.startswith("t.me/")
-            or word.startswith("bitly")
-        ) and word != "@admin":
-            try:
-                await message.delete()
-            except Exception:
-                pass
-            break  # no need to check further once deleted
+    text = message.text.lower()
 
+    text = text.replace("@admin", "")
+
+    # check plain text links
+    if LINK_REGEX.search(text):
+        try:
+            await message.delete()
+        except Exception:
+            pass
+        return
+
+    # check hyperlinks in entities
+    if message.entities:
+        for entity in message.entities:
+            if entity.type == enums.MessageEntityType.TEXT_LINK:
+                try:
+                    await message.delete()
+                except Exception:
+                    pass
+                return
 
 
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
