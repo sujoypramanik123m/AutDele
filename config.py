@@ -20,7 +20,7 @@ class Config(object):
     LNK_URL = os.environ.get("LNK_URL", "")
     # other configs
     BOT_UPTIME = time.time()
-    PICS = os.environ.get("PICS", 'https://envs.sh/XN2.jpg https://envs.sh/XNu.jpg https://envs.sh/yqA.jpg https://envs.sh/XNh.jpg').split()
+    PICS = os.environ.get("PICS", 'https://envs.sh/uex.jpg https://envs.sh/ueV.jpg https://envs.sh/ue6.jpg https://envs.sh/uey.jpg https://envs.sh/XN2.jpg https://envs.sh/XNu.jpg https://envs.sh/yqA.jpg https://envs.sh/XNh.jpg').split()
     ADMIN = [int(admin) if id_pattern.search(
         admin) else admin for admin in os.environ.get('ADMIN', '').split()]  # ⚠️ Required
 
