@@ -9,9 +9,23 @@ from config import Config
 from info import AUTH_CHANNEL
 from pyrogram.types import Message
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
-
+import time
+import logging
+from datetime import datetime
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+async def send_log(b, u):
+    if Config.LOG_CHANNEL is not None:
+        curr = datetime.now(timezone("Asia/Kolkata"))
+        date = curr.strftime("%d %B, %Y")
+        time_str = curr.strftime("%I:%M:%S %p")
+        await b.send_message(
+            Config.LOG_CHANNEL,
+            f"**--Nᴇᴡ Uꜱᴇʀ Sᴛᴀʀᴛᴇᴅ Tʜᴇ Bᴏᴛ--**\n\n"
+            f"Uꜱᴇʀ: {u.mention}\nIᴅ: `{u.id}`\nUɴ: @{u.username}\n\n"
+            f"Dᴀᴛᴇ: {date}\nTɪᴍᴇ: {time_str}\n\nBy: {b.mention}",
+        )
 
 async def is_req_subscribed(bot, query):
     if await db.find_join_req(query.from_user.id):
