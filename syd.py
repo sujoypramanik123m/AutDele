@@ -21,14 +21,23 @@ async def send_log(b, u):
         date = curr.strftime("%d %B, %Y")
         time_str = curr.strftime("%I:%M:%S %p")
         me = await b.get_me()  # Get bot info
-        await b.send_message(
-            Config.LOG_CHANNEL,
-            f"**--Nᴇᴡ Uꜱᴇʀ Sᴛᴀʀᴛᴇᴅ Tʜᴇ Bᴏᴛ--**\n\n"
-            f"Uꜱᴇʀ: {u.mention}\nIᴅ: `{u.id}`\nUɴ: @{u.username}\n\n"
-            f"Dᴀᴛᴇ: {date}\nTɪᴍᴇ: {time_str}\n\n"
-            f"By: @{me.username}"
-        )
-
+        try:
+            await b.send_message(
+                Config.LOG_CHANNEL,
+                f"**--Nᴇᴡ Uꜱᴇʀ Sᴛᴀʀᴛᴇᴅ Tʜᴇ Bᴏᴛ--**\n\n"
+                f"Uꜱᴇʀ: {u.mention}\nIᴅ: `{u.id}`\nUɴ: @{u.username}\n\n"
+                f"Dᴀᴛᴇ: {date}\nTɪᴍᴇ: {time_str}\n\n"
+                f"By: @{me.username}"
+            )
+        except:
+            for mrsyd in Config.ADMIN
+                await b.send_message(
+                    mrsyd, 
+                    f"**--Nᴇᴡ Uꜱᴇʀ Sᴛᴀʀᴛᴇᴅ Tʜᴇ Bᴏᴛ--**\n\n"
+                f"Uꜱᴇʀ: {u.mention}\nIᴅ: `{u.id}`\nUɴ: @{u.username}\n\n"
+                f"Dᴀᴛᴇ: {date}\nTɪᴍᴇ: {time_str}\n\n"
+                f"By: @{me.username}"
+                )
 
 async def is_req_subscribed(bot, query):
     if await db.find_join_req(query.from_user.id):
