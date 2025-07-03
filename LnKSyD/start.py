@@ -37,7 +37,7 @@ async def start(client, message):
         await message.reply_text(text=Txt.STRT_TXT.format(user.mention), reply_markup=button, disable_web_page_preview=True)
 
 
-LINK_REGEX = re.compile(r"(https?://|www\.|t\.me/|telegram\.me/|bitly|goo\.gl|@)")
+LINK_REGEX = re.compile(r"(https?://|www\.|t\.me/|telegram\.me/|bit\.ly|goo\.gl|@)")
 
 @Client.on_message(filters.group & ~filters.service)
 async def delete_message(bot: Client, message: Message):
