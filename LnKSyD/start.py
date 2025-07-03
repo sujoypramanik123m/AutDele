@@ -10,7 +10,7 @@ from info import AUTH_CHANNEL
 from helper.utils import is_req_subscribed
 import humanize
 from time import sleep
-
+from syd import send_log
 logger = logging.getLogger(__name__)
 
 @Client.on_message(filters.private & filters.command("start"))
@@ -21,7 +21,10 @@ async def start(client, message):
         return
 
     user = message.from_user
-    await db.add_user(user.id)
+    
+    if not await db.users.find_one({"_id": user_id}):
+        await db.add_user(user.id)
+        await send_log(client, message)
     button = InlineKeyboardMarkup([[
         InlineKeyboardButton(
             'Uᴘᴅᴀᴛᴇꜱ ¹', url='https://t.me/Bot_Cracker'),
