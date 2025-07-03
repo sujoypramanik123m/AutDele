@@ -22,7 +22,7 @@ async def start(client, message):
         return
 
     user = message.from_user
-    if not await db.users.find_one({"_id": user_id}):
+    if not await db.users.find_one({"_id": user.id}):
         await db.add_user(user.id)
         await send_log(client, message)
     button = InlineKeyboardMarkup([[
