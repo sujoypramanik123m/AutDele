@@ -30,7 +30,7 @@ async def send_log(b, u):
                 f"By: @{me.username}"
             )
         except:
-            for mrsyd in Config.ADMIN
+            for mrsyd in Config.ADMIN:
                 await b.send_message(
                     mrsyd, 
                     f"**--Nᴇᴡ Uꜱᴇʀ Sᴛᴀʀᴛᴇᴅ Tʜᴇ Bᴏᴛ--**\n\n"
