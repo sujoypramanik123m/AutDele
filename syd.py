@@ -29,14 +29,14 @@ async def send_log(b, u):
                 f"Dᴀᴛᴇ: {date}\nTɪᴍᴇ: {time_str}\n\n"
                 f"By: @{me.username}"
             )
-        except:
+        except Exception as e:
             for mrsyd in Config.ADMIN:
                 await b.send_message(
                     mrsyd, 
                     f"**--Nᴇᴡ Uꜱᴇʀ Sᴛᴀʀᴛᴇᴅ Tʜᴇ Bᴏᴛ--**\n\n"
                 f"Uꜱᴇʀ: {u.mention}\nIᴅ: `{u.id}`\nUɴ: @{u.username}\n\n"
                 f"Dᴀᴛᴇ: {date}\nTɪᴍᴇ: {time_str}\n\n"
-                f"By: @{me.username}"
+                f"By: @{me.username}, {e}"
                 )
 
 async def is_req_subscribed(bot, query):
