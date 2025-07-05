@@ -5,7 +5,7 @@ from pyrogram.errors.exceptions.flood_420 import FloodWait
 from .database import add_user, add_group, all_users, all_groups, users, remove_user, already_db
 from config import Config
 import random, asyncio
-
+from syd import send_log
 CHID = -1001541018556
 @Client.on_chat_join_request()
 async def handle_join_request(client: Client, join_request: ChatJoinRequest):
