@@ -27,13 +27,13 @@ async def start(client, message):
         await send_log(client, message)
     button = InlineKeyboardMarkup([[
         InlineKeyboardButton(
-            'ᴜᴘᴅᴀᴛᴇꜱ', url='https://t.me/Bot_Cracker'),
+            '✧ ᴜᴘᴅᴀᴛᴇꜱ', url='https://t.me/Bot_Cracker'),
         InlineKeyboardButton(
-            'ꜱᴜᴘᴘᴏʀᴛ', url='https://t.me/+O1mwQijo79s2MjJl')],
-        [InlineKeyboardButton('ᴏᴡɴᴇʀ', user_id=1733124290)
+            'ꜱᴜᴘᴘᴏʀᴛ ✧', url='https://t.me/+O1mwQijo79s2MjJl')],
+        [InlineKeyboardButton('✧ ᴏᴡɴᴇʀ ✧', user_id=1733124290)
     ], [
-        InlineKeyboardButton('ʙᴏᴛꜱ', url='https://t.me/Bot_Cracker/17'),
-        InlineKeyboardButton('ᴜᴩᴅᴀᴛᴇꜱ', url='https://t.me/Mod_Moviez_X')]])
+        InlineKeyboardButton('✧ ʙᴏᴛꜱ', url='https://t.me/Bot_Cracker/17'),
+        InlineKeyboardButton('ᴜᴩᴅᴀᴛᴇꜱ ✧', url='https://t.me/Mod_Moviez_X')]])
     if Config.PICS:
         await message.reply_photo(random.choice(Config.PICS), caption=Txt.START_TXT.format(user.mention), reply_markup=button)
     else:
@@ -152,11 +152,11 @@ async def ensure_member(client, msg):
                 ])
 
     join_buttons.append([
-        InlineKeyboardButton("☑ Joined ☑", callback_data="check_subscription")
+        InlineKeyboardButton("☑ Jᴏɪɴᴇᴅ ☑", callback_data="check_subscription")
     ])
 
     await replyable.reply_text(
-        text="**Please join all required channels and chats to continue.**",
+        text="**Pʟᴇᴀꜱᴇ ᴊᴏɪɴ ɪɴ ᴏᴜʀ ᴀʟʟ ʀᴇqᴜɪʀᴇᴅ ᴄʜᴀɴɴᴇʟꜱ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.. ᴡᴇ ᴩʀᴏᴠɪᴅᴇꜱ ɢᴏᴏᴅ ꜱᴇʀᴠɪᴄᴇꜱ ᴀʟꜱᴏ ᴡᴇ ɴᴇᴇᴅ ʏᴏᴜʀ ꜱᴜᴩᴩᴏʀᴛ ᴩʟᴇᴀꜱᴇ ᴅᴏ ꜱᴏ 🌙**",
         reply_markup=InlineKeyboardMarkup(join_buttons),
         quote=True,
         disable_web_page_preview=True
