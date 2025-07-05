@@ -70,8 +70,8 @@ async def op(_, m :Message):
         try:
             await send_log(_, m)
         except Exception as e:
-            await m.reply(f"{e}")
-        #add_user(m.from_user.id)
+            print(f"{e}")
+        add_user(m.from_user.id)
     await m.reply_photo("https://i.ibb.co/5xx6Xd3w/file-1426.jpg", caption="**ʜᴇʏ {}!\n\nɪ'ᴍ ᴀɴ ɪɴꜱᴛᴀɴᴛ ᴀᴩᴩʀᴏᴠᴀʟ ʙᴏᴛ [ᴀᴄᴄᴇᴩᴛ ᴊᴏɪɴ ʀᴇqᴜᴇꜱᴛꜱ] ʙᴏᴛ.\nɪ ᴄᴀɴ ᴀᴩᴩʀᴏᴠᴇ ᴜꜱᴇʀꜱ ɪɴ ɢʀᴏᴜᴩ/ᴄʜᴀɴɴᴇʟꜱ. ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ᴄʜᴀᴛ ᴀɴᴅ ᴩʀᴏᴍᴏᴛᴇ ᴍᴇ ᴛᴏ ᴀᴅᴍɪɴ ᴡɪᴛʜ ɪɴᴠɪᴛᴇ ᴩᴇʀᴍɪꜱꜱɪᴏɴ.\n\n__Pᴏᴡᴇʀᴇᴅ Bʏ : @Mod_Moviez_X __**".format(m.from_user.mention), reply_markup=keyboard)
     
 
