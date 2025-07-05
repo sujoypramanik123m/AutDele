@@ -16,12 +16,13 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-async def send_log(b, u):
+async def send_log(b, message):
     if Config.LOG_CHANNEL is not None:
         curr = datetime.now(timezone("Asia/Kolkata"))
         date = curr.strftime("%d %B, %Y")
         time_str = curr.strftime("%I:%M:%S %p")
-        me = await b.get_me()  # Get bot info
+        me = await b.get_me()
+        u = message.from_user
         try:
             await b.send_message(
                 Config.LOG_CHANNEL,
