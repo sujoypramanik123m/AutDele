@@ -55,7 +55,7 @@ from pyrogram.errors import UserNotParticipant
 import asyncio, re
 
 # --- Constants ---
-SYD_CHANNELS = ["@Bot_Cracker", "@MrSyD_TG", "Mod_Moviez_X"]
+SYD_CHANNELS = ["@Bot_Cracker", "Mod_Moviez_X"] #"@MrSyD_TG", 
 SYD_BACKUP_LINK = "https://t.me/bot_crackers"
 REQUIRED_CHAT_IDS = ["-1001823125512"]
 CHAT_INVITE_LINKS = {
