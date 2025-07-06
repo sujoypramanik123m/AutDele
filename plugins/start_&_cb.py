@@ -55,7 +55,7 @@ from pyrogram.errors import UserNotParticipant
 import asyncio, re
 
 # --- Constants ---
-SYD_CHANNELS = ["@Bot_Cracker", "Mod_Moviez_X"] #"@MrSyD_TG", 
+SYD_CHANNELS = ["Bot_Cracker", "Mod_Moviez_X"] #"@MrSyD_TG", 
 SYD_BACKUP_LINK = "https://t.me/bot_crackers"
 REQUIRED_CHAT_IDS = ["-1001823125512"]
 CHAT_INVITE_LINKS = {
@@ -152,11 +152,11 @@ async def ensure_member(client, msg):
                 ])
 
     join_buttons.append([
-        InlineKeyboardButton("☑ Jᴏɪɴᴇᴅ ☑", callback_data="check_subscription")
+        InlineKeyboardButton("❄️ Jᴏɪɴᴇᴅ ❄️", callback_data="check_subscription")
     ])
 
     await replyable.reply_text(
-        text="**Pʟᴇᴀꜱᴇ ᴊᴏɪɴ ɪɴ ᴏᴜʀ ᴀʟʟ ʀᴇqᴜɪʀᴇᴅ ᴄʜᴀɴɴᴇʟꜱ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.. ᴡᴇ ᴩʀᴏᴠɪᴅᴇꜱ ɢᴏᴏᴅ ꜱᴇʀᴠɪᴄᴇꜱ ᴀʟꜱᴏ ᴡᴇ ɴᴇᴇᴅ ʏᴏᴜʀ ꜱᴜᴩᴩᴏʀᴛ ᴩʟᴇᴀꜱᴇ ᴅᴏ ꜱᴏ 🌙**",
+        text="**Pʟᴇᴀꜱᴇ ᴊᴏɪɴ ɪɴ ᴏᴜʀ ᴀʟʟ ʀᴇqᴜɪʀᴇᴅ ᴄʜᴀɴɴᴇʟꜱ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.. \nᴡᴇ ᴩʀᴏᴠɪᴅᴇꜱ ɢᴏᴏᴅ ꜱᴇʀᴠɪᴄᴇꜱ ᴀʟꜱᴏ ᴡᴇ ɴᴇᴇᴅ ʏᴏᴜʀ ꜱᴜᴩᴩᴏʀᴛ ᴩʟᴇᴀꜱᴇ ᴅᴏ ꜱᴏ 🎐**",
         reply_markup=InlineKeyboardMarkup(join_buttons),
         quote=True,
         disable_web_page_preview=True
