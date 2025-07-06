@@ -95,12 +95,11 @@ async def is_user_admin(bot, user_id: int, chat_id: int):
         return False
 
 
-async def ensure_member(client, msg):
+async def ensure_member(client, msg, user_id):
     """
     Ensures the user is in all required SYD_CHANNELS and private chats (REQUIRED_CHAT_IDS).
     Sends join/invite buttons if not.
     """
-    user_id = msg.from_user.id
     replyable = msg #.message if hasattr(msg, "message") else msg
 
     not_joined = []
@@ -167,7 +166,7 @@ async def ensure_member(client, msg):
 
 @Client.on_callback_query(filters.regex("^check_subscription$"))
 async def check_subscription(bot, cb: CallbackQuery):
-    if await ensure_member(bot, cb.message):
+    if await ensure_member(bot, cb.message, cb.from_user.id):
         # User has now joined everything
         await cb.answer("Yᴏᴜ ʜᴀᴠᴇ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ! ✅ Pʟᴇᴀꜱᴇ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ ᴀɢᴀɪɴ. 😀", show_alert=True)
         await cb.message.delete()
@@ -179,7 +178,8 @@ async def check_subscription(bot, cb: CallbackQuery):
 # --- /setdelete ---
 @Client.on_message(filters.command("setdelete"))
 async def set_delete_handler(bot, message: Message):
-    if not await ensure_member(bot, message):
+    user_id = msg.from_user.id  # msg is cb.message
+    if not await ensure_member(bot, message, user_id):
         return
     args = message.text.split()
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
@@ -241,7 +241,8 @@ async def set_delete_handler(bot, message: Message):
 # --- /getdelete ---
 @Client.on_message(filters.command("getdelete"))
 async def get_delete_handler(bot, message: Message):
-    if not await ensure_member(bot, message):
+    user_id = msg.from_user.id  # msg is cb.message
+    if not await ensure_member(bot, message, user_id):
         return
 
     args = message.text.split()
@@ -278,7 +279,8 @@ async def get_delete_handler(bot, message: Message):
 
 @Client.on_message(filters.command("deldelete"))
 async def del_delete_handler(bot, message: Message):
-    if not await ensure_member(bot, message):
+    user_id = msg.from_user.id  # msg is cb.message
+    if not await ensure_member(bot, message, user_id):
         return
 
     args = message.text.split()
