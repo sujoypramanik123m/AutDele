@@ -174,11 +174,11 @@ async def check_subscription(bot, cb: CallbackQuery):
     else:
         # Still missing some channels
         await cb.answer("Yᴏᴜ ʜᴀᴠᴇ'ɴᴛ ᴊᴏɪɴᴇᴅ ᴏɴ ᴀʟʟ ᴄʜᴀɴɴᴇʟꜱ. Pʟᴇᴀꜱᴇ ᴊᴏɪɴ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ.", show_alert=True)
-
+        await cb.message.delete()
 # --- /setdelete ---
 @Client.on_message(filters.command("setdelete"))
 async def set_delete_handler(bot, message: Message):
-    user_id = msg.from_user.id  # msg is cb.message
+    user_id = message.from_user.id  # msg is cb.message
     if not await ensure_member(bot, message, user_id):
         return
     args = message.text.split()
@@ -241,7 +241,7 @@ async def set_delete_handler(bot, message: Message):
 # --- /getdelete ---
 @Client.on_message(filters.command("getdelete"))
 async def get_delete_handler(bot, message: Message):
-    user_id = msg.from_user.id  # msg is cb.message
+    user_id = message.from_user.id  # msg is cb.message
     if not await ensure_member(bot, message, user_id):
         return
 
@@ -279,7 +279,7 @@ async def get_delete_handler(bot, message: Message):
 
 @Client.on_message(filters.command("deldelete"))
 async def del_delete_handler(bot, message: Message):
-    user_id = msg.from_user.id  # msg is cb.message
+    user_id = message.from_user.id  # msg is cb.message
     if not await ensure_member(bot, message, user_id):
         return
 
