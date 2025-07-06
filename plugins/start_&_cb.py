@@ -155,7 +155,7 @@ async def ensure_member(client, msg, user_id):
     ])
 
     await replyable.reply_text(
-        text="**Pʟᴇᴀꜱᴇ ᴊᴏɪɴ ɪɴ ᴏᴜʀ ᴀʟʟ ʀᴇqᴜɪʀᴇᴅ ᴄʜᴀɴɴᴇʟꜱ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.. \nᴡᴇ ᴩʀᴏᴠɪᴅᴇꜱ ɢᴏᴏᴅ ꜱᴇʀᴠɪᴄᴇꜱ ᴀʟꜱᴏ ᴡᴇ ɴᴇᴇᴅ ʏᴏᴜʀ ꜱᴜᴩᴩᴏʀᴛ ᴩʟᴇᴀꜱᴇ ᴅᴏ ꜱᴏ 🎐**",
+        text="**Pʟᴇᴀꜱᴇ ᴊᴏɪɴ ɪɴ ᴏᴜʀ ᴀʟʟ ʀᴇqᴜɪʀᴇᴅ ᴄʜᴀɴɴᴇʟꜱ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ..🫧 \nᴡᴇ ᴩʀᴏᴠɪᴅᴇꜱ ɢᴏᴏᴅ ꜱᴇʀᴠɪᴄᴇꜱ ʜᴇɴᴄᴇ ᴡᴇ ᴀʟꜱᴏ ɴᴇᴇᴅ ʏᴏᴜʀ ꜱᴜᴩᴩᴏʀᴛ ᴩʟᴇᴀꜱᴇ ᴅᴏ ꜱᴏ 🎐**",
         reply_markup=InlineKeyboardMarkup(join_buttons),
         quote=True,
         disable_web_page_preview=True
