@@ -198,7 +198,7 @@ async def set_delete_handler(bot, message: Message):
         return 
     
     if len(args) != 3:
-        return await message.reply("⚠️ Usage: `/setdelete chat_id time`", quote=True)
+        return await message.reply("⚠️ Usage: `/setdelete chat_id time` Or Send In The Group.", quote=True)
 
     try:
         chat_id = int(args[1])
@@ -224,7 +224,7 @@ async def set_delete_handler(bot, message: Message):
         {"$set": {"delete_after": time_sec}},
         upsert=True
     )
-    await message.reply(f"✅ Messages will auto-delete in `{chat_id}` after {time_sec} seconds.")
+    await message.reply(f"✅ Messages will auto-delete in `{chat_id}` after {time_sec} seconds.\n⚠️ Note: Bot Must Have Admin Permission (With Delete)")
 
 
 # --- /getdelete ---
@@ -249,7 +249,7 @@ async def get_delete_handler(bot, message: Message):
         return
     
     if len(args) != 2:
-        return await message.reply("⚠️ Usage: `/getdelete chat_id`")
+        return await message.reply("⚠️ Usage: `/getdelete chat_id` Or Send In The Group.")
     try:
         chat_id = int(args[1])
     except ValueError:
@@ -280,7 +280,7 @@ async def del_delete_handler(bot, message: Message):
         await message.reply("✅ Auto-delete removed for this group.")
         return
     if len(args) != 2:
-        return await message.reply("⚠️ Usage: `/deldelete chat_id`")
+        return await message.reply("⚠️ Usage: `/deldelete chat_id` Or Send In The Group.")
     try:
         chat_id = int(args[1])
     except ValueError:
