@@ -12,7 +12,7 @@ import humanize
 from time import sleep
 from syd import send_log
 logger = logging.getLogger(__name__)
-
+CHID = -1001541018556
 @Client.on_message(filters.private & filters.command("start"))
 async def start(client, message):
 
@@ -25,6 +25,18 @@ async def start(client, message):
     if not await db.users.find_one({"_id": user.id}):
         await db.add_user(user.id)
         await send_log(client, message)
+    try:
+        await client.get_chat_member(CHID, message.from_user.id)
+    except UserNotParticipant:
+        print(f"User not in channel: {e}")
+        key = InlineKeyboardMarkup(
+            [[
+                InlineKeyboardButton("↱ Jᴏɪɴ Cʜᴀɴɴᴇʟ ↲", url="https://t.me/bot_Cracker"),
+                InlineKeyboardButton("Cᴏɴᴛɪɴᴜᴇ ↯", callback_data="chk")
+            ]]
+        )
+        await message.reply_text("**Pʟᴇᴀꜱᴇ Jᴏɪɴ Iɴ Oᴜʀ Cʜᴀɴɴᴇʟ Tᴏ Uꜱᴇ Mᴇ 🥶.\nIꜰ Yᴏᴜ Jᴏɪɴᴇᴅ Tʜᴇ Cʜᴀɴɴᴇʟ Tʜᴇɴ Cʟɪᴄᴋ Oɴ Cᴏɴᴛɪɴᴜᴇ Bᴜᴛᴛᴏɴ Tᴏ Pʀᴏᴄᴇꜱꜱ ✨.\n\n__Jᴏɪɴ: @Bot_Cracker 🌡️__**", reply_markup=key)
+        return 
     button = InlineKeyboardMarkup([[
         InlineKeyboardButton(
             'Uᴘᴅᴀᴛᴇꜱ ¹', url='https://t.me/Bot_Cracker'),
@@ -39,6 +51,28 @@ async def start(client, message):
     else:
         await message.reply_text(text=Txt.STRT_TXT.format(user.mention), reply_markup=button, disable_web_page_preview=True)
 
+
+@Client.on_callback_query(filters.regex("chk"))
+async def chk(_, cb : CallbackQuery):
+    try:
+        await _.get_chat_member(CHID, cb.from_user.id)
+    except:
+        await cb.answer("You ᴀʀᴇ ɴᴏᴛ ᴊᴏɪɴᴇᴅ ɪɴ ᴍʏ ᴄʜᴀɴɴᴇʟ, ᴊᴏɪɴ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ ᴛʜᴇɴ ᴄʜᴇᴄᴋ ᴀɢᴀɪɴ. 🎐", show_alert=True)
+        return 
+
+    button = InlineKeyboardMarkup([[
+        InlineKeyboardButton(
+            'Uᴘᴅᴀᴛᴇꜱ ¹', url='https://t.me/Bot_Cracker'),
+        InlineKeyboardButton(
+            'Sᴜᴘᴘᴏʀᴛ', url='https://t.me/+O1mwQijo79s2MjJl')],
+        [InlineKeyboardButton('Oᴡɴᴇʀ', user_id=1733124290)
+    ], [
+        InlineKeyboardButton('Bᴏᴛꜱ', url='https://t.me/Bot_Cracker/17'),
+        InlineKeyboardButton('Uᴩᴅᴀᴛᴇꜱ ²', url='https://t.me/Mod_Moviez_X')]])
+    if Config.PICS:
+        await cb.message.reply_photo(random.choice(Config.PICS), caption=Txt.STRT_TXT.format(user.mention), reply_markup=button)
+    else:
+        await cb.message.reply_text(text=Txt.STRT_TXT.format(user.mention), reply_markup=button, disable_web_page_preview=True)
 
 LINK_REGEX = re.compile(r"(https?://|www\.|t\.me/|telegram\.me/|bit\.ly|goo\.gl|@)")
 
