@@ -95,8 +95,8 @@ async def chk(_, cb : CallbackQuery):
         ]]
 
     )
-    add_user(m.from_user.id)
-    await cb.edit_text(text="**ʜᴇʏ {}!\n\nɪ'ᴍ ᴀɴ ɪɴꜱᴛᴀɴᴛ ᴀᴩᴩʀᴏᴠᴀʟ ʙᴏᴛ [ᴀᴄᴄᴇᴩᴛ ᴊᴏɪɴ ʀᴇqᴜᴇꜱᴛꜱ] ʙᴏᴛ.\nɪ ᴄᴀɴ ᴀᴩᴩʀᴏᴠᴇ ᴜꜱᴇʀꜱ ɪɴ ɢʀᴏᴜᴩ/ᴄʜᴀɴɴᴇʟꜱ. ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ᴄʜᴀᴛ ᴀɴᴅ ᴩʀᴏᴍᴏᴛᴇ ᴍᴇ ᴛᴏ ᴀᴅᴍɪɴ ᴡɪᴛʜ ɪɴᴠɪᴛᴇ ᴩᴇʀᴍɪꜱꜱɪᴏɴ.\n\n__Pᴏᴡᴇʀᴇᴅ Bʏ : @Bot_Cracker __**".format(m.from_user.mention), reply_markup=keyboard)
+    add_user(cb.from_user.id)
+    await cb.edit_text(text="**ʜᴇʏ {}!\n\nɪ'ᴍ ᴀɴ ɪɴꜱᴛᴀɴᴛ ᴀᴩᴩʀᴏᴠᴀʟ ʙᴏᴛ [ᴀᴄᴄᴇᴩᴛ ᴊᴏɪɴ ʀᴇqᴜᴇꜱᴛꜱ] ʙᴏᴛ.\nɪ ᴄᴀɴ ᴀᴩᴩʀᴏᴠᴇ ᴜꜱᴇʀꜱ ɪɴ ɢʀᴏᴜᴩ/ᴄʜᴀɴɴᴇʟꜱ. ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ᴄʜᴀᴛ ᴀɴᴅ ᴩʀᴏᴍᴏᴛᴇ ᴍᴇ ᴛᴏ ᴀᴅᴍɪɴ ᴡɪᴛʜ ɪɴᴠɪᴛᴇ ᴩᴇʀᴍɪꜱꜱɪᴏɴ.\n\n__Pᴏᴡᴇʀᴇᴅ Bʏ : @Bot_Cracker __**".format(cb.from_user.mention), reply_markup=keyboard)
     
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ info ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
