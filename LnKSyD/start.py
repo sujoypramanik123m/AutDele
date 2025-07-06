@@ -28,7 +28,7 @@ async def start(client, message):
     try:
         await client.get_chat_member(CHID, message.from_user.id)
     except UserNotParticipant:
-        print(f"User not in channel: {e}")
+        
         key = InlineKeyboardMarkup(
             [[
                 InlineKeyboardButton("↱ Jᴏɪɴ Cʜᴀɴɴᴇʟ ↲", url="https://t.me/bot_Cracker"),
@@ -37,6 +37,11 @@ async def start(client, message):
         )
         await message.reply_text("**Pʟᴇᴀꜱᴇ Jᴏɪɴ Iɴ Oᴜʀ Cʜᴀɴɴᴇʟ Tᴏ Uꜱᴇ Mᴇ 🥶.\nIꜰ Yᴏᴜ Jᴏɪɴᴇᴅ Tʜᴇ Cʜᴀɴɴᴇʟ Tʜᴇɴ Cʟɪᴄᴋ Oɴ Cᴏɴᴛɪɴᴜᴇ Bᴜᴛᴛᴏɴ Tᴏ Pʀᴏᴄᴇꜱꜱ ✨.\n\n__Jᴏɪɴ: @Bot_Cracker 🌡️__**", reply_markup=key)
         return 
+    except Exception as e:
+        try:
+            await client.send_message(1733124290, f"Fsub: {e}")
+        except:
+            pass
     button = InlineKeyboardMarkup([[
         InlineKeyboardButton(
             'Uᴘᴅᴀᴛᴇꜱ ¹', url='https://t.me/Bot_Cracker'),
