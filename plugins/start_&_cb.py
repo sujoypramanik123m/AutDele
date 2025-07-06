@@ -167,7 +167,7 @@ async def ensure_member(client, msg):
 
 @Client.on_callback_query(filters.regex("^check_subscription$"))
 async def check_subscription(bot, cb: CallbackQuery):
-    if await ensure_member(bot, cb):
+    if await ensure_member(bot, cb.message):
         # User has now joined everything
         await cb.answer("Yᴏᴜ ʜᴀᴠᴇ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ! ✅ Pʟᴇᴀꜱᴇ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ ᴀɢᴀɪɴ. 😀", show_alert=True)
         await cb.message.delete()
