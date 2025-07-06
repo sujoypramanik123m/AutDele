@@ -57,7 +57,7 @@ import asyncio, re
 # --- Constants ---
 SYD_CHANNELS = ["Bot_Cracker", "Mod_Moviez_X"] #"@MrSyD_TG", 
 SYD_BACKUP_LINK = "https://t.me/bot_crackers"
-REQUIRED_CHAT_IDS = ["-1001823125512"]
+REQUIRED_CHAT_IDS = [-1001823125512]
 CHAT_INVITE_LINKS = {
     -1001823125512: "https://t.me/+sBspXGfNFYtmZWRl"  # Replace with actual invite links
 }
@@ -164,6 +164,17 @@ async def ensure_member(client, msg):
     return False
 
 
+
+@Client.on_callback_query(filters.regex("^check_subscription$"))
+async def check_subscription(bot, cb: CallbackQuery):
+    if await ensure_member(bot, cb):
+        # User has now joined everything
+        await cb.answer("Yᴏᴜ ʜᴀᴠᴇ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ! ✅ Pʟᴇᴀꜱᴇ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ ᴀɢᴀɪɴ. 😀", show_alert=True)
+        await cb.message.delete()
+        
+    else:
+        # Still missing some channels
+        await cb.answer("Yᴏᴜ ʜᴀᴠᴇ'ɴᴛ ᴊᴏɪɴᴇᴅ ᴏɴ ᴀʟʟ ᴄʜᴀɴɴᴇʟꜱ. Pʟᴇᴀꜱᴇ ᴊᴏɪɴ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ.", show_alert=True)
 
 # --- /setdelete ---
 @Client.on_message(filters.command("setdelete"))
