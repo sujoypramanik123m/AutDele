@@ -65,6 +65,7 @@ async def chk(_, cb : CallbackQuery):
         await cb.answer("You ᴀʀᴇ ɴᴏᴛ ᴊᴏɪɴᴇᴅ ɪɴ ᴍʏ ᴄʜᴀɴɴᴇʟ, ᴊᴏɪɴ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ ᴛʜᴇɴ ᴄʜᴇᴄᴋ ᴀɢᴀɪɴ. 🎐", show_alert=True)
         return 
 
+    user = cb.from_user
     button = InlineKeyboardMarkup([[
         InlineKeyboardButton(
             'Uᴘᴅᴀᴛᴇꜱ ¹', url='https://t.me/Bot_Cracker'),
