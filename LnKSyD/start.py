@@ -12,7 +12,7 @@ import humanize
 from time import sleep
 from syd import send_log
 logger = logging.getLogger(__name__)
-CHID = -1001541018556
+CHID = -1002794399929
 @Client.on_message(filters.private & filters.command("start"))
 async def start(client, message):
 
@@ -31,26 +31,26 @@ async def start(client, message):
         
         key = InlineKeyboardMarkup(
             [[
-                InlineKeyboardButton("↱ Jᴏɪɴ Cʜᴀɴɴᴇʟ ↲", url="https://t.me/bot_Cracker"),
+                InlineKeyboardButton("↱ Jᴏɪɴ Cʜᴀɴɴᴇʟ ↲", url="https://t.me/ProToppers"),
                 InlineKeyboardButton("Cᴏɴᴛɪɴᴜᴇ ↯", callback_data="chk")
             ]]
         )
-        await message.reply_text("**Pʟᴇᴀꜱᴇ Jᴏɪɴ Iɴ Oᴜʀ Cʜᴀɴɴᴇʟ Tᴏ Uꜱᴇ Mᴇ 🥶.\nIꜰ Yᴏᴜ Jᴏɪɴᴇᴅ Tʜᴇ Cʜᴀɴɴᴇʟ Tʜᴇɴ Cʟɪᴄᴋ Oɴ Cᴏɴᴛɪɴᴜᴇ Bᴜᴛᴛᴏɴ Tᴏ Pʀᴏᴄᴇꜱꜱ ✨.\n\n__Jᴏɪɴ: @Bot_Cracker 🌡️__**", reply_markup=key)
+        await message.reply_text("**Pʟᴇᴀꜱᴇ Jᴏɪɴ Iɴ Oᴜʀ Cʜᴀɴɴᴇʟ Tᴏ Uꜱᴇ Mᴇ 🥶.\nIꜰ Yᴏᴜ Jᴏɪɴᴇᴅ Tʜᴇ Cʜᴀɴɴᴇʟ Tʜᴇɴ Cʟɪᴄᴋ Oɴ Cᴏɴᴛɪɴᴜᴇ Bᴜᴛᴛᴏɴ Tᴏ Pʀᴏᴄᴇꜱꜱ ✨.\n\n__Jᴏɪɴ: @ProToppers 🌡️__**", reply_markup=key)
         return 
     except Exception as e:
         try:
-            await client.send_message(1733124290, f"Fsub: {e}")
+            await client.send_message(8181241262, f"Fsub: {e}")
         except:
             pass
     button = InlineKeyboardMarkup([[
         InlineKeyboardButton(
-            'Uᴘᴅᴀᴛᴇꜱ ¹', url='https://t.me/Bot_Cracker'),
+            'Uᴘᴅᴀᴛᴇꜱ ¹', url='https://t.me/ProToppers'),
         InlineKeyboardButton(
-            'Sᴜᴘᴘᴏʀᴛ', url='https://t.me/+O1mwQijo79s2MjJl')],
-        [InlineKeyboardButton('Oᴡɴᴇʀ', user_id=1733124290)
+            'Sᴜᴘᴘᴏʀᴛ', url='https://t.me/SuperToppers0')],
+        [InlineKeyboardButton('Oᴡɴᴇʀ', user_id=8181241262)
     ], [
-        InlineKeyboardButton('Bᴏᴛꜱ', url='https://t.me/Bot_Cracker/17'),
-        InlineKeyboardButton('Uᴩᴅᴀᴛᴇꜱ ²', url='https://t.me/Mod_Moviez_X')]])
+        InlineKeyboardButton('Bᴏᴛꜱ', url='https://t.me/ProToppers'),
+        InlineKeyboardButton('Uᴩᴅᴀᴛᴇꜱ ²', url='https://t.me/SuperToppers0')]])
     if Config.PICS:
         await message.reply_photo(random.choice(Config.PICS), caption=Txt.STRT_TXT.format(user.mention), reply_markup=button)
     else:
@@ -68,13 +68,13 @@ async def chk(_, cb : CallbackQuery):
     user = cb.from_user
     button = InlineKeyboardMarkup([[
         InlineKeyboardButton(
-            'Uᴘᴅᴀᴛᴇꜱ ¹', url='https://t.me/Bot_Cracker'),
+            'Uᴘᴅᴀᴛᴇꜱ ¹', url='https://t.me/SuperToppers'),
         InlineKeyboardButton(
-            'Sᴜᴘᴘᴏʀᴛ', url='https://t.me/+O1mwQijo79s2MjJl')],
-        [InlineKeyboardButton('Oᴡɴᴇʀ', user_id=1733124290)
+            'Sᴜᴘᴘᴏʀᴛ', url='https://t.me/SuperToppers0')],
+        [InlineKeyboardButton('Oᴡɴᴇʀ', user_id=8181241262)
     ], [
-        InlineKeyboardButton('Bᴏᴛꜱ', url='https://t.me/Bot_Cracker/17'),
-        InlineKeyboardButton('Uᴩᴅᴀᴛᴇꜱ ²', url='https://t.me/Mod_Moviez_X')]])
+        InlineKeyboardButton('Bᴏᴛꜱ', url='https://t.me/ProToppers'),
+        InlineKeyboardButton('Uᴩᴅᴀᴛᴇꜱ ²', url='https://t.me/SuperToppers0')]])
     if Config.PICS:
         await cb.message.reply_photo(random.choice(Config.PICS), caption=Txt.STRT_TXT.format(user.mention), reply_markup=button)
     else:
