@@ -7,28 +7,28 @@ id_pattern = re.compile(r'^.\d+$')
 
 class Config(object):
     # pyro client config
-    API_ID = os.environ.get("API_ID", "")  # ⚠️ Required
-    API_HASH = os.environ.get("API_HASH", "")  # ⚠️ Required
+    API_ID = os.environ.get("API_ID", "22182189")  # ⚠️ Required
+    API_HASH = os.environ.get("API_HASH", "5e7c4088f8e23d0ab61e29ae11960bf5")  # ⚠️ Required
     BOT_TOKEN = os.environ.get("BOT_TOKEN", "")  # ⚠️ Required
     REQ_TOKEN = os.environ.get("REQ_TOKEN", "")
     LNK_TOKEN = os.environ.get("LNK_TOKEN", "")
     
     # database config
-    DB_NAME = os.environ.get("DB_NAME", "Sigma_Rename")
-    DB_URL = os.environ.get("DB_URL", "")  # ⚠️ Required
+    DB_NAME = os.environ.get("DB_NAME", "AutoDelete")
+    DB_URL = os.environ.get("DB_URL", "mongodb+srv://sujoy123m:wTWKGUaxYE7dxb1l@cluster0.zorxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")  # ⚠️ Required
     REQ_URL = os.environ.get("REQ_URL", "")
     LNK_URL = os.environ.get("LNK_URL", "")
     # other configs
     BOT_UPTIME = time.time()
     PICS = os.environ.get("PICS", 'https://i.ibb.co/zV0gZjyC/x.jpg https://i.ibb.co/vvchyjBN/x.jpg https://i.ibb.co/QFHL0x0p/x.jpg https://i.ibb.co/WW3M16ZY/x.jpg https://i.ibb.co/YTyVsDSv/x.jpg https://i.ibb.co/W4GzgT0g/x.jpg https://i.ibb.co/MkHqCqyv/x.jpg https://i.ibb.co/V0jjskHZ/x.jpg https://i.ibb.co/Nn7dZPkn/x.jpg https://i.ibb.co/ynV7MMKN/x.jpg https://envs.sh/XN2.jpg https://envs.sh/XNu.jpg https://envs.sh/yqA.jpg https://envs.sh/XNh.jpg').split()
     ADMIN = [int(admin) if id_pattern.search(
-        admin) else admin for admin in os.environ.get('ADMIN', '').split()]  # ⚠️ Required
+        admin) else admin for admin in os.environ.get('ADMIN', '8181241262').split()]  # ⚠️ Required
 
-    FORCE_SUB = os.environ.get("FORCE_SUB", "") # ⚠️ Required Username without @
-    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", ""))  # ⚠️ Required
+    FORCE_SUB = os.environ.get("FORCE_SUB", "ProToppers") # ⚠️ Required Username without @
+    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1002794399929"))  # ⚠️ Required
     FLOOD = int(os.environ.get("FLOOD", '10'))
     BANNED_USERS = set(int(x) for x in os.environ.get(
-        "BANNED_USERS", "1234567890").split())
+        "BANNED_USERS", "").split())
 
     # wes response configuration
     WEBHOOK = bool(os.environ.get("WEBHOOK", True))
@@ -53,17 +53,17 @@ class Txt(object):
 
     ABOUT_TXT = """<b>╭───────────⍟
 ➥ Mʏ ɴᴀᴍᴇ : {}
-➥ Pʀᴏɢʀᴀᴍᴇʀ : <a href=https://t.me/SyD_Xyz>ꪑ𝘳 𝘴ꪗᦔ 🌐</a> 
-➥ Fᴏᴜɴᴅᴇʀ ᴏꜰ : <a href=https://t.me/BOT_cracker>B𝚘ᴛ ᑕяΔ¢к℮ґ 🎋</a>
-➥ Lɪʙʀᴀʀy : <a href=https://t.me/+oej8cujHMFJhNmI9>Cᴏʟʟᴇᴄᴛɪᴏɴ...</a>
-➥ Lᴀɴɢᴜᴀɢᴇ: <a href=https://t.me/+0Zi1FC4ulo8zYzVl>Bᴀᴄᴋ-Uᴩ 💦</a>
-➥ ᴍʏ ꜱᴇʀᴠᴇʀ : <a href=https://t.me/Mod_Moviez_X>Tɢ 🗯️</a>
+➥ Pʀᴏɢʀᴀᴍᴇʀ : <a href=https://t.me/UncleChipssBot>₹10 Wala Uncle Chips 🪬</a> 
+➥ Fᴏᴜɴᴅᴇʀ ᴏꜰ : <a href=https://t.me/SuperToppers>Sᴜᴘᴇʀ Tᴏᴘᴘᴇʀs 🔥</a>
+➥ Lɪʙʀᴀʀy : <a href=https://t.me/ProToppers>Cᴏʟʟᴇᴄᴛɪᴏɴ...</a>
+➥ Lᴀɴɢᴜᴀɢᴇ: <a href=https://t.me/SuperToppersChannel>Bᴀᴄᴋ-Uᴩ 💦</a>
+➥ ᴍʏ ꜱᴇʀᴠᴇʀ : <a href=https://t.me/>Tɢ 🗯️</a>
 ➥ ᴠᴇʀsɪᴏɴ : v1.0
 ╰───────────────⍟ """
 
     HELP_TXT = """Hᴇʀᴇ Iꜱ Mʏ Hᴇʟᴩ Cᴏᴍᴍᴀɴᴅ.
     
-<b>⦿ Dᴇᴠᴇʟᴏᴩᴇʀ:</b> <a href=https://t.me/SyD_Xyz>🔅 ᴍ.ʀ Sʏᦔ 🔅</a>
+<b>⦿ Dᴇᴠᴇʟᴏᴩᴇʀ:</b> <a href=https://t.me/UncleChipssBot>₹10 Wala Uncle Chips 🪬</a>
 """ 
     PIC_TXT = """ 
 ◽ <b><u>Hᴏᴡ Tᴏ Sᴇᴛ Tʜᴜᴍʙɴɪʟᴇ</u></b>
@@ -101,7 +101,7 @@ A Cʜᴀɴɴᴇʟ Tᴏ Wʜɪᴄʜ Aʟʟ Rᴇɴᴀᴍᴇᴅ Fɪʟᴇꜱ Mᴜꜱ�
 
 ◦ <code> --change-title Powered By:- @ --change-author @ --change-video-title By:- @ --change-audio-title By :- @ --change-subtitle-title Subtitled By :- @ </code>
 
-📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛᴀᴄᴛ..: @SyD_XyZ
+📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛᴀᴄᴛ..: @UncleChipssBot
 """
 
     
