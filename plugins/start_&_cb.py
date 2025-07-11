@@ -25,19 +25,32 @@ async def start(client, message):
     if not await db.users.find_one({"_id": user.id}):
         await db.add_user(user.id)
         await send_log(client, message)
-    button = InlineKeyboardMarkup([[
-        InlineKeyboardButton(
-            '✧ ᴜᴘᴅᴀᴛᴇꜱ', url='https://t.me/Bot_Cracker'),
-        InlineKeyboardButton(
-            'ꜱᴜᴘᴘᴏʀᴛ ✧', url='https://t.me/+O1mwQijo79s2MjJl')],
-        [InlineKeyboardButton('✧ ᴏᴡɴᴇʀ ✧', user_id=1733124290)
-    ], [
-        InlineKeyboardButton('✧ ʙᴏᴛꜱ', url='https://t.me/Bot_Cracker/17'),
-        InlineKeyboardButton('ᴜᴩᴅᴀᴛᴇꜱ ✧', url='https://t.me/Mod_Moviez_X')]])
-    if Config.PICS:
-        await message.reply_photo(random.choice(Config.PICS), caption=Txt.START_TXT.format(user.mention), reply_markup=button)
-    else:
-        await message.reply_text(text=Txt.START_TXT.format(user.mention), reply_markup=button, disable_web_page_preview=True)
+    button = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton('✧ ᴜᴘᴅᴀᴛᴇꜱ', url='https://t.me/Bot_Cracker'),
+            InlineKeyboardButton('ꜱᴜᴘᴘᴏʀᴛ ✧', url='https://t.me/+O1mwQijo79s2MjJl')
+        ],
+        [InlineKeyboardButton('✧ ᴏᴡɴᴇʀ ✧', user_id=1733124290)],
+        [
+            InlineKeyboardButton('✧ ʙᴏᴛꜱ', url='https://t.me/Bot_Cracker/17'),
+            InlineKeyboardButton('ᴜᴩᴅᴀᴛᴇꜱ ✧', url='https://t.me/Mod_Moviez_X')
+        ]
+    ])
+    try:
+        if Config.PICS:
+            await message.reply_photo(
+                random.choice(Config.PICS),
+                caption=Txt.START_TXT.format(user.mention),
+                reply_markup=button
+            )
+        else:
+            await message.reply_text(
+                text=Txt.START_TXT.format(user.mention),
+                reply_markup=button,
+                disable_web_page_preview=True
+            )
+    except Exception as e:
+        print(f"[Start Cmd Error] {e}")
 
 
 @Client.on_message(filters.private & filters.command("disclaimer"))
