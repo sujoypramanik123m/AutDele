@@ -13,8 +13,8 @@ from time import sleep
 from syd import send_log
 logger = logging.getLogger(__name__)
 
-@Client.on_message(filters.command("start"))
-async def start(client, message):
+@Client.on_message(filters.command("startt"))
+async def startt(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         await db.add_grp(message.chat.id)
     if message.from_user.id in Config.BANNED_USERS:
